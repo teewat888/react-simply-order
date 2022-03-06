@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -9,21 +9,23 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useDispatch } from "react-redux";
-import { authActions } from "../../store/auth-slice";
+import { useDispatch, useSelector } from "react-redux";
+import { doLogin } from "../../store/auth-slice";
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleSubmit = (event) => {
     event.preventDefault();
-    //const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    //console.log({
-    //   email: data.get("email"),
-    //   password: data.get("password"),
-    // });
-    dispatch(authActions.login());
+    dispatch(doLogin());
   };
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/");
+    }
+  }, [isLoggedIn]);
 
   return (
     <Container component="main" maxWidth="xs">
