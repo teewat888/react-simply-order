@@ -6,10 +6,11 @@ import Home from "@mui/icons-material/Home";
 import AutoAwesomeMotionIcon from "@mui/icons-material/AutoAwesomeMotion";
 import HistoryIcon from "@mui/icons-material/History";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
+import { useNavigate } from "react-router-dom";
 
 export default function SimpleBottomNavigation() {
   const [value, setValue] = React.useState(0);
-
+  const navigate = useNavigate();
   return (
     <Box sx={{ width: "100%" }}>
       <BottomNavigation
@@ -25,15 +26,33 @@ export default function SimpleBottomNavigation() {
           alignItems: "center",
         }}
       >
-        <BottomNavigationAction label="Home" icon={<Home />} />
+        <BottomNavigationAction
+          label="Home"
+          icon={<Home />}
+          onClick={() => {
+            navigate("/");
+          }}
+        />
         <BottomNavigationAction
           label="Templates"
           icon={<AutoAwesomeMotionIcon />}
+          onClick={() => {
+            navigate("/test");
+          }}
         />
-        <BottomNavigationAction label="Past Orders" icon={<HistoryIcon />} />
+        <BottomNavigationAction
+          label="Past Orders"
+          icon={<HistoryIcon />}
+          onClick={() => {
+            navigate("/");
+          }}
+        />
         <BottomNavigationAction
           label="Shopping Lists"
           icon={<LocalMallIcon />}
+          onClick={() => {
+            navigate("/");
+          }}
         />
       </BottomNavigation>
     </Box>
