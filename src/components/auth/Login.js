@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -9,22 +9,33 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 import { useDispatch, useSelector } from "react-redux";
 import { doLogin } from "../../store/auth-slice";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export default function SignIn() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const message = useSelector((state) => state.auth.message);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-
+  //set the previous location
   let from = location.state?.from?.pathname || "/";
-  console.log("from: ", from);
+
+  const [loginForm, setLoginForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleOnChange = (e) => {
+    setLoginForm({ ...loginForm, [e.target.id]: e.target.value });
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(doLogin());
+    dispatch(doLogin(loginForm.email, loginForm.password));
   };
   useEffect(() => {
     if (isLoggedIn) {
@@ -59,6 +70,7 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={handleOnChange}
           />
           <TextField
             margin="normal"
@@ -69,6 +81,7 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={handleOnChange}
           />
 
           <Button

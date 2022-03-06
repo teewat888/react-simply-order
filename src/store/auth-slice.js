@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import AuthService from "../lib/authService";
+import { uiActions } from "./ui-slice";
 
 let logFlag = localStorage.getItem("jwt") ? true : false;
 
@@ -10,8 +11,11 @@ const authSlice = createSlice({
     isLoggedIn: logFlag,
   },
   reducers: {
-    login(state) {
+    login_success(state) {
       state.isLoggedIn = true;
+    },
+    login_fail(state) {
+      state.isLoggedIn = false;
     },
     logout(state) {
       state.isLoggedIn = false;
@@ -23,16 +27,20 @@ const authSlice = createSlice({
   },
 });
 
-export const doLogin = () => {
+export const doLogin = (email, password) => {
   return (dispatch) => {
-    AuthService.fetchLogin()
+    AuthService.fetchLogin(email, password)
       .then((resp) => resp.json())
       .then((data) => {
         if (data.success) {
           localStorage.setItem("jwt", data.jwt);
-          dispatch(authActions.login());
+          dispatch(authActions.login_success());
         } else {
-          dispatch(authActions.login(data.jwt));
+          dispatch(authActions.login_fail());
+          dispatch(uiActions.showNotification("invalid email/password"));
+          setTimeout(() => {
+            dispatch(uiActions.showNotification(null));
+          }, 2000);
         }
       })
       .catch((e) => console.log(e));

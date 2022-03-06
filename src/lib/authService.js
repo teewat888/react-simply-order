@@ -1,7 +1,7 @@
 import { BASE_URL } from "./contants";
 
 class AuthService {
-  fetchLogin() {
+  fetchLogin(email, password) {
     const confObj = {
       method: "POST",
       headers: {
@@ -10,8 +10,8 @@ class AuthService {
       },
       body: JSON.stringify({
         user: {
-          email: "teewat@yahoo.com",
-          password: "1111",
+          email: email,
+          password: password,
         },
       }),
     };
