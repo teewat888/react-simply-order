@@ -11,19 +11,24 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { doLogin } from "../../store/auth-slice";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function SignIn() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
+
+  let from = location.state?.from?.pathname || "/";
+  console.log("from: ", from);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(doLogin());
   };
   useEffect(() => {
     if (isLoggedIn) {
-      navigate("/");
+      navigate(from, { replace: true });
     }
   }, [isLoggedIn]);
 

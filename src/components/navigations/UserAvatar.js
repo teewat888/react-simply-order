@@ -7,10 +7,13 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../store/auth-slice";
 
 export const UserAvatar = () => {
+  const dispatch = useDispatch();
   const settings = [
-    { name: "Profile", link: "/products" },
+    { name: "Profile", link: "/profile" },
     { name: "Account", link: "/" },
     { name: "Dashboard", link: "/login" },
     { name: "Logout", link: "/logout" },
@@ -21,6 +24,9 @@ export const UserAvatar = () => {
   };
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+  const handleLogout = () => {
+    dispatch(authActions.logout());
   };
   return (
     <Box sx={{ flexGrow: 0 }}>
@@ -45,16 +51,26 @@ export const UserAvatar = () => {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        {settings.map((setting) => (
-          <MenuItem
-            key={setting.name}
-            onClick={handleCloseUserMenu}
-            component={Link}
-            to={setting.link}
-          >
-            <Typography textAlign="center">{setting.name}</Typography>
-          </MenuItem>
-        ))}
+        {settings.map((setting) => {
+          if (setting.name === "Logout") {
+            return (
+              <MenuItem key={setting.name} onClick={handleLogout}>
+                <Typography textAlign="center">{setting.name}</Typography>
+              </MenuItem>
+            );
+          } else {
+            return (
+              <MenuItem
+                key={setting.name}
+                onClick={handleCloseUserMenu}
+                component={Link}
+                to={setting.link}
+              >
+                <Typography textAlign="center">{setting.name}</Typography>
+              </MenuItem>
+            );
+          }
+        })}
       </Menu>
     </Box>
   );

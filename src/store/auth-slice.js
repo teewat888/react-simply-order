@@ -1,30 +1,36 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchLogin } from "../lib/fetchHelpers";
+
+import AuthService from "../lib/authService";
+
+let logFlag = localStorage.getItem("jwt") ? true : false;
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    isLoggedIn: false,
-    jwt: "",
+    isLoggedIn: logFlag,
   },
   reducers: {
-    login(state, action) {
+    login(state) {
       state.isLoggedIn = true;
-      state.jwt = action.payload;
     },
     logout(state) {
       state.isLoggedIn = false;
+      localStorage.removeItem("jwt");
+    },
+    register(state) {
+      state = state;
     },
   },
 });
 
 export const doLogin = () => {
   return (dispatch) => {
-    fetchLogin()
+    AuthService.fetchLogin()
       .then((resp) => resp.json())
       .then((data) => {
-        if (data.success === "true") {
-          dispatch(authActions.login(data.jwt));
+        if (data.success) {
+          localStorage.setItem("jwt", data.jwt);
+          dispatch(authActions.login());
         } else {
           dispatch(authActions.login(data.jwt));
         }

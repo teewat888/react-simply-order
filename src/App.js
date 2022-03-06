@@ -1,18 +1,17 @@
 import React from "react";
-import { RequireAuth } from "./components/auth/RequireAuth";
 import { useSelector } from "react-redux";
 import { Layout } from "./components/layout/Layout";
 import { Home } from "./components/layout/Home";
 import { NoMatch } from "./components/layout/NoMatch";
 import { Routes, Route } from "react-router-dom";
 import Login from "./components/auth/Login";
-import VendorList from "./components/protects/VendorList";
-import { useLocalStorage } from "./utils/useLocalStorage";
+import VendorList from "./components/vendor/VendorList";
 import Logout from "./components/auth/Logout";
-import TestProtect from "./components/protects/TestProtect";
 import ProductList from "./components/product/ProductList";
 import RequireVendor from "./components/auth/RequireVendor";
-import ProductCRUD from "./components/protects/ProductCRUD";
+import ProductCRUD from "./components/product/ProductCRUD";
+import Profile from "./components/user/Profile";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -30,23 +29,15 @@ function App() {
           <Route path="/logout" element={<Logout />} />
           <Route path="/products" element={<ProductList />} />
 
-          {/* <Route path="/vendors" element={<VendorList />} /> */}
           <Route
-            path="/vendors"
+            path="/profile"
             element={
-              <RequireAuth isLoggedIn={isLoggedIn}>
-                <VendorList />
-              </RequireAuth>
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <Profile />
+              </ProtectedRoute>
             }
           />
-          <Route
-            path="/product-admin"
-            element={
-              <RequireVendor>
-                <ProductCRUD />
-              </RequireVendor>
-            }
-          />
+
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchProducts } from "../lib/fetchHelpers";
+import DataService from "../lib/dataService";
 
 const productSlice = createSlice({
   name: "product",
@@ -15,7 +15,7 @@ const productSlice = createSlice({
 
 export const getProducts = () => {
   return (dispatch) => {
-    fetchProducts()
+    DataService.fetchProducts()
       .then((resp) => resp.json())
       .then((data) => {
         dispatch(productActions.setProducts(data.products));
