@@ -9,12 +9,14 @@ import VendorList from "./components/vendor/VendorList";
 import Logout from "./components/auth/Logout";
 import ProductList from "./components/product/ProductList";
 import RequireVendor from "./components/auth/RequireVendor";
-import ProductCRUD from "./components/product/ProductCRUD";
+import MyProducts from "./components/product/MyProducts";
 import Profile from "./components/user/Profile";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const userRole = useSelector((state) => state.auth.user.role);
+  console.log(userRole);
   console.log("init isloggin state", isLoggedIn);
   // const [isAuth, setIsAuth] = useLocalStorage("loggedin", false);
   // setIsAuth(isLoggedIn);
@@ -32,7 +34,7 @@ function App() {
           <Route
             path="/profile"
             element={
-              <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <ProtectedRoute isAllow={isLoggedIn}>
                 <Profile />
               </ProtectedRoute>
             }

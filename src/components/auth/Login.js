@@ -44,7 +44,7 @@ export default function SignIn() {
   }, [isLoggedIn]);
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxwidth="xs">
       <CssBaseline />
       <Box
         sx={{

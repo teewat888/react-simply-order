@@ -4,15 +4,22 @@ import AuthService from "../lib/authService";
 import { uiActions } from "./ui-slice";
 
 let logFlag = localStorage.getItem("jwt") ? true : false;
+let role = localStorage.getItem("role")
+  ? localStorage.getItem("role")
+  : "customer";
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     isLoggedIn: logFlag,
+    user: {
+      role: role,
+    },
   },
   reducers: {
-    login_success(state) {
+    login_success(state, action) {
       state.isLoggedIn = true;
+      state.user.role = action.payload; //get role from the current user
     },
     login_fail(state) {
       state.isLoggedIn = false;
@@ -20,6 +27,7 @@ const authSlice = createSlice({
     logout(state) {
       state.isLoggedIn = false;
       localStorage.removeItem("jwt");
+      localStorage.removeItem("role");
     },
     register(state) {
       state = state;
@@ -34,7 +42,8 @@ export const doLogin = (email, password) => {
       .then((data) => {
         if (data.success) {
           localStorage.setItem("jwt", data.jwt);
-          dispatch(authActions.login_success());
+          localStorage.setItem("role", data.user.role.name);
+          dispatch(authActions.login_success(data.user.role.name));
         } else {
           dispatch(authActions.login_fail());
           dispatch(uiActions.showNotification("invalid email/password"));

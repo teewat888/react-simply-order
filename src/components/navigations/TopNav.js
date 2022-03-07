@@ -16,7 +16,8 @@ import { UserAvatar } from "./UserAvatar";
 
 const pages = [
   { name: "Products", link: "/products" },
-  { name: "Logout", link: "/logout" },
+  { name: "Create new product", link: "/product/new" },
+  { name: "My Products", link: "/vendor/products" },
   { name: "Login", link: "/login" },
 ];
 
