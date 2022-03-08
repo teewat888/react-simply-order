@@ -1,4 +1,6 @@
 import { BASE_URL } from "./contants";
+import { useDispatch } from "react-redux";
+import { authActions } from "../store/auth-slice";
 
 class AuthService {
   fetchLogin(email, password) {

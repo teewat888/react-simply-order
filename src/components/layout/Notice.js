@@ -3,7 +3,7 @@ import React from "react";
 
 export default function Notice({ message }) {
   return (
-    <Alert variant="outlined" severity="warning" maxWidth="xs">
+    <Alert variant="outlined" severity="error" maxwidth="xs">
       {message}
     </Alert>
   );

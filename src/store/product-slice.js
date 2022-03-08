@@ -13,9 +13,9 @@ const productSlice = createSlice({
   },
 });
 
-export const getProducts = () => {
+export const getProducts = (userId) => {
   return (dispatch) => {
-    DataService.fetchProducts()
+    DataService.fetchProducts(userId)
       .then((resp) => resp.json())
       .then((data) => {
         dispatch(productActions.setProducts(data.products));

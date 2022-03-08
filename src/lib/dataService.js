@@ -2,7 +2,7 @@ import { BASE_URL } from "./contants";
 
 class DataService {
   fetchProducts(userId) {
-    return fetch(BASE_URL + `users/${userId}/products?limit=40`);
+    return fetch(BASE_URL + `/users/${userId}/products?limit=40`);
   }
   fetchProfile() {
     const jwt = localStorage.getItem("jwt");
@@ -18,4 +18,3 @@ class DataService {
   }
 }
 export default new DataService();
-

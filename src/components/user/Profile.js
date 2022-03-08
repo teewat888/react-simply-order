@@ -1,14 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import DataService from "../../lib/dataService";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import { useDispatch } from "react-redux";
 
 export default function Profile() {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({
+    id: "",
+    first_name: "",
+    last_name: "",
+    email: "",
+    address_number: "",
+    address_street: "",
+    address_suburb: "",
+    address_state: "",
+    contact_number: "",
+  });
 
   const formItems = [
     { label: "First Name", id: "first_name", value: user.first_name },

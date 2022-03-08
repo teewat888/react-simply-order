@@ -7,19 +7,24 @@ let logFlag = localStorage.getItem("jwt") ? true : false;
 let role = localStorage.getItem("role")
   ? localStorage.getItem("role")
   : "customer";
+let user_id = localStorage.getItem("user_id")
+  ? localStorage.getItem("user_id")
+  : null;
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     isLoggedIn: logFlag,
     user: {
+      id: user_id,
       role: role,
     },
   },
   reducers: {
     login_success(state, action) {
       state.isLoggedIn = true;
-      state.user.role = action.payload; //get role from the current user
+      state.user.role = action.payload.role.name; //get role from the current user
+      state.user.id = action.payload.id;
     },
     login_fail(state) {
       state.isLoggedIn = false;
@@ -43,7 +48,8 @@ export const doLogin = (email, password) => {
         if (data.success) {
           localStorage.setItem("jwt", data.jwt);
           localStorage.setItem("role", data.user.role.name);
-          dispatch(authActions.login_success(data.user.role.name));
+          localStorage.setItem("user_id", data.user.id);
+          dispatch(authActions.login_success(data.user));
         } else {
           dispatch(authActions.login_fail());
           dispatch(uiActions.showNotification("invalid email/password"));
