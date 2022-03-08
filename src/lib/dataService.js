@@ -16,5 +16,7 @@ class DataService {
     };
     return fetch(BASE_URL + "/user/profile", confObj);
   }
+
+  fetchAddProduct() {}
 }
 export default new DataService();
