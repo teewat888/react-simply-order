@@ -31,14 +31,10 @@ function App() {
   console.log("user id: ", user_id);
   console.log("init isloggin state", isLoggedIn);
   const handleUnAuth = () => {
-    dispatch(doLogout());
+    dispatch(authActions.logout()); // as jwt expire reset state at client
   };
-  // const [isAuth, setIsAuth] = useLocalStorage("loggedin", false);
-  // setIsAuth(isLoggedIn);
-  // console.log("reauth ", isLoggedIn);
-  // console.log("local sotrage ", isAuth);
+
   useEffect(() => {
-    console.log("auth verfied ", isLoggedIn);
     authVerify(handleUnAuth);
   });
   return (
