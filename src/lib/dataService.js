@@ -6,6 +6,7 @@ class DataService {
   }
   fetchProfile() {
     const jwt = localStorage.getItem("jwt");
+    console.log("jwt: ", jwt);
     const confObj = {
       method: "GET",
       headers: {

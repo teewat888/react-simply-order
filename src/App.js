@@ -6,7 +6,6 @@ import { NoMatch } from "./components/layout/NoMatch";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Login from "./components/auth/Login";
 import VendorList from "./components/vendor/VendorList";
-import Logout from "./components/auth/Logout";
 import ProductList from "./components/product/ProductList";
 import RequireVendor from "./components/auth/RequireVendor";
 import MyProducts from "./components/product/MyProducts";
@@ -17,6 +16,9 @@ import { useDispatch } from "react-redux";
 import { authActions } from "./store/auth-slice";
 import { authVerify } from "./lib/authVerify";
 import { ProductForm } from "./components/product/ProductForm";
+import { doLogout } from "./store/auth-slice";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "./theme";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -24,11 +26,12 @@ function App() {
   const user_id = useSelector((state) => state.auth.user.id);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  //dispatch(authActions.logout_success());
   console.log(userRole);
   console.log("user id: ", user_id);
   console.log("init isloggin state", isLoggedIn);
   const handleUnAuth = () => {
-    dispatch(authActions.logout());
+    dispatch(doLogout());
   };
   // const [isAuth, setIsAuth] = useLocalStorage("loggedin", false);
   // setIsAuth(isLoggedIn);
@@ -40,41 +43,43 @@ function App() {
   });
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/logout" element={<Logout />} />
-          <Route path="/products" element={<ProductList />} />
+      <ThemeProvider theme={theme}>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="/login" element={<Login />} />
 
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute isAllow={isLoggedIn}>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/vendor/products"
-            element={
-              <ProtectedRoute isAllow={isLoggedIn}>
-                <MyProducts />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/vendor/products/new"
-            element={
-              <ProtectedRoute isAllow={isLoggedIn}>
-                <ProductForm />
-              </ProtectedRoute>
-            }
-          />
+            <Route path="/products" element={<ProductList />} />
 
-          <Route path="*" element={<NoMatch />} />
-        </Route>
-      </Routes>
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute isAllow={isLoggedIn}>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/vendor/products"
+              element={
+                <ProtectedRoute isAllow={isLoggedIn}>
+                  <MyProducts />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/vendor/products/new"
+              element={
+                <ProtectedRoute isAllow={isLoggedIn}>
+                  <ProductForm />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route path="*" element={<NoMatch />} />
+          </Route>
+        </Routes>
+      </ThemeProvider>
     </>
   );
 }

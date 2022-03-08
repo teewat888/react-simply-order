@@ -25,11 +25,17 @@ const authSlice = createSlice({
       state.isLoggedIn = true;
       state.user.role = action.payload.role.name; //get role from the current user
       state.user.id = action.payload.id;
+      console.log("state: ", action.payload.role.name, action.payload.id);
     },
     login_fail(state) {
       state.isLoggedIn = false;
     },
     logout(state) {
+      state.isLoggedIn = false;
+      localStorage.removeItem("jwt");
+      localStorage.removeItem("role");
+    },
+    logout_success(state) {
       state.isLoggedIn = false;
       localStorage.removeItem("jwt");
       localStorage.removeItem("role");
@@ -46,13 +52,32 @@ export const doLogin = (email, password) => {
       .then((resp) => resp.json())
       .then((data) => {
         if (data.success) {
+          console.log("from doLogin action: ", data.jwt);
           localStorage.setItem("jwt", data.jwt);
           localStorage.setItem("role", data.user.role.name);
           localStorage.setItem("user_id", data.user.id);
+          console.log("from doLogin action: ", localStorage.getItem("jwt"));
           dispatch(authActions.login_success(data.user));
         } else {
           dispatch(authActions.login_fail());
           dispatch(uiActions.showNotification("invalid email/password"));
+          setTimeout(() => {
+            dispatch(uiActions.showNotification(null));
+          }, 2000);
+        }
+      })
+      .catch((e) => console.log(e));
+  };
+};
+export const doLogout = () => {
+  return (dispatch) => {
+    AuthService.fetchLogout()
+      .then((resp) => resp.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch(authActions.logout_success());
+        } else {
+          dispatch(uiActions.showNotification("Oop sth error during sign out"));
           setTimeout(() => {
             dispatch(uiActions.showNotification(null));
           }, 2000);

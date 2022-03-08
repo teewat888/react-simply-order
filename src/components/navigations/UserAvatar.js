@@ -6,12 +6,13 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { authActions } from "../../store/auth-slice";
+import { authActions, doLogout } from "../../store/auth-slice";
 
 export const UserAvatar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const settings = [
     { name: "Profile", link: "/profile" },
     { name: "Account", link: "/" },
@@ -26,7 +27,8 @@ export const UserAvatar = () => {
     setAnchorElUser(null);
   };
   const handleLogout = () => {
-    dispatch(authActions.logout());
+    dispatch(doLogout());
+    navigate("/login");
   };
   return (
     <Box sx={{ flexGrow: 0 }}>

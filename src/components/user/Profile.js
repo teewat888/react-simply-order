@@ -41,6 +41,7 @@ export default function Profile() {
       .then((resp) => resp.json())
       .then((data) => {
         if (data.success) {
+          console.log("fet profile");
           setUser(data.user);
         }
       })

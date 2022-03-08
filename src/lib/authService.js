@@ -19,6 +19,18 @@ class AuthService {
     };
     return fetch(BASE_URL + "/user/sign_in", confObj);
   }
+  fetchLogout() {
+    const jwt = localStorage.getItem("jwt");
+    const confObj = {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json",
+        accept: "application/json",
+        Authorization: "Bearer " + jwt,
+      },
+    };
+    return fetch(BASE_URL + "/user/sign_out", confObj);
+  }
 }
 
 export default new AuthService();

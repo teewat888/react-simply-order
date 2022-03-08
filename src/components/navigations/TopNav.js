@@ -34,7 +34,7 @@ const ResponsiveAppBar = () => {
 
   return (
     <>
-      <AppBar position="sticky">
+      <AppBar position="sticky" color="primary">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Typography
