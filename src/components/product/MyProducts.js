@@ -5,9 +5,12 @@ import { Product } from "./Product";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
+import Skeleton from "@mui/material/Skeleton";
+import Box from "@mui/material/Box";
 
 export default function MyProducts() {
   const products = useSelector((state) => state.product.productList);
+  const isLoading = useSelector((state) => state.product.isLoading);
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.user.id);
   const role = useSelector((state) => state.auth.user.role);
@@ -29,18 +32,34 @@ export default function MyProducts() {
     navigate("/vendor/products/new");
   };
 
+  //create multiple skeltons
+  const skeletons = [];
+  for (let i = 1; i < 25; i++) {
+    skeletons.push(<Skeleton />);
+  }
+
   return (
     <>
-      <Product products={products} />
-      <Fab
-        size="medium"
-        color="primary"
-        aria-label="add"
-        style={style}
-        onClick={handleFabClick}
-      >
-        <AddIcon />
-      </Fab>
+      {isLoading ? (
+        <>
+          <Box sx={{ width: "80%", height: "100%", mt: "2em" }}>
+            {skeletons}
+          </Box>
+        </>
+      ) : (
+        <>
+          <Product products={products} />
+          <Fab
+            size="medium"
+            color="primary"
+            aria-label="add"
+            style={style}
+            onClick={handleFabClick}
+          >
+            <AddIcon />
+          </Fab>
+        </>
+      )}
     </>
   );
 }

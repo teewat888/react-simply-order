@@ -19,15 +19,21 @@ const authSlice = createSlice({
       id: user_id,
       role: role,
     },
+    isLoading: false,
   },
   reducers: {
     login_success(state, action) {
       state.isLoggedIn = true;
       state.user.role = action.payload.role.name; //get role from the current user
       state.user.id = action.payload.id;
+      state.isLoading = false;
     },
     login_fail(state) {
       state.isLoggedIn = false;
+      state.isLoading = false;
+    },
+    loading(state) {
+      state.isLoading = true;
     },
     logout(state) {
       state.isLoggedIn = false;
@@ -47,6 +53,7 @@ const authSlice = createSlice({
 
 export const doLogin = (email, password) => {
   return (dispatch) => {
+    dispatch(authActions.loading());
     AuthService.fetchLogin(email, password)
       .then((resp) => resp.json())
       .then((data) => {

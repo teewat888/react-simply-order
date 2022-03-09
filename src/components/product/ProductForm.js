@@ -12,6 +12,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import Stack from "@mui/material/Stack";
 import { uiActions } from "../../store/ui-slice";
+import Checkbox from "@mui/material/Checkbox";
 
 export const ProductForm = (props) => {
   const vendor_id = useSelector((state) => state.auth.user.id);
@@ -29,10 +30,14 @@ export const ProductForm = (props) => {
     { label: "Product Name", id: "name", value: product.name },
     { label: "Brand", id: "brand", value: product.brand },
     { label: "Unit", id: "unit", value: product.unit },
-    { label: "Available", id: "available", value: product.available },
   ];
   const handleOnChange = (e) => {
     setProduct({ ...product, [e.target.id]: e.target.value });
+    console.log(product);
+  };
+  const handleCheckbox = (e) => {
+    setProduct({ ...product, [e.target.id]: e.target.checked });
+    console.log(product);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -75,6 +80,17 @@ export const ProductForm = (props) => {
               onChange={handleOnChange}
             />
           ))}
+          <FormControlLabel
+            control={
+              <Checkbox
+                id="available"
+                checked={product.available}
+                onChange={handleCheckbox}
+                inputProps={{ "aria-label": "controlled" }}
+              />
+            }
+            label="Available"
+          />
           <input
             type="hidden"
             id="vendor_id"

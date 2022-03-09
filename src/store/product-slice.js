@@ -1,20 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 import DataService from "../lib/dataService";
+import { authActions } from "./auth-slice";
 
 const productSlice = createSlice({
   name: "product",
   initialState: {
     productList: [],
+    isLoading: false,
   },
   reducers: {
     setProducts(state, action) {
       state.productList = [...action.payload];
+      state.isLoading = false;
+    },
+    loading(state) {
+      state.isLoading = true;
     },
   },
 });
 
 export const getProducts = (userId) => {
   return (dispatch) => {
+    dispatch(productActions.loading());
     DataService.fetchProducts(userId)
       .then((resp) => resp.json())
       .then((data) => {

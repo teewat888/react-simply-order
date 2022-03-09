@@ -12,10 +12,11 @@ import Container from "@mui/material/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { doLogin } from "../../store/auth-slice";
 import { useLocation, useNavigate } from "react-router-dom";
+import Skeleton from "@mui/material/Skeleton";
 
 export default function SignIn() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const message = useSelector((state) => state.auth.message);
+  const isLoading = useSelector((state) => state.auth.isLoading);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -53,53 +54,73 @@ export default function SignIn() {
           alignItems: "center",
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "primary.light" }}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            onChange={handleOnChange}
+        {isLoading ? (
+          <Skeleton variant="circular" width={40} height={40} />
+        ) : (
+          <Avatar sx={{ m: 1, bgcolor: "primary.light" }}>
+            <LockOutlinedIcon />
+          </Avatar>
+        )}
+        {isLoading ? (
+          <Skeleton
+            variant="rectangular"
+            width={300}
+            height={250}
+            sx={{ mt: "1em" }}
           />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={handleOnChange}
-          />
+        ) : (
+          <>
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              noValidate
+              sx={{ mt: 1 }}
+            >
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                onChange={handleOnChange}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange={handleOnChange}
+              />
 
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Sign In
-          </Button>
-          <Grid container>
-            <Grid item xs></Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
-        </Box>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign In
+              </Button>
+              <Grid container>
+                <Grid item xs></Grid>
+                <Grid item>
+                  <Link href="#" variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
+              </Grid>
+            </Box>
+          </>
+        )}
       </Box>
     </Container>
   );
