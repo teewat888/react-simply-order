@@ -22,7 +22,7 @@ export const Layout = () => {
       <CssBaseline />
       <TopNav />
       <Outlet />
-      {message && <Notice message={message} />}
+      {message.text && <Notice message={message} />}
       <BottomNav />
     </Box>
   );

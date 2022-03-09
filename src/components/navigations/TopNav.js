@@ -13,6 +13,7 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import { Link } from "react-router-dom";
 import { UserAvatar } from "./UserAvatar";
+import { useSelector } from "react-redux";
 
 const pages = [
   { name: "Products", link: "/products" },
@@ -22,6 +23,8 @@ const pages = [
 ];
 
 const ResponsiveAppBar = () => {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
@@ -108,7 +111,8 @@ const ResponsiveAppBar = () => {
                 </Button>
               ))}
             </Box>
-            <UserAvatar />
+            {isLoggedIn && <UserAvatar display={true} />}
+            {!isLoggedIn && <UserAvatar display={false} />}
           </Toolbar>
         </Container>
       </AppBar>

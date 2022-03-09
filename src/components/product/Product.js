@@ -7,6 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
 
 export const Product = ({ products }) => {
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -19,6 +20,7 @@ export const Product = ({ products }) => {
   }));
   return (
     <>
+      <Typography variant="h6">Products List</Typography>
       <TableContainer component={Paper}>
         <Table sx={{ width: "100%" }} aria-label="simple table">
           <TableHead sx={{ fontWeight: "bold" }}>

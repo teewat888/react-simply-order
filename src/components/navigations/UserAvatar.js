@@ -10,7 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authActions, doLogout } from "../../store/auth-slice";
 
-export const UserAvatar = () => {
+export const UserAvatar = ({ display }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const settings = [
@@ -30,50 +30,56 @@ export const UserAvatar = () => {
     dispatch(doLogout());
     navigate("/login");
   };
-  return (
-    <Box sx={{ flexGrow: 0 }}>
-      <Tooltip title="Open settings">
-        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt="Teerawat">T</Avatar>
-        </IconButton>
-      </Tooltip>
-      <Menu
-        sx={{ mt: "45px" }}
-        id="menu-appbar"
-        anchorEl={anchorElUser}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-        keepMounted
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-        open={Boolean(anchorElUser)}
-        onClose={handleCloseUserMenu}
-      >
-        {settings.map((setting) => {
-          if (setting.name === "Logout") {
-            return (
-              <MenuItem key={setting.name} onClick={handleLogout}>
-                <Typography textAlign="center">{setting.name}</Typography>
-              </MenuItem>
-            );
-          } else {
-            return (
-              <MenuItem
-                key={setting.name}
-                onClick={handleCloseUserMenu}
-                component={Link}
-                to={setting.link}
-              >
-                <Typography textAlign="center">{setting.name}</Typography>
-              </MenuItem>
-            );
-          }
-        })}
-      </Menu>
-    </Box>
-  );
+  if (display) {
+    return (
+      <>
+        <Box sx={{ flexGrow: 0 }}>
+          <Tooltip title="Open settings">
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Avatar alt="Teerawat">T</Avatar>
+            </IconButton>
+          </Tooltip>
+          <Menu
+            sx={{ mt: "45px" }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}
+          >
+            {settings.map((setting) => {
+              if (setting.name === "Logout") {
+                return (
+                  <MenuItem key={setting.name} onClick={handleLogout}>
+                    <Typography textAlign="center">{setting.name}</Typography>
+                  </MenuItem>
+                );
+              } else {
+                return (
+                  <MenuItem
+                    key={setting.name}
+                    onClick={handleCloseUserMenu}
+                    component={Link}
+                    to={setting.link}
+                  >
+                    <Typography textAlign="center">{setting.name}</Typography>
+                  </MenuItem>
+                );
+              }
+            })}
+          </Menu>
+        </Box>
+      </>
+    );
+  } else {
+    return <Box sx={{ width: "2.5em" }}></Box>;
+  }
 };

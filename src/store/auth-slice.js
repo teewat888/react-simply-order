@@ -57,10 +57,12 @@ export const doLogin = (email, password) => {
           dispatch(authActions.login_success(data.user));
         } else {
           dispatch(authActions.login_fail());
-          dispatch(uiActions.showNotification("invalid email/password"));
-          setTimeout(() => {
-            dispatch(uiActions.showNotification(null));
-          }, 2000);
+          dispatch(
+            uiActions.showNotification({
+              text: "invalid email/password",
+              status: "error",
+            })
+          );
         }
       })
       .catch((e) => console.log(e));
@@ -74,10 +76,12 @@ export const doLogout = () => {
         if (data.success) {
           dispatch(authActions.logout_success());
         } else {
-          dispatch(uiActions.showNotification("Oop sth error during sign out"));
-          setTimeout(() => {
-            dispatch(uiActions.showNotification(null));
-          }, 2000);
+          dispatch(
+            uiActions.showNotification({
+              text: "Error: can not sign out this time",
+              status: "error",
+            })
+          );
         }
       })
       .catch((e) => console.log(e));

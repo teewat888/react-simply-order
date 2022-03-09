@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import { useNavigate } from "react-router-dom";
 import DataService from "../../lib/dataService";
 import Box from "@mui/material/Box";
@@ -41,7 +42,6 @@ export default function Profile() {
       .then((resp) => resp.json())
       .then((data) => {
         if (data.success) {
-          console.log("fet profile");
           setUser(data.user);
         }
       })

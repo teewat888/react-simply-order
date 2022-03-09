@@ -33,7 +33,7 @@ export default function MyProducts() {
     <>
       <Product products={products} />
       <Fab
-        size="small"
+        size="medium"
         color="primary"
         aria-label="add"
         style={style}

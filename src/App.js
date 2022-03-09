@@ -19,6 +19,7 @@ import { ProductForm } from "./components/product/ProductForm";
 import { doLogout } from "./store/auth-slice";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme";
+import { uiActions } from "./store/ui-slice";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -36,6 +37,7 @@ function App() {
 
   useEffect(() => {
     authVerify(handleUnAuth);
+    dispatch(uiActions.clear());
   });
   return (
     <>

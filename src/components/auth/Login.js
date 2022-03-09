@@ -36,6 +36,7 @@ export default function SignIn() {
     dispatch(doLogin(loginForm.email, loginForm.password));
   };
   useEffect(() => {
+    //to redirect to previous page once log in
     if (isLoggedIn) {
       navigate(from, { replace: true });
     }
@@ -52,7 +53,7 @@ export default function SignIn() {
           alignItems: "center",
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "info.main" }}>
+        <Avatar sx={{ m: 1, bgcolor: "primary.light" }}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">

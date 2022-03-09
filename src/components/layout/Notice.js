@@ -3,8 +3,13 @@ import React from "react";
 
 export default function Notice({ message }) {
   return (
-    <Alert variant="outlined" severity="error" maxwidth="xs">
-      {message}
+    <Alert
+      variant="outlined"
+      severity={message.status}
+      maxwidth="xs"
+      sx={{ mt: "1em" }}
+    >
+      {message.text}
     </Alert>
   );
 }
