@@ -18,6 +18,7 @@ const authSlice = createSlice({
     user: {
       id: user_id,
       role: role,
+      name: "",
     },
     isLoading: false,
   },
@@ -26,6 +27,7 @@ const authSlice = createSlice({
       state.isLoggedIn = true;
       state.user.role = action.payload.role.name; //get role from the current user
       state.user.id = action.payload.id;
+      state.user.name = action.payload.first_name;
       state.isLoading = false;
     },
     login_fail(state) {

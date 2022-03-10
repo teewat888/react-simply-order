@@ -12,6 +12,8 @@ import { authActions, doLogout } from "../../store/auth-slice";
 
 export const UserAvatar = ({ display }) => {
   const role = useSelector((state) => state.auth.user.role);
+  const username = useSelector((state) => state.auth.user.name);
+  console.log("username", username);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const settings =
@@ -45,7 +47,7 @@ export const UserAvatar = ({ display }) => {
         <Box sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt="Teerawat">T</Avatar>
+              <Avatar alt="{username}">{username.slice(0, 1)}</Avatar>
             </IconButton>
           </Tooltip>
           <Menu
