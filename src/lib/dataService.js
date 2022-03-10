@@ -3,7 +3,9 @@ import { BASE_URL } from "./contants";
 class DataService {
   //display all products belongs to user
   fetchProducts(userId) {
-    return fetch(BASE_URL + `/users/${userId}/products?limit=40`);
+    return fetch(BASE_URL + `/users/${userId}/products?limit=40`).then((resp) =>
+      resp.json()
+    );
   }
   // profile info
   fetchProfile() {
@@ -16,7 +18,9 @@ class DataService {
         Authorization: "Bearer " + jwt,
       },
     };
-    return fetch(BASE_URL + "/user/profile", confObj);
+    return fetch(BASE_URL + "/user/profile", confObj).then((resp) =>
+      resp.json()
+    );
   }
 
   fetchAddProduct(product) {
@@ -39,7 +43,35 @@ class DataService {
       }),
     };
     console.log("confobj: ", confObj);
-    return fetch(BASE_URL + `/users/${product.vendor_id}/products`, confObj);
+    return fetch(
+      BASE_URL + `/users/${product.vendor_id}/products`,
+      confObj
+    ).then((resp) => resp.json());
+  }
+
+  fetchEditProduct(product) {
+    const jwt = localStorage.getItem("jwt");
+    const confObj = {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+        accept: "application/json",
+        Authorization: "Bearer " + jwt,
+      },
+      body: JSON.stringify({
+        product: {
+          name: product.name,
+          brand: product.brand,
+          unit: product.unit,
+          available: product.available,
+        },
+      }),
+    };
+    console.log("confobj: ", confObj);
+    return fetch(
+      BASE_URL + `/users/${product.vendor_id}/products/${product.id}`,
+      confObj
+    ).then((resp) => resp.json());
   }
 }
 export default new DataService();

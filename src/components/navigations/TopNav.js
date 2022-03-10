@@ -18,7 +18,6 @@ import { useSelector } from "react-redux";
 const pages = [
   { name: "Products", link: "/products" },
   { name: "Create new product", link: "/product/new" },
-  { name: "My Products", link: "/vendor/products" },
   { name: "Login", link: "/login" },
 ];
 

@@ -35,7 +35,7 @@ export default function MyProducts() {
   //create multiple skeltons
   const skeletons = [];
   for (let i = 1; i < 25; i++) {
-    skeletons.push(<Skeleton />);
+    skeletons.push(<Skeleton key={i} />);
   }
 
   return (

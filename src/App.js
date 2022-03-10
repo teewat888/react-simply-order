@@ -73,6 +73,14 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/vendor/products/edit/:product_id"
+              element={
+                <ProtectedRoute isAllow={isLoggedIn}>
+                  <ProductForm />
+                </ProtectedRoute>
+              }
+            />
 
             <Route path="*" element={<NoMatch />} />
           </Route>

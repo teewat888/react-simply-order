@@ -55,7 +55,6 @@ export const doLogin = (email, password) => {
   return (dispatch) => {
     dispatch(authActions.loading());
     AuthService.fetchLogin(email, password)
-      .then((resp) => resp.json())
       .then((data) => {
         if (data.success) {
           localStorage.setItem("jwt", data.jwt);
@@ -78,7 +77,6 @@ export const doLogin = (email, password) => {
 export const doLogout = () => {
   return (dispatch) => {
     AuthService.fetchLogout()
-      .then((resp) => resp.json())
       .then((data) => {
         if (data.success) {
           dispatch(authActions.logout_success());

@@ -7,18 +7,27 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authActions, doLogout } from "../../store/auth-slice";
 
 export const UserAvatar = ({ display }) => {
+  const role = useSelector((state) => state.auth.user.role);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const settings = [
-    { name: "Profile", link: "/profile" },
-    { name: "Account", link: "/" },
-    { name: "Dashboard", link: "/login" },
-    { name: "Logout", link: "/logout" },
-  ];
+  const settings =
+    role === "customer"
+      ? [
+          { name: "Profile", link: "/profile" },
+          { name: "My order templates", link: "/" },
+          { name: "My orders", link: "/customer/orders" },
+          { name: "Logout", link: "/logout" },
+        ]
+      : [
+          { name: "Profile", link: "/profile" },
+          { name: "Account", link: "/" },
+          { name: "My products", link: "/vendor/products" },
+          { name: "Logout", link: "/logout" },
+        ];
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);

@@ -17,7 +17,9 @@ class AuthService {
         },
       }),
     };
-    return fetch(BASE_URL + "/user/sign_in", confObj);
+    return fetch(BASE_URL + "/user/sign_in", confObj).then((resp) =>
+      resp.json()
+    );
   }
   fetchLogout() {
     const jwt = localStorage.getItem("jwt");
@@ -29,7 +31,9 @@ class AuthService {
         Authorization: "Bearer " + jwt,
       },
     };
-    return fetch(BASE_URL + "/user/sign_out", confObj);
+    return fetch(BASE_URL + "/user/sign_out", confObj).then((resp) =>
+      resp.json()
+    );
   }
 }
 

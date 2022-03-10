@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import DataService from "../../lib/dataService";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -13,10 +13,14 @@ import FormControl from "@mui/material/FormControl";
 import Stack from "@mui/material/Stack";
 import { uiActions } from "../../store/ui-slice";
 import Checkbox from "@mui/material/Checkbox";
+import { delay } from "../../utils/delay";
 
 export const ProductForm = (props) => {
+  const products = useSelector((state) => state.product.productList);
+  const { product_id } = useParams(); // get params from navigated
+
   const vendor_id = useSelector((state) => state.auth.user.id);
-  console.log("vendor_id - product add page", vendor_id);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [product, setProduct] = useState({
@@ -26,6 +30,28 @@ export const ProductForm = (props) => {
     available: true,
     vendor_id: vendor_id,
   });
+
+  useEffect(() => {
+    // is product_id passed, in edit mode
+    if (product_id !== undefined) {
+      const found = products.find((el) => el.id === parseInt(product_id));
+
+      if (found) {
+        const { name, brand, unit, available } = found;
+        const vid = found.vendor.id;
+        console.log(name, brand, unit, available, vid);
+        setProduct({
+          id: product_id,
+          name: name,
+          brand: brand,
+          unit: unit,
+          available: available,
+          vendor_id: vid,
+        });
+      }
+    }
+  }, [product_id]);
+
   const formItems = [
     { label: "Product Name", id: "name", value: product.name },
     { label: "Brand", id: "brand", value: product.brand },
@@ -43,7 +69,6 @@ export const ProductForm = (props) => {
     e.preventDefault();
     console.log("press add");
     DataService.fetchAddProduct(product)
-      .then((resp) => resp.json())
       .then((data) => {
         if (data.success) {
           dispatch(
@@ -52,6 +77,7 @@ export const ProductForm = (props) => {
               status: "success",
             })
           );
+          delay(1000).then(() => navigate(-1));
         } else {
           dispatch(
             uiActions.showNotification({
@@ -63,10 +89,42 @@ export const ProductForm = (props) => {
       })
       .catch((e) => console.log(e));
   };
+
+  const handleSubmitEdit = (e) => {
+    e.preventDefault();
+    console.log("press update");
+    DataService.fetchEditProduct(product)
+      .then((data) => {
+        if (data.success) {
+          dispatch(
+            uiActions.showNotification({
+              text: `${data.product.name} has been updated.`,
+              status: "success",
+            })
+          );
+          delay(1000).then(() => navigate(-1));
+        } else {
+          dispatch(
+            uiActions.showNotification({
+              text: data.message,
+              status: "error",
+            })
+          );
+        }
+      })
+      .catch((e) => console.log(e));
+  };
+
   return (
     <Container sx={{ maxwidth: "95%", mt: "1em" }}>
-      <Typography variant="h6">Create new product</Typography>
-      <Box sx={{ display: "flex" }} component="form" onSubmit={handleSubmit}>
+      <Typography variant="h6">
+        {product_id ? "Edit product" : "Create new product"}
+      </Typography>
+      <Box
+        sx={{ display: "flex" }}
+        component="form"
+        onSubmit={product_id ? handleSubmitEdit : handleSubmit}
+      >
         <FormControl component="fieldset" sx={{ width: "100%" }}>
           {formItems.map((formItem) => (
             <TextField
@@ -99,7 +157,7 @@ export const ProductForm = (props) => {
           />
           <Stack spacing={2} direction="row" sx={{ marginTop: "1em" }}>
             <Button variant="outlined" type="submit">
-              Add product
+              {product_id ? "Update" : "Create"}
             </Button>
             <Button
               variant="outlined"

@@ -23,7 +23,6 @@ export const getProducts = (userId) => {
   return (dispatch) => {
     dispatch(productActions.loading());
     DataService.fetchProducts(userId)
-      .then((resp) => resp.json())
       .then((data) => {
         dispatch(productActions.setProducts(data.products));
       })

@@ -39,7 +39,6 @@ export default function Profile() {
 
   useEffect(() => {
     DataService.fetchProfile()
-      .then((resp) => resp.json())
       .then((data) => {
         if (data.success) {
           setUser(data.user);
