@@ -15,14 +15,36 @@ import { Link } from "react-router-dom";
 import { UserAvatar } from "./UserAvatar";
 import { useSelector } from "react-redux";
 
-const pages = [
-  { name: "Products", link: "/products" },
-  { name: "Create new product", link: "/product/new" },
-  { name: "Login", link: "/login" },
-];
-
 const ResponsiveAppBar = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const role = useSelector((state) => state.auth.user.role);
+
+  let pages = [];
+
+  switch (role) {
+    case "customer":
+      pages = [
+        { name: "Vendors", link: "/products" },
+        { name: "Products", link: "/product/new" },
+        { name: "About", link: "/login" },
+      ];
+      break;
+    case "vendor":
+      pages = [
+        { name: "Products", link: "/products" },
+        { name: "Create new product", link: "/product/new" },
+        { name: "Login", link: "/login" },
+      ];
+      break;
+    case "admin":
+      pages = [
+        { name: "Products", link: "/products" },
+        { name: "Create new product", link: "/product/new" },
+        { name: "Login", link: "/login" },
+      ];
+      break;
+    default:
+  }
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
