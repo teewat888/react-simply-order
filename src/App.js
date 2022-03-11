@@ -7,16 +7,13 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import Login from "./components/auth/Login";
 import VendorList from "./components/vendor/VendorList";
 import ProductList from "./components/product/ProductList";
-import RequireVendor from "./components/auth/RequireVendor";
 import MyProducts from "./components/product/MyProducts";
 import Profile from "./components/user/Profile";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
-import DataService from "./lib/dataService";
 import { useDispatch } from "react-redux";
 import { authActions } from "./store/auth-slice";
 import { authVerify } from "./lib/authVerify";
 import { ProductForm } from "./components/product/ProductForm";
-import { doLogout } from "./store/auth-slice";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme";
 import { uiActions } from "./store/ui-slice";
@@ -46,7 +43,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="/login" element={<Login />} />
-
+            <Route path="/vendors" element={<VendorList />} />
             <Route path="/products" element={<ProductList />} />
 
             <Route

@@ -71,6 +71,7 @@ export const ProductForm = (props) => {
     DataService.fetchAddProduct(product)
       .then((data) => {
         if (data.success) {
+          console.log("product added: ", data);
           dispatch(
             uiActions.showNotification({
               text: `${data.product.name} has been added.`,

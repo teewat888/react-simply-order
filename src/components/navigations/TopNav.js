@@ -20,30 +20,42 @@ const ResponsiveAppBar = () => {
   const role = useSelector((state) => state.auth.user.role);
 
   let pages = [];
-
-  switch (role) {
-    case "customer":
-      pages = [
-        { name: "Vendors", link: "/products" },
-        { name: "Products", link: "/product/new" },
-        { name: "About", link: "/login" },
-      ];
-      break;
-    case "vendor":
-      pages = [
-        { name: "Products", link: "/products" },
-        { name: "Create new product", link: "/product/new" },
-        { name: "Login", link: "/login" },
-      ];
-      break;
-    case "admin":
-      pages = [
-        { name: "Products", link: "/products" },
-        { name: "Create new product", link: "/product/new" },
-        { name: "Login", link: "/login" },
-      ];
-      break;
-    default:
+  if (!isLoggedIn) {
+    pages = pages = [
+      { name: "Products", link: "/products" },
+      { name: "Create new product", link: "/product/new" },
+      { name: "Login", link: "/login" },
+    ];
+  } else {
+    switch (role) {
+      case "customer":
+        pages = [
+          { name: "Vendors", link: "/vendors" },
+          { name: "Products", link: "/product/new" },
+          { name: "About", link: "/login" },
+        ];
+        break;
+      case "vendor":
+        pages = [
+          { name: "Products", link: "/products" },
+          { name: "Create new product", link: "/product/new" },
+          { name: "Login", link: "/login" },
+        ];
+        break;
+      case "admin":
+        pages = [
+          { name: "Products", link: "/products" },
+          { name: "Create new product", link: "/product/new" },
+          { name: "Login", link: "/login" },
+        ];
+        break;
+      default:
+        pages = [
+          { name: "Products", link: "/products" },
+          { name: "Create new product", link: "/product/new" },
+          { name: "Login", link: "/login" },
+        ];
+    }
   }
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);

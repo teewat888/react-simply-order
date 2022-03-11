@@ -3,9 +3,13 @@ import { BASE_URL } from "./contants";
 class DataService {
   //display all products belongs to user
   fetchProducts(userId) {
-    return fetch(BASE_URL + `/users/${userId}/products?limit=40`).then((resp) =>
+    return fetch(BASE_URL + `/users/${userId}/products?limit=80`).then((resp) =>
       resp.json()
     );
+  }
+
+  fetchVendors() {
+    return fetch(BASE_URL + `/users/?role_id=2`).then((resp) => resp.json());
   }
   // profile info
   fetchProfile() {
