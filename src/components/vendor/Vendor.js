@@ -20,7 +20,11 @@ export const Vendor = ({ vendor }) => {
       </TableCell>
       <TableCell align="left">
         <Tooltip title="Create template">
-          <IconButton>
+          <IconButton
+            onClick={() => {
+              navigate(`/order_templates/vendor/${vendor.id}`);
+            }}
+          >
             <AutoAwesomeMotionIcon />
           </IconButton>
         </Tooltip>

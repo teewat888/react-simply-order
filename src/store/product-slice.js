@@ -19,10 +19,10 @@ const productSlice = createSlice({
   },
 });
 
-export const getProducts = (userId) => {
+export const getProducts = (userId, mode) => {
   return (dispatch) => {
     dispatch(productActions.loading());
-    DataService.fetchProducts(userId)
+    DataService.fetchProducts(userId, mode)
       .then((data) => {
         dispatch(productActions.setProducts(data.products));
       })

@@ -17,6 +17,8 @@ import { ProductForm } from "./components/product/ProductForm";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme";
 import { uiActions } from "./store/ui-slice";
+import { OrderTemplate } from "./components/order/OrderTemplate";
+import { OrderTemplateForm } from "./components/order/OrderTemplateForm";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -44,7 +46,6 @@ function App() {
             <Route index element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/vendors" element={<VendorList />} />
-            <Route path="/products" element={<ProductList />} />
 
             <Route
               path="/profile"
@@ -75,6 +76,23 @@ function App() {
               element={
                 <ProtectedRoute isAllow={isLoggedIn}>
                   <ProductForm />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/order_templates/vendor/:vendor_id"
+              element={
+                <ProtectedRoute isAllow={isLoggedIn}>
+                  <OrderTemplate />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/user/:user_id/vendor/:vendor_id/order_template/new"
+              element={
+                <ProtectedRoute isAllow={isLoggedIn}>
+                  <OrderTemplateForm />
                 </ProtectedRoute>
               }
             />

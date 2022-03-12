@@ -25,7 +25,7 @@ export default function MyProducts() {
   };
 
   useEffect(() => {
-    dispatch(getProducts(userId));
+    dispatch(getProducts(userId, "myproduct"));
   }, [dispatch]);
 
   const handleFabClick = () => {

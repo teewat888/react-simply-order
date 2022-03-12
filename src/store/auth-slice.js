@@ -10,6 +10,9 @@ let role = localStorage.getItem("role")
 let user_id = localStorage.getItem("user_id")
   ? localStorage.getItem("user_id")
   : null;
+let user_name = localStorage.getItem("user_name")
+  ? localStorage.getItem("user_name")
+  : "";
 
 const authSlice = createSlice({
   name: "auth",
@@ -18,7 +21,7 @@ const authSlice = createSlice({
     user: {
       id: user_id,
       role: role,
-      name: "",
+      name: user_name,
     },
     isLoading: false,
   },
@@ -27,7 +30,7 @@ const authSlice = createSlice({
       state.isLoggedIn = true;
       state.user.role = action.payload.role.name; //get role from the current user
       state.user.id = action.payload.id;
-      state.user.name = action.payload.first_name;
+      state.user.name = action.payload.company_name;
       state.isLoading = false;
     },
     login_fail(state) {
@@ -41,11 +44,13 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
       localStorage.removeItem("jwt");
       localStorage.removeItem("role");
+      localStorage.removeItem("user_id");
     },
     logout_success(state) {
       state.isLoggedIn = false;
       localStorage.removeItem("jwt");
       localStorage.removeItem("role");
+      localStorage.removeItem("user_id");
     },
     register(state) {
       state = state;
@@ -62,6 +67,7 @@ export const doLogin = (email, password) => {
           localStorage.setItem("jwt", data.jwt);
           localStorage.setItem("role", data.user.role.name);
           localStorage.setItem("user_id", data.user.id);
+          localStorage.setItem("user_name", data.user.company_name);
           dispatch(authActions.login_success(data.user));
         } else {
           dispatch(authActions.login_fail());
