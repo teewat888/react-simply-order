@@ -3,11 +3,7 @@
 export const authVerify = (handleUnAuth) => {
   const parseJwt = (token) => {
     try {
-      //return JSON.parse(atob(token.split(".")[1]));
-      //convert from depreciated atob to Buffer.from
-      return JSON.parse(
-        Buffer.from(token.split(".")[1], "base64").toString("ascii")
-      );
+      return JSON.parse(atob(token.split(".")[1]));
     } catch (e) {
       return null;
     }
