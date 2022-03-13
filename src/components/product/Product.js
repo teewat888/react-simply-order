@@ -4,13 +4,17 @@ import Paper from "@mui/material/Paper";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import { ProductItem } from "./ProductItem";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
+import EditIcon from "@mui/icons-material/Edit";
+import IconButton from "@mui/material/IconButton";
+import ListItemText from "@mui/material/ListItemText";
+import Divider from "@mui/material/Divider";
+import ListItemButton from "@mui/material/ListItemButton";
 
 export const Product = ({ products }) => {
   const navigate = useNavigate();
@@ -66,6 +70,7 @@ export const Product = ({ products }) => {
         onChange={handleSearch}
         variant="standard"
         value={searchTerm}
+        sx={{ mt: "1em" }}
       />
       <FormGroup>
         <FormControlLabel
@@ -80,10 +85,21 @@ export const Product = ({ products }) => {
         />
       </FormGroup>
 
-      <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
+      <Box sx={{ width: "90%", bgcolor: "background.paper" }}>
         <List>
           {productResult.map((product) => (
-            <ProductItem key={product.id} product={product} />
+            <ListItemButton>
+              <ListItemText>{product.name}</ListItemText>
+              <IconButton
+                aria-label="edit"
+                color="primary"
+                onClick={() => {
+                  navigate(`/vendor/products/edit/${product.id}`);
+                }}
+              >
+                <EditIcon />
+              </IconButton>
+            </ListItemButton>
           ))}
         </List>
       </Box>

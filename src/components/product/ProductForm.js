@@ -117,7 +117,7 @@ export const ProductForm = (props) => {
   };
 
   return (
-    <Container sx={{ maxwidth: "95%", mt: "1em" }}>
+    <Container sx={{ maxwidth: "90%", mt: "1em" }}>
       <Typography variant="h6">
         {product_id ? "Edit product" : "Create new product"}
       </Typography>
