@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../../store/product-slice";
 
 export const OrderTemplate = (props) => {
   const navigate = useNavigate();
   const { vendor_id } = useParams();
+  const dispatch = useDispatch();
+
   console.log("vendor_id in orderTemplate, ", vendor_id);
   const user_id = useSelector((state) => state.auth.user.id);
   const style = {
@@ -17,6 +20,11 @@ export const OrderTemplate = (props) => {
     left: "auto",
     position: "fixed",
   };
+
+  useEffect(() => {
+    dispatch(getProducts(vendor_id, "template"));
+  }, []);
+
   const handleFabClick = () => {
     navigate(`/user/${user_id}/vendor/${vendor_id}/order_template/new`);
   };

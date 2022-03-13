@@ -44,6 +44,8 @@ export const OrderTemplateForm = (props) => {
 
   const handleCreateTemplate = (e) => {};
 
+  console.log("current products", currentProduct);
+
   return (
     <>
       <Box sx={{ width: "90%", bgcolor: "background.paper" }}>
@@ -74,10 +76,10 @@ export const OrderTemplateForm = (props) => {
             </Button>
           </ListItemButton>
           {currentProduct.map((product) => (
-            <ListItemButton>
+            <ListItemButton key={product.id}>
               <ListItemText>{product.name}</ListItemText>
               <Checkbox
-                id={product.id}
+                id={product.id.toString()}
                 checked={product.in_template}
                 onChange={handleOnChange}
                 inputProps={{ "aria-label": "controlled" }}

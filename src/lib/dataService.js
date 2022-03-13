@@ -78,5 +78,29 @@ class DataService {
       confObj
     ).then((resp) => resp.json());
   }
+
+  fetchAddOrderTemplate(name, userId, vendorId, products) {
+    const jwt = localStorage.getItem("jwt");
+    const confObj = {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        accept: "application/json",
+        Authorization: "Bearer " + jwt,
+      },
+      body: JSON.stringify({
+        order_template: {
+          user_id: userId,
+          vendor_id: vendorId,
+          name: name,
+          products: products,
+        },
+      }),
+    };
+    console.log("confobj: ", confObj);
+    return fetch(BASE_URL + `/users/${userId}/order_templates`, confObj).then(
+      (resp) => resp.json()
+    );
+  }
 }
 export default new DataService();
