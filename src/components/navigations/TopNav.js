@@ -21,7 +21,7 @@ const ResponsiveAppBar = () => {
 
   let pages = [];
   if (!isLoggedIn) {
-    pages = pages = [
+    pages = [
       { name: "Products", link: "/products" },
       { name: "Create new product", link: "/product/new" },
       { name: "Login", link: "/login" },

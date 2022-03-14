@@ -1,4 +1,4 @@
-import { BASE_URL } from "./contants";
+import { BASE_URL } from "../config/contants";
 
 class DataService {
   //display all products belongs to user
@@ -101,6 +101,24 @@ class DataService {
     return fetch(BASE_URL + `/users/${userId}/order_templates`, confObj).then(
       (resp) => resp.json()
     );
+  }
+
+  fetchOrderTemplate(userId, vendorId) {
+    const jwt = localStorage.getItem("jwt");
+    const confObj = {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        accept: "application/json",
+        Authorization: "Bearer " + jwt,
+      },
+    };
+    return fetch(
+      vendorId === null
+        ? `${BASE_URL}/users/${userId}/order_templates`
+        : `${BASE_URL}/users/${userId}/order_templates?vendor_id=${vendorId}`,
+      confObj
+    ).then((resp) => resp.json());
   }
 }
 export default new DataService();

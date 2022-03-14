@@ -1,14 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../../store/product-slice";
+import List from "@mui/material/List";
+import IconButton from "@mui/material/IconButton";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import dataService from "../../lib/dataService";
+import { uiActions } from "../../store/ui-slice";
+import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
+import { Typography } from "@mui/material";
 
 export const OrderTemplate = (props) => {
   const navigate = useNavigate();
-  const { vendor_id } = useParams();
+  const { vendor_id, mode } = useParams(); // get mode to distinct own template and company template
   const dispatch = useDispatch();
+  const [templates, setTemplates] = useState([]);
 
   console.log("vendor_id in orderTemplate, ", vendor_id);
   const user_id = useSelector((state) => state.auth.user.id);
@@ -22,24 +32,76 @@ export const OrderTemplate = (props) => {
   };
 
   useEffect(() => {
-    dispatch(getProducts(vendor_id, "template"));
-  }, []);
+    if (mode === "mytemplates") {
+      dataService
+        .fetchOrderTemplate(user_id, null)
+        .then((data) => {
+          setTemplates(data.templates);
+        })
+        .catch((e) => {
+          dispatch(
+            uiActions.showNotification({
+              text: e.message,
+              status: "error",
+            })
+          );
+        });
+    } else {
+      dispatch(getProducts(vendor_id, "template"));
+      dataService
+        .fetchOrderTemplate(user_id, vendor_id)
+        .then((data) => {
+          setTemplates(data.templates);
+        })
+        .catch((e) => {
+          dispatch(
+            uiActions.showNotification({
+              text: e.message,
+              status: "error",
+            })
+          );
+        });
+    }
+  }, [mode]);
 
   const handleFabClick = () => {
     navigate(`/user/${user_id}/vendor/${vendor_id}/order_template/new`);
   };
+
+  const handleClick = () => {};
   return (
     <>
-      <div>Show order template list here , need to add templates lists</div>
-      <Fab
-        size="medium"
-        color="primary"
-        aria-label="add"
-        style={style}
-        onClick={handleFabClick}
-      >
-        <AddIcon />
-      </Fab>
+      <Box sx={{ width: "90%", bgcolor: "background.paper" }}>
+        <List>
+          <ListItemText>
+            <Typography variant="h6">Order Template</Typography>
+          </ListItemText>
+          {templates.map((template) => (
+            <ListItemButton key={template.id}>
+              <ListItemText>{template.name}</ListItemText>
+              <Chip
+                label="Create order"
+                size="small"
+                variant="outlined"
+                onClick={handleClick}
+              />
+            </ListItemButton>
+          ))}
+        </List>
+        {mode !== "mytemplates" ? (
+          <Fab
+            size="medium"
+            color="primary"
+            aria-label="add"
+            style={style}
+            onClick={handleFabClick}
+          >
+            <AddIcon />
+          </Fab>
+        ) : (
+          ""
+        )}
+      </Box>
     </>
   );
 };

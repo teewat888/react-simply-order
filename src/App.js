@@ -27,9 +27,7 @@ function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   //dispatch(authActions.logout_success());
-  console.log(userRole);
-  console.log("user id: ", user_id);
-  console.log("init isloggin state", isLoggedIn);
+
   const handleUnAuth = () => {
     dispatch(authActions.logout()); // as jwt expire reset state at client
   };
@@ -38,6 +36,66 @@ function App() {
     authVerify(handleUnAuth);
     dispatch(uiActions.clear());
   });
+
+  const myProtectedRoutes = [
+    {
+      path: "/vendor/products",
+      element: (
+        <ProtectedRoute isAllow={isLoggedIn}>
+          <MyProducts />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/vendor/products/new",
+      element: (
+        <ProtectedRoute isAllow={isLoggedIn}>
+          <ProductForm />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/profile",
+      element: (
+        <ProtectedRoute isAllow={isLoggedIn}>
+          <Profile />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/vendor/products/edit/:product_id",
+      element: (
+        <ProtectedRoute isAllow={isLoggedIn}>
+          <ProductForm />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/order_templates/vendor/:vendor_id",
+      element: (
+        <ProtectedRoute isAllow={isLoggedIn}>
+          <OrderTemplate />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/user/:user_id/order_templates/:mode",
+      element: (
+        <ProtectedRoute isAllow={isLoggedIn}>
+          <OrderTemplate />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/user/:user_id/vendor/:vendor_id/order_template/new",
+      element: (
+        <ProtectedRoute isAllow={isLoggedIn}>
+          <OrderTemplateForm />
+        </ProtectedRoute>
+      ),
+    },
+  ];
+
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -47,55 +105,15 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/vendors" element={<VendorList />} />
 
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute isAllow={isLoggedIn}>
-                  <Profile />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/vendor/products"
-              element={
-                <ProtectedRoute isAllow={isLoggedIn}>
-                  <MyProducts />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/vendor/products/new"
-              element={
-                <ProtectedRoute isAllow={isLoggedIn}>
-                  <ProductForm />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/vendor/products/edit/:product_id"
-              element={
-                <ProtectedRoute isAllow={isLoggedIn}>
-                  <ProductForm />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/order_templates/vendor/:vendor_id"
-              element={
-                <ProtectedRoute isAllow={isLoggedIn}>
-                  <OrderTemplate />
-                </ProtectedRoute>
-              }
-            />
+            {myProtectedRoutes.map((myProtectedRoute, index) => (
+              <Route
+                key={index}
+                path={myProtectedRoute.path}
+                element={myProtectedRoute.element}
+              />
+            ))}
 
-            <Route
-              path="/user/:user_id/vendor/:vendor_id/order_template/new"
-              element={
-                <ProtectedRoute isAllow={isLoggedIn}>
-                  <OrderTemplateForm />
-                </ProtectedRoute>
-              }
-            />
+            <Route />
 
             <Route path="*" element={<NoMatch />} />
           </Route>

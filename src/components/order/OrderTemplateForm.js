@@ -10,15 +10,24 @@ import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import ListItemButton from "@mui/material/ListItemButton";
 import Box from "@mui/material/Box";
+import dataService from "../../lib/dataService";
+import { uiActions } from "../../store/ui-slice";
+import { delay } from "../../utils/delay";
 
 export const OrderTemplateForm = (props) => {
   const { user_id, vendor_id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.productList);
-  const username = useSelector((state) => state.auth.user.name);
+  const vendor = useSelector((state) => state.vendor.vendorList);
+  let company_name = "";
+  if (vendor.length > 0) {
+    const [vendor_detail] = vendor.filter((v) => v.id === parseInt(vendor_id));
+    company_name = vendor_detail.company_name;
+  }
+
   const [currentProduct, setCurrentProduct] = useState(products);
-  const [templateName, setTemplateName] = useState(username);
+  const [templateName, setTemplateName] = useState(company_name);
 
   useEffect(() => {
     dispatch(getProducts(vendor_id, "template"));
@@ -42,7 +51,36 @@ export const OrderTemplateForm = (props) => {
     setTemplateName(e.target.value);
   };
 
-  const handleCreateTemplate = (e) => {};
+  const handleCreateTemplate = (e) => {
+    dataService
+      .fetchAddOrderTemplate(templateName, user_id, vendor_id, currentProduct)
+      .then((data) => {
+        if (data.success) {
+          dispatch(
+            uiActions.showNotification({
+              text: "Order template created.",
+              status: "success",
+            })
+          );
+          delay(1500).then(() => navigate(-1));
+        } else {
+          dispatch(
+            uiActions.showNotification({
+              text: "Error when creating order template.",
+              status: "error",
+            })
+          );
+        }
+      })
+      .catch((e) => {
+        dispatch(
+          uiActions.showNotification({
+            text: e,
+            status: "error",
+          })
+        );
+      });
+  };
 
   console.log("current products", currentProduct);
 

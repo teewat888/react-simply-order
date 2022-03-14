@@ -14,13 +14,17 @@ export const UserAvatar = ({ display }) => {
   const role = useSelector((state) => state.auth.user.role);
   const username = useSelector((state) => state.auth.user.name);
   console.log("username", username);
+  const user_id = useSelector((state) => state.auth.user.id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const settings =
     role === "customer"
       ? [
           { name: "Profile", link: "/profile" },
-          { name: "My order templates", link: "/" },
+          {
+            name: "My order templates",
+            link: `/user/${user_id}/order_templates/mytemplates`,
+          },
           { name: "My orders", link: "/customer/orders" },
           { name: "Logout", link: "/logout" },
         ]

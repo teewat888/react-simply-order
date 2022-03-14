@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import Paper from "@mui/material/Paper";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
@@ -13,7 +12,6 @@ import List from "@mui/material/List";
 import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import ListItemText from "@mui/material/ListItemText";
-import Divider from "@mui/material/Divider";
 import ListItemButton from "@mui/material/ListItemButton";
 
 export const Product = ({ products }) => {
@@ -88,7 +86,7 @@ export const Product = ({ products }) => {
       <Box sx={{ width: "90%", bgcolor: "background.paper" }}>
         <List>
           {productResult.map((product) => (
-            <ListItemButton>
+            <ListItemButton key={product.id}>
               <ListItemText>{product.name}</ListItemText>
               <IconButton
                 aria-label="edit"
