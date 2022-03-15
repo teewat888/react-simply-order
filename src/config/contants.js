@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000/api/v1";
+const BASE_URL = process.env.BASE_URL;
 
 //const BASE_URL = "https://simply-order-api.herokuapp.com/api/v1";
 
