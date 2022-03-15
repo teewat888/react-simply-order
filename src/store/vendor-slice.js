@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import DataService from "../lib/dataService";
 import { authActions } from "./auth-slice";
+import { uiActions } from "./ui-slice";
 
 const vendorSlice = createSlice({
   name: "vendor",
@@ -29,7 +30,14 @@ export const getVendors = () => {
         console.log("fet v here");
         dispatch(vendorActions.setVendors(data.vendors));
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        dispatch(
+          uiActions.showNotification({
+            text: e.message,
+            status: "error",
+          })
+        );
+      });
   };
 };
 

@@ -13,7 +13,7 @@ export default function MyProducts() {
   const isLoading = useSelector((state) => state.product.isLoading);
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.user.id);
-  const role = useSelector((state) => state.auth.user.role);
+  const role = useSelector((state) => state.auth.user.role.name);
   const navigate = useNavigate();
   const style = {
     margin: 0,

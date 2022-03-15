@@ -19,22 +19,23 @@ import theme from "./theme";
 import { uiActions } from "./store/ui-slice";
 import { OrderTemplate } from "./components/order/OrderTemplate";
 import { OrderTemplateForm } from "./components/order/OrderTemplateForm";
+import { Order } from "./components/order/Order";
+import SignUp from "./components/auth/SignUp";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const userRole = useSelector((state) => state.auth.user.role);
+  const userRole = useSelector((state) => state.auth.user.role.name);
   const user_id = useSelector((state) => state.auth.user.id);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  //dispatch(authActions.logout_success());
 
   const handleUnAuth = () => {
     dispatch(authActions.logout()); // as jwt expire reset state at client
   };
 
   useEffect(() => {
-    authVerify(handleUnAuth);
-    dispatch(uiActions.clear());
+    authVerify(handleUnAuth); // expire jwt?
+    dispatch(uiActions.clear()); // clear notification each page
   });
 
   const myProtectedRoutes = [
@@ -94,6 +95,14 @@ function App() {
         </ProtectedRoute>
       ),
     },
+    {
+      path: "/user/:user_id/order/new",
+      element: (
+        <ProtectedRoute isAllow={isLoggedIn}>
+          <Order />
+        </ProtectedRoute>
+      ),
+    },
   ];
 
   return (
@@ -103,6 +112,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
             <Route path="/vendors" element={<VendorList />} />
 
             {myProtectedRoutes.map((myProtectedRoute, index) => (
@@ -112,8 +122,6 @@ function App() {
                 element={myProtectedRoute.element}
               />
             ))}
-
-            <Route />
 
             <Route path="*" element={<NoMatch />} />
           </Route>

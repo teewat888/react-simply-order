@@ -4,33 +4,38 @@ import AuthService from "../lib/authService";
 import { uiActions } from "./ui-slice";
 
 let logFlag = localStorage.getItem("jwt") ? true : false;
-let role = localStorage.getItem("role")
-  ? localStorage.getItem("role")
-  : "customer";
-let user_id = localStorage.getItem("user_id")
-  ? localStorage.getItem("user_id")
-  : null;
-let user_name = localStorage.getItem("user_name")
-  ? localStorage.getItem("user_name")
-  : "";
+
+let user = JSON.parse(localStorage.getItem("user"))
+  ? JSON.parse(localStorage.getItem("user"))
+  : {
+      id: null,
+      first_name: "",
+      last_name: "",
+      email: "",
+      company_name: "",
+      address_number: "",
+      address_street: "",
+      address_suburb: "",
+      address_state: "",
+      contact_number: "",
+      auth_token: "",
+      role: {
+        id: null,
+        name: "",
+      },
+    };
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     isLoggedIn: logFlag,
-    user: {
-      id: user_id,
-      role: role,
-      name: user_name,
-    },
+    user: user,
     isLoading: false,
   },
   reducers: {
     login_success(state, action) {
       state.isLoggedIn = true;
-      state.user.role = action.payload.role.name; //get role from the current user
-      state.user.id = action.payload.id;
-      state.user.name = action.payload.company_name;
+      state.user = user;
       state.isLoading = false;
     },
     login_fail(state) {
@@ -42,15 +47,11 @@ const authSlice = createSlice({
     },
     logout(state) {
       state.isLoggedIn = false;
-      localStorage.removeItem("jwt");
-      localStorage.removeItem("role");
-      localStorage.removeItem("user_id");
+      localStorage.clear();
     },
     logout_success(state) {
       state.isLoggedIn = false;
-      localStorage.removeItem("jwt");
-      localStorage.removeItem("role");
-      localStorage.removeItem("user_id");
+      localStorage.clear();
     },
     register(state) {
       state = state;
@@ -65,9 +66,7 @@ export const doLogin = (email, password) => {
       .then((data) => {
         if (data.success) {
           localStorage.setItem("jwt", data.jwt);
-          localStorage.setItem("role", data.user.role.name);
-          localStorage.setItem("user_id", data.user.id);
-          localStorage.setItem("user_name", data.user.company_name);
+          localStorage.setItem("user", JSON.stringify(data.user));
           dispatch(authActions.login_success(data.user));
         } else {
           dispatch(authActions.login_fail());
@@ -79,7 +78,14 @@ export const doLogin = (email, password) => {
           );
         }
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        dispatch(
+          uiActions.showNotification({
+            text: e.message,
+            status: "error",
+          })
+        );
+      });
   };
 };
 export const doLogout = () => {
@@ -97,7 +103,14 @@ export const doLogout = () => {
           );
         }
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        dispatch(
+          uiActions.showNotification({
+            text: e.message,
+            status: "error",
+          })
+        );
+      });
   };
 };
 

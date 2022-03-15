@@ -62,6 +62,7 @@ export const OrderTemplate = (props) => {
           );
         });
     }
+    return () => {};
   }, [mode]);
 
   const handleFabClick = () => {
@@ -83,7 +84,8 @@ export const OrderTemplate = (props) => {
                 label="Create order"
                 size="small"
                 variant="outlined"
-                onClick={handleClick}
+                color="primary"
+                onClick={() => handleClick(template.id)}
               />
             </ListItemButton>
           ))}

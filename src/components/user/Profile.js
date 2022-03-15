@@ -7,10 +7,11 @@ import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useDispatch } from "react-redux";
+import { uiActions } from "../../store/ui-slice";
 
 export default function Profile() {
+  const dispatch = useDispatch();
   const [user, setUser] = useState({
-    id: "",
     first_name: "",
     last_name: "",
     email: "",
@@ -44,7 +45,14 @@ export default function Profile() {
           setUser(data.user);
         }
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        dispatch(
+          uiActions.showNotification({
+            text: e.message,
+            status: "error",
+          })
+        );
+      });
   }, []);
 
   const handleOnChange = (e) => {

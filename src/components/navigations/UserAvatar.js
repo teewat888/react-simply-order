@@ -11,10 +11,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { authActions, doLogout } from "../../store/auth-slice";
 
 export const UserAvatar = ({ display }) => {
-  const role = useSelector((state) => state.auth.user.role);
-  const username = useSelector((state) => state.auth.user.name);
+  const role = useSelector((state) => state.auth.user.role.name);
+  const username = useSelector((state) => state.auth.user.company_name);
   console.log("username", username);
   const user_id = useSelector((state) => state.auth.user.id);
+  console.log("user_id", user_id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const settings =

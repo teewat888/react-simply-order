@@ -88,7 +88,14 @@ export const ProductForm = (props) => {
           );
         }
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        dispatch(
+          uiActions.showNotification({
+            text: e.message,
+            status: "error",
+          })
+        );
+      });
   };
 
   const handleSubmitEdit = (e) => {
@@ -113,7 +120,14 @@ export const ProductForm = (props) => {
           );
         }
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        dispatch(
+          uiActions.showNotification({
+            text: e.message,
+            status: "error",
+          })
+        );
+      });
   };
 
   return (

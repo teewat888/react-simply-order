@@ -17,13 +17,13 @@ import { useSelector } from "react-redux";
 
 const ResponsiveAppBar = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const role = useSelector((state) => state.auth.user.role);
+  const role = useSelector((state) => state.auth.user.role.name);
 
   let pages = [];
   if (!isLoggedIn) {
     pages = [
-      { name: "Products", link: "/products" },
-      { name: "Create new product", link: "/product/new" },
+      { name: "Help", link: "/products" },
+      { name: "About", link: "/product/new" },
       { name: "Login", link: "/login" },
     ];
   } else {
@@ -31,21 +31,21 @@ const ResponsiveAppBar = () => {
       case "customer":
         pages = [
           { name: "Vendor list", link: "/vendors" },
-          { name: "Create new order", link: "/order/new" },
+          { name: "Help", link: "/order/new" },
           { name: "About", link: "/about" },
         ];
         break;
       case "vendor":
         pages = [
-          { name: "Products", link: "/products" },
-          { name: "Create new product", link: "/product/new" },
+          { name: "Help", link: "/products" },
+          { name: "About", link: "/product/new" },
         ];
         break;
       case "admin":
         pages = [
-          { name: "Products", link: "/products" },
-          { name: "Create new product", link: "/product/new" },
-          { name: "Login", link: "/login" },
+          { name: "Product managment", link: "/products" },
+          { name: "User managment", link: "/product/new" },
+          { name: "Help", link: "/login" },
         ];
         break;
       default:
