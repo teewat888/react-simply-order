@@ -35,7 +35,7 @@ const authSlice = createSlice({
   reducers: {
     login_success(state, action) {
       state.isLoggedIn = true;
-      state.user = user;
+      state.user = action.payload;
       state.isLoading = false;
     },
     login_fail(state) {
@@ -48,10 +48,44 @@ const authSlice = createSlice({
     logout(state) {
       state.isLoggedIn = false;
       localStorage.clear();
+      state.user = {
+        id: null,
+        first_name: "",
+        last_name: "",
+        email: "",
+        company_name: "",
+        address_number: "",
+        address_street: "",
+        address_suburb: "",
+        address_state: "",
+        contact_number: "",
+        auth_token: "",
+        role: {
+          id: null,
+          name: "",
+        },
+      };
     },
     logout_success(state) {
       state.isLoggedIn = false;
       localStorage.clear();
+      state.user = {
+        id: null,
+        first_name: "",
+        last_name: "",
+        email: "",
+        company_name: "",
+        address_number: "",
+        address_street: "",
+        address_suburb: "",
+        address_state: "",
+        contact_number: "",
+        auth_token: "",
+        role: {
+          id: null,
+          name: "",
+        },
+      };
     },
     register(state) {
       state = state;
@@ -67,6 +101,7 @@ export const doLogin = (email, password) => {
         if (data.success) {
           localStorage.setItem("jwt", data.jwt);
           localStorage.setItem("user", JSON.stringify(data.user));
+          console.log("use from storage", localStorage.getItem("user"));
           dispatch(authActions.login_success(data.user));
         } else {
           dispatch(authActions.login_fail());
