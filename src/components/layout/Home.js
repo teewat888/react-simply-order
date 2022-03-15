@@ -10,7 +10,7 @@ export const Home = () => {
   return (
     <>
       <Box sx={{ width: "85%", mt: "1em" }}>
-        <Typography variant="h2">Get order done quick!</Typography>
+        <Typography variant="h3">Get orders done quickly!</Typography>
       </Box>
       {!isLoggedIn && <Login />}
     </>
