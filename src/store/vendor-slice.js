@@ -8,11 +8,16 @@ const vendorSlice = createSlice({
   initialState: {
     vendorList: [],
     isLoading: false,
+    currentVendor: {},
   },
   reducers: {
     setVendors(state, action) {
       state.vendorList = [...action.payload];
       state.isLoading = false;
+    },
+    setCurrentVendor(state, action) {
+      state.currentVendor = action.payload;
+      console.log("current vendor ", state.currentVendor);
     },
     loading(state) {
       state.isLoading = true;
@@ -29,6 +34,24 @@ export const getVendors = () => {
       .then((data) => {
         console.log("fet v here");
         dispatch(vendorActions.setVendors(data.vendors));
+      })
+      .catch((e) => {
+        dispatch(
+          uiActions.showNotification({
+            text: e.message,
+            status: "error",
+          })
+        );
+      });
+  };
+};
+
+export const getAvendor = (vendorId) => {
+  return (dispatch) => {
+    dispatch(vendorActions.loading());
+    DataService.fetchVendor(vendorId)
+      .then((data) => {
+        dispatch(vendorActions.setCurrentVendor(data.vendor));
       })
       .catch((e) => {
         dispatch(

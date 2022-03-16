@@ -75,14 +75,12 @@ export const OrderTemplateForm = (props) => {
       .catch((e) => {
         dispatch(
           uiActions.showNotification({
-            text: e,
+            text: e.message,
             status: "error",
           })
         );
       });
   };
-
-  console.log("current products", currentProduct);
 
   return (
     <>

@@ -3,11 +3,16 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import { useNavigate } from "react-router-dom";
 
-export const UserForm = ({ title, current_user }) => {
+export const UserForm = ({ title, current_user, mode, handleSubmit }) => {
   const [user, setUser] = useState({
     ...current_user,
   });
+  const navigate = useNavigate();
 
   const formItems = [
     { label: "First Name", id: "first_name", value: user.first_name },
@@ -47,6 +52,50 @@ export const UserForm = ({ title, current_user }) => {
               onChange={handleOnChange}
             />
           ))}
+          {mode === "signup" && (
+            <>
+              <TextField
+                InputLabelProps={{ shrink: true }}
+                fullWidth
+                label="Password"
+                id="password"
+                value={user.password}
+                size="small"
+                margin="normal"
+                type="password"
+                onChange={handleOnChange}
+              />
+              <input
+                type="hidden"
+                id="role_id"
+                name="role_id"
+                value={user.role_id}
+              />
+              <Button
+                variant="outlined"
+                sx={{ mt: "1em" }}
+                type="submit"
+                onClick={handleSubmit}
+              >
+                Sign Up
+              </Button>
+              <Button
+                variant="outlined"
+                sx={{ mt: "1em", ml: "1em" }}
+                onClick={() => navigate(-1)}
+              >
+                Cancel
+              </Button>
+              <Grid container sx={{ mt: "1em" }}>
+                <Grid item xs></Grid>
+                <Grid item>
+                  <Link href="/login" variant="body2">
+                    {"Already have an account? Log in"}
+                  </Link>
+                </Grid>
+              </Grid>
+            </>
+          )}
         </Box>
       </Container>
     </>

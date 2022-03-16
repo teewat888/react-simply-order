@@ -6,7 +6,6 @@ import { NoMatch } from "./components/layout/NoMatch";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Login from "./components/auth/Login";
 import VendorList from "./components/vendor/VendorList";
-import ProductList from "./components/product/ProductList";
 import MyProducts from "./components/product/MyProducts";
 import Profile from "./components/user/Profile";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
@@ -80,6 +79,7 @@ function App() {
       ),
     },
     {
+      //  /user/#user_id/order_templates?mode=mytemplates
       path: "/user/:user_id/order_templates/:mode",
       element: (
         <ProtectedRoute isAllow={isLoggedIn}>
@@ -96,7 +96,7 @@ function App() {
       ),
     },
     {
-      path: "/user/:user_id/order/new",
+      path: "/user/:user_id/vendor/:vendor_id/order/new/:template_id",
       element: (
         <ProtectedRoute isAllow={isLoggedIn}>
           <Order />

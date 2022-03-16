@@ -1,15 +1,16 @@
 import { BASE_URL } from "../config/contants";
+import { respFunc } from "./helper";
 
 class DataService {
   //display all products belongs to user
   fetchProducts(userId, mode) {
     return fetch(BASE_URL + `/users/${userId}/products?mode=${mode}`).then(
-      (resp) => resp.json()
+      respFunc
     );
   }
 
   fetchVendors() {
-    return fetch(BASE_URL + `/users/?role_id=2`).then((resp) => resp.json());
+    return fetch(BASE_URL + `/users/?role_id=2`).then(respFunc);
   }
 
   // profile info
@@ -23,9 +24,19 @@ class DataService {
         Authorization: "Bearer " + jwt,
       },
     };
-    return fetch(BASE_URL + "/user/profile", confObj).then((resp) =>
-      resp.json()
-    );
+    return fetch(BASE_URL + "/user/profile", confObj).then(respFunc);
+  }
+  fetchVendor(vendorId) {
+    const jwt = localStorage.getItem("jwt");
+    const confObj = {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        accept: "application/json",
+        Authorization: "Bearer " + jwt,
+      },
+    };
+    return fetch(BASE_URL + `/user/vendor/${vendorId}`, confObj).then(respFunc);
   }
 
   fetchAddProduct(product) {
@@ -51,7 +62,7 @@ class DataService {
     return fetch(
       BASE_URL + `/users/${product.vendor_id}/products`,
       confObj
-    ).then((resp) => resp.json());
+    ).then(respFunc);
   }
 
   fetchEditProduct(product) {
@@ -76,7 +87,7 @@ class DataService {
     return fetch(
       BASE_URL + `/users/${product.vendor_id}/products/${product.id}`,
       confObj
-    ).then((resp) => resp.json());
+    ).then(respFunc);
   }
 
   fetchAddOrderTemplate(name, userId, vendorId, products) {
@@ -99,7 +110,7 @@ class DataService {
     };
     console.log("confobj: ", confObj);
     return fetch(BASE_URL + `/users/${userId}/order_templates`, confObj).then(
-      (resp) => resp.json()
+      respFunc
     );
   }
 
@@ -118,7 +129,23 @@ class DataService {
         ? `${BASE_URL}/users/${userId}/order_templates`
         : `${BASE_URL}/users/${userId}/order_templates?vendor_id=${vendorId}`,
       confObj
-    ).then((resp) => resp.json());
+    ).then(respFunc);
+  }
+
+  fetchAnOrderTemplate(templateId) {
+    const jwt = localStorage.getItem("jwt");
+    const confObj = {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        accept: "application/json",
+        Authorization: "Bearer " + jwt,
+      },
+    };
+    return fetch(
+      BASE_URL + `/user/order_form?template_id=${templateId}`,
+      confObj
+    ).then(respFunc);
   }
 }
 export default new DataService();

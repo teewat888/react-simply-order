@@ -66,10 +66,12 @@ export const OrderTemplate = (props) => {
   }, [mode]);
 
   const handleFabClick = () => {
-    navigate(`/user/${user_id}/vendor/${vendor_id}/order_template/new`);
+    navigate(`/user/${user_id}/vendor/${vendor_id}/order_template/new`); // to <OrderTemplateForm />
   };
 
-  const handleClick = () => {};
+  const handleClick = (template_id, vendor_id) => {
+    navigate(`/user/${user_id}/vendor/${vendor_id}/order/new/${template_id}`); //to <Order/>
+  };
   return (
     <>
       <Box sx={{ width: "90%", bgcolor: "background.paper" }}>
@@ -85,7 +87,7 @@ export const OrderTemplate = (props) => {
                 size="small"
                 variant="outlined"
                 color="primary"
-                onClick={() => handleClick(template.id)}
+                onClick={() => handleClick(template.id, template.vendor_id)}
               />
             </ListItemButton>
           ))}

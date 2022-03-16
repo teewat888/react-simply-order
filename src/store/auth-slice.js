@@ -24,7 +24,6 @@ let user = JSON.parse(localStorage.getItem("user"))
         name: "",
       },
     };
-
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -34,8 +33,10 @@ const authSlice = createSlice({
   },
   reducers: {
     login_success(state, action) {
+      localStorage.setItem("jwt", action.payload.jwt);
+      localStorage.setItem("user", JSON.stringify(action.payload.user));
       state.isLoggedIn = true;
-      state.user = action.payload;
+      state.user = action.payload.user;
       state.isLoading = false;
     },
     login_fail(state) {
@@ -99,10 +100,7 @@ export const doLogin = (email, password) => {
     AuthService.fetchLogin(email, password)
       .then((data) => {
         if (data.success) {
-          localStorage.setItem("jwt", data.jwt);
-          localStorage.setItem("user", JSON.stringify(data.user));
-          console.log("use from storage", localStorage.getItem("user"));
-          dispatch(authActions.login_success(data.user));
+          dispatch(authActions.login_success(data));
         } else {
           dispatch(authActions.login_fail());
           dispatch(
@@ -123,6 +121,41 @@ export const doLogin = (email, password) => {
       });
   };
 };
+
+export const doSignup = (data) => {
+  return (dispatch) => {
+    dispatch(authActions.loading());
+    AuthService.fetchSignup(data)
+      .then((data) => {
+        if (data.success) {
+          dispatch(authActions.login_success(data));
+          dispatch(
+            uiActions.showNotification({
+              text: "Successfully sign up.",
+              status: "success",
+            })
+          );
+        } else {
+          dispatch(authActions.login_fail());
+          dispatch(
+            uiActions.showNotification({
+              text: "There is an error to sign up.",
+              status: "error",
+            })
+          );
+        }
+      })
+      .catch((e) => {
+        dispatch(
+          uiActions.showNotification({
+            text: e.message,
+            status: "error",
+          })
+        );
+      });
+  };
+};
+
 export const doLogout = () => {
   return (dispatch) => {
     AuthService.fetchLogout()
