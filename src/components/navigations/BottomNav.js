@@ -48,7 +48,7 @@ export default function SimpleBottomNavigation() {
           }}
         />
         <BottomNavigationAction
-          label="Shopping Lists"
+          label="Bag"
           icon={<LocalMallIcon />}
           onClick={() => {
             navigate("/");

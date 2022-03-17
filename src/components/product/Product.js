@@ -3,9 +3,6 @@ import React, { useEffect, useState } from "react";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import TextField from "@mui/material/TextField";
-import SearchIcon from "@mui/icons-material/Search";
-import InputAdornment from "@mui/material/InputAdornment";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
@@ -13,6 +10,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
+import { SearchBox } from "../form/SearchBox";
 
 export const Product = ({ products }) => {
   const navigate = useNavigate();
@@ -54,22 +52,7 @@ export const Product = ({ products }) => {
   console.log("product_res: outside loop: ", productResult);
   return (
     <>
-      {/* <Typography variant="h6">Products</Typography> */}
-      <TextField
-        id="search"
-        label=""
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          ),
-        }}
-        onChange={handleSearch}
-        variant="standard"
-        value={searchTerm}
-        sx={{ mt: "1em" }}
-      />
+      <SearchBox handleSearch={handleSearch} searchTerm={searchTerm} />
       <FormGroup>
         <FormControlLabel
           control={

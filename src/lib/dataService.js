@@ -133,6 +133,7 @@ class DataService {
   }
 
   fetchAnOrderTemplate(templateId) {
+    //fetch one template for ordering purpose
     const jwt = localStorage.getItem("jwt");
     const confObj = {
       method: "GET",
