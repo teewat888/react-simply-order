@@ -13,6 +13,11 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export const Order = (props) => {
   const { user_id, vendor_id, template_id } = useParams();
@@ -21,11 +26,17 @@ export const Order = (props) => {
   const currentVendor = useSelector((state) => state.vendor.currentVendor);
   const orderDetails = useSelector((state) => state.order.orderDetails);
   console.log("order details: ", orderDetails);
-
+  const [expanded, setExpanded] = React.useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+
   const handleSearch = (e) => {
     setSearchTerm(e.target.value.toLowerCase());
   };
+
+  const handleExpand = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+
   useEffect(() => {
     dispatch(getAvendor(vendor_id));
     dataService
@@ -59,33 +70,52 @@ export const Order = (props) => {
   return (
     <>
       <Box sx={{ width: "90%", bgcolor: "background.paper" }}>
-        <TextField
-          label="Order date"
+        <Accordion
+          expanded={expanded === "panel1"}
+          onChange={handleExpand("panel1")}
           sx={{ mt: "1em" }}
-          InputLabelProps={{ shrink: true }}
-          size="small"
-          fullWidth
-          type="date"
-        />
-        <TextField
-          label="Delivery date"
-          sx={{ mt: "1em" }}
-          InputLabelProps={{ shrink: true }}
-          size="small"
-          fullWidth
-          type="date"
-        />
-        {orderHeading.map((h, i) => (
-          <TextField
-            key={i}
-            label={h.label}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1bh-content"
+            id="panel1bh-header"
             sx={{ mt: "1em" }}
-            value={h.value}
-            InputLabelProps={{ shrink: true }}
-            size="small"
-            fullWidth
-          />
-        ))}
+          >
+            <Typography sx={{ width: "100%", flexShrink: 0 }}>
+              Order Information
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <TextField
+              label="Order date"
+              sx={{ mt: "1em" }}
+              InputLabelProps={{ shrink: true }}
+              size="small"
+              fullWidth
+              type="date"
+            />
+            <TextField
+              label="Delivery date"
+              sx={{ mt: "1em" }}
+              InputLabelProps={{ shrink: true }}
+              size="small"
+              fullWidth
+              type="date"
+            />
+            {orderHeading.map((h, i) => (
+              <TextField
+                key={i}
+                label={h.label}
+                sx={{ mt: "1em" }}
+                value={h.value}
+                InputLabelProps={{ shrink: true }}
+                size="small"
+                fullWidth
+              />
+            ))}
+          </AccordionDetails>
+        </Accordion>
+
         <TextField
           id="search"
           label=""
