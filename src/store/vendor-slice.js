@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import DataService from "../lib/dataService";
+import { errCatch } from "../lib/helper";
 import { authActions } from "./auth-slice";
 import { uiActions } from "./ui-slice";
 
@@ -35,14 +36,7 @@ export const getVendors = () => {
         console.log("fet v here");
         dispatch(vendorActions.setVendors(data.vendors));
       })
-      .catch((e) => {
-        dispatch(
-          uiActions.showNotification({
-            text: e.message,
-            status: "error",
-          })
-        );
-      });
+      .catch(errCatch);
   };
 };
 
@@ -53,14 +47,7 @@ export const getAvendor = (vendorId) => {
       .then((data) => {
         dispatch(vendorActions.setCurrentVendor(data.vendor));
       })
-      .catch((e) => {
-        dispatch(
-          uiActions.showNotification({
-            text: e.message,
-            status: "error",
-          })
-        );
-      });
+      .catch(errCatch);
   };
 };
 

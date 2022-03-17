@@ -13,6 +13,7 @@ import Box from "@mui/material/Box";
 import dataService from "../../lib/dataService";
 import { uiActions } from "../../store/ui-slice";
 import { delay } from "../../utils/delay";
+import { errCatch } from "../../lib/helper";
 
 export const OrderTemplateForm = (props) => {
   const { user_id, vendor_id } = useParams();
@@ -72,14 +73,7 @@ export const OrderTemplateForm = (props) => {
           );
         }
       })
-      .catch((e) => {
-        dispatch(
-          uiActions.showNotification({
-            text: e.message,
-            status: "error",
-          })
-        );
-      });
+      .catch(errCatch);
   };
 
   return (

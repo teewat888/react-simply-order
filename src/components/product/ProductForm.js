@@ -14,6 +14,7 @@ import Stack from "@mui/material/Stack";
 import { uiActions } from "../../store/ui-slice";
 import Checkbox from "@mui/material/Checkbox";
 import { delay } from "../../utils/delay";
+import { errCatch } from "../../lib/helper";
 
 export const ProductForm = (props) => {
   const products = useSelector((state) => state.product.productList);
@@ -118,14 +119,7 @@ export const ProductForm = (props) => {
           );
         }
       })
-      .catch((e) => {
-        dispatch(
-          uiActions.showNotification({
-            text: e.message,
-            status: "error",
-          })
-        );
-      });
+      .catch(errCatch);
   };
 
   return (

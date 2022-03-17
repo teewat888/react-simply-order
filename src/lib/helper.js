@@ -6,3 +6,8 @@ export const respFunc = (resp) => {
   }
   return resp.json();
 };
+
+export const errCatch = (e) => {
+  console.log("error: ", e.message);
+  localStorage.clear();
+};

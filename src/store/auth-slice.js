@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import AuthService from "../lib/authService";
+import { errCatch } from "../lib/helper";
 import { uiActions } from "./ui-slice";
 
 let logFlag = localStorage.getItem("jwt") ? true : false;
@@ -90,14 +91,7 @@ export const doLogin = (email, password) => {
           );
         }
       })
-      .catch((e) => {
-        dispatch(
-          uiActions.showNotification({
-            text: e.message,
-            status: "error",
-          })
-        );
-      });
+      .catch(errCatch);
   };
 };
 
@@ -124,14 +118,7 @@ export const doSignup = (data) => {
           );
         }
       })
-      .catch((e) => {
-        dispatch(
-          uiActions.showNotification({
-            text: e.message,
-            status: "error",
-          })
-        );
-      });
+      .catch(errCatch);
   };
 };
 
@@ -150,14 +137,7 @@ export const doLogout = () => {
           );
         }
       })
-      .catch((e) => {
-        dispatch(
-          uiActions.showNotification({
-            text: e.message,
-            status: "error",
-          })
-        );
-      });
+      .catch(errCatch);
   };
 };
 

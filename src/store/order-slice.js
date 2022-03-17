@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import DataService from "../lib/dataService";
+import { errCatch } from "../lib/helper";
 import { authActions } from "./auth-slice";
 
 const orderSlice = createSlice({
@@ -8,19 +9,18 @@ const orderSlice = createSlice({
     orderDetails: [],
     isLoading: false,
     order: {
-      order: {
-        order_date: "",
-        delivery_date: "",
-        order_ref: "",
-        comment: "",
-        user_id: null,
-        vendor_id: null,
-        order_details: [],
-      },
+      order_date: "",
+      delivery_date: "",
+      order_ref: "",
+      comment: "",
+      user_id: null,
+      vendor_id: null,
+      order_details: [],
     },
+    changed: false,
   },
   reducers: {
-    setOrder(state, action) {
+    setOrderDetails(state, action) {
       state.orderDetails = [...action.payload];
       state.isLoading = false;
     },
@@ -29,6 +29,14 @@ const orderSlice = createSlice({
     },
   },
 });
+
+export const sendData = () => {
+  return (dispatch) => {
+    DataService.fetchVendor()
+      .then((data) => {})
+      .catch(errCatch);
+  };
+};
 
 export const orderActions = orderSlice.actions;
 

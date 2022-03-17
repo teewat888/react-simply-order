@@ -13,6 +13,7 @@ import { uiActions } from "../../store/ui-slice";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import { Typography } from "@mui/material";
+import { errCatch } from "../../lib/helper";
 
 export const OrderTemplate = (props) => {
   const navigate = useNavigate();
@@ -38,14 +39,7 @@ export const OrderTemplate = (props) => {
         .then((data) => {
           setTemplates(data.templates);
         })
-        .catch((e) => {
-          dispatch(
-            uiActions.showNotification({
-              text: e.message,
-              status: "error",
-            })
-          );
-        });
+        .catch(errCatch);
     } else {
       dispatch(getProducts(vendor_id, "template"));
       dataService
@@ -53,14 +47,7 @@ export const OrderTemplate = (props) => {
         .then((data) => {
           setTemplates(data.templates);
         })
-        .catch((e) => {
-          dispatch(
-            uiActions.showNotification({
-              text: e.message,
-              status: "error",
-            })
-          );
-        });
+        .catch(errCatch);
     }
     return () => {};
   }, [mode]);

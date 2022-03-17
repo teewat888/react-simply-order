@@ -15,6 +15,7 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { SearchBox } from "../form/SearchBox";
 import { OrderForm } from "./OrderForm";
+import { errCatch } from "../../lib/helper";
 
 export const Order = (props) => {
   const { user_id, vendor_id, template_id } = useParams();
@@ -53,17 +54,11 @@ export const Order = (props) => {
     dataService
       .fetchAnOrderTemplate(template_id)
       .then((data) => {
-        dispatch(orderActions.setOrder(data.products));
+        dispatch(orderActions.setOrderDetails(data.products));
       })
-      .catch((e) =>
-        dispatch(
-          uiActions.showNotification({
-            text: e.message + "-order.js",
-            status: "error",
-          })
-        )
-      );
+      .catch(errCatch);
   }, [dispatch]);
+
   const orderHeading = [
     {
       label: "Supplier",

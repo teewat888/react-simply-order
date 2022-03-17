@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import DataService from "../lib/dataService";
+import { errCatch } from "../lib/helper";
 import { authActions } from "./auth-slice";
 import { uiActions } from "./ui-slice";
 
@@ -27,14 +28,7 @@ export const getProducts = (userId, mode) => {
       .then((data) => {
         dispatch(productActions.setProducts(data.products));
       })
-      .catch((e) => {
-        dispatch(
-          uiActions.showNotification({
-            text: e.message,
-            status: "error",
-          })
-        );
-      });
+      .catch(errCatch);
   };
 };
 
