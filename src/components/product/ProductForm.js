@@ -67,7 +67,6 @@ export const ProductForm = (props) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("press add");
     DataService.fetchAddProduct(product)
       .then((data) => {
         if (data.success) {
@@ -100,7 +99,6 @@ export const ProductForm = (props) => {
 
   const handleSubmitEdit = (e) => {
     e.preventDefault();
-    console.log("press update");
     DataService.fetchEditProduct(product)
       .then((data) => {
         if (data.success) {

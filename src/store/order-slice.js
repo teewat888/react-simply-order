@@ -7,6 +7,17 @@ const orderSlice = createSlice({
   initialState: {
     orderDetails: [],
     isLoading: false,
+    order: {
+      order: {
+        order_date: "",
+        delivery_date: "",
+        order_ref: "",
+        comment: "",
+        user_id: null,
+        vendor_id: null,
+        order_details: [],
+      },
+    },
   },
   reducers: {
     setOrder(state, action) {
