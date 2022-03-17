@@ -23,13 +23,15 @@ import SignUp from "./components/auth/SignUp";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const jwt = localStorage.getItem("jwt");
   const userRole = useSelector((state) => state.auth.user.role.name);
   const user_id = useSelector((state) => state.auth.user.id);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  console.log("logged in status ", isLoggedIn);
+  console.log("jwt in sotrage ", jwt);
   const handleUnAuth = () => {
-    dispatch(authActions.logout()); // as jwt expire reset state at client
+    dispatch(authActions.logout_success()); // as jwt expire reset state at client
   };
 
   useEffect(() => {

@@ -33,7 +33,7 @@ const authSlice = createSlice({
   },
   reducers: {
     login_success(state, action) {
-      localStorage.setItem("jwt", action.payload.jwt);
+      // localStorage.setItem("jwt", action.payload.jwt);
       localStorage.setItem("user", JSON.stringify(action.payload.user));
       state.isLoggedIn = true;
       state.user = action.payload.user;
@@ -45,27 +45,6 @@ const authSlice = createSlice({
     },
     loading(state) {
       state.isLoading = true;
-    },
-    logout(state) {
-      state.isLoggedIn = false;
-      localStorage.clear();
-      state.user = {
-        id: null,
-        first_name: "",
-        last_name: "",
-        email: "",
-        company_name: "",
-        address_number: "",
-        address_street: "",
-        address_suburb: "",
-        address_state: "",
-        contact_number: "",
-        auth_token: "",
-        role: {
-          id: null,
-          name: "",
-        },
-      };
     },
     logout_success(state) {
       state.isLoggedIn = false;
