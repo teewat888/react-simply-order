@@ -7,6 +7,28 @@ export const respFunc = (resp) => {
   return resp.json();
 };
 
+export const confObjAuth = (method) => {
+  return {
+    method: `${method}`,
+    headers: {
+      "content-type": "application/json",
+      accept: "application/json",
+      Authorization: "Bearer " + localStorage.getItem("jwt"),
+    },
+  };
+};
+export const confObjAuthwithBody = (method, body) => {
+  return {
+    method: `${method}`,
+    headers: {
+      "content-type": "application/json",
+      accept: "application/json",
+      Authorization: "Bearer " + localStorage.getItem("jwt"),
+    },
+    body: body,
+  };
+};
+
 export const errCatch = (e) => {
   console.log("error: ", e.message);
   localStorage.clear();

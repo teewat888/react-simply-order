@@ -1,5 +1,5 @@
 import { BASE_URL } from "../config/contants";
-import { respFunc } from "./helper";
+import { confObjAuth, confObjAuthwithBody, respFunc } from "./helper";
 
 class DataService {
   //display all products belongs to user
@@ -15,138 +15,93 @@ class DataService {
 
   // profile info
   fetchProfile() {
-    const jwt = localStorage.getItem("jwt");
-    const confObj = {
-      method: "GET",
-      headers: {
-        "content-type": "application/json",
-        accept: "application/json",
-        Authorization: "Bearer " + jwt,
-      },
-    };
-    return fetch(BASE_URL + "/user/profile", confObj).then(respFunc);
+    return fetch(BASE_URL + "/user/profile", confObjAuth("GET")).then(respFunc);
   }
+
   fetchVendor(vendorId) {
-    const jwt = localStorage.getItem("jwt");
-    const confObj = {
-      method: "GET",
-      headers: {
-        "content-type": "application/json",
-        accept: "application/json",
-        Authorization: "Bearer " + jwt,
-      },
-    };
-    return fetch(BASE_URL + `/user/vendor/${vendorId}`, confObj).then(respFunc);
+    return fetch(
+      BASE_URL + `/user/vendor/${vendorId}`,
+      confObjAuth("GET")
+    ).then(respFunc);
   }
 
   fetchAddProduct(product) {
-    const jwt = localStorage.getItem("jwt");
-    const confObj = {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        accept: "application/json",
-        Authorization: "Bearer " + jwt,
+    const body = JSON.stringify({
+      product: {
+        name: product.name,
+        brand: product.brand,
+        unit: product.unit,
+        available: product.available,
+        vendor_id: product.vendor_id,
       },
-      body: JSON.stringify({
-        product: {
-          name: product.name,
-          brand: product.brand,
-          unit: product.unit,
-          available: product.available,
-          vendor_id: product.vendor_id,
-        },
-      }),
-    };
-    console.log("confobj: ", confObj);
+    });
     return fetch(
       BASE_URL + `/users/${product.vendor_id}/products`,
-      confObj
+      confObjAuthwithBody("POST", body)
     ).then(respFunc);
   }
 
   fetchEditProduct(product) {
-    const jwt = localStorage.getItem("jwt");
-    const confObj = {
-      method: "PATCH",
-      headers: {
-        "content-type": "application/json",
-        accept: "application/json",
-        Authorization: "Bearer " + jwt,
+    const body = JSON.stringify({
+      product: {
+        name: product.name,
+        brand: product.brand,
+        unit: product.unit,
+        available: product.available,
       },
-      body: JSON.stringify({
-        product: {
-          name: product.name,
-          brand: product.brand,
-          unit: product.unit,
-          available: product.available,
-        },
-      }),
-    };
-    console.log("confobj: ", confObj);
+    });
     return fetch(
       BASE_URL + `/users/${product.vendor_id}/products/${product.id}`,
-      confObj
+      confObjAuthwithBody("PATCH", body)
     ).then(respFunc);
   }
 
   fetchAddOrderTemplate(name, userId, vendorId, products) {
-    const jwt = localStorage.getItem("jwt");
-    const confObj = {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        accept: "application/json",
-        Authorization: "Bearer " + jwt,
+    const body = JSON.stringify({
+      order_template: {
+        user_id: userId,
+        vendor_id: vendorId,
+        name: name,
+        products: products,
       },
-      body: JSON.stringify({
-        order_template: {
-          user_id: userId,
-          vendor_id: vendorId,
-          name: name,
-          products: products,
-        },
-      }),
-    };
-    console.log("confobj: ", confObj);
-    return fetch(BASE_URL + `/users/${userId}/order_templates`, confObj).then(
-      respFunc
-    );
+    });
+    return fetch(
+      BASE_URL + `/users/${userId}/order_templates`,
+      confObjAuthwithBody("POST", body)
+    ).then(respFunc);
   }
 
   fetchOrderTemplate(userId, vendorId) {
-    const jwt = localStorage.getItem("jwt");
-    const confObj = {
-      method: "GET",
-      headers: {
-        "content-type": "application/json",
-        accept: "application/json",
-        Authorization: "Bearer " + jwt,
-      },
-    };
     return fetch(
       vendorId === null
         ? `${BASE_URL}/users/${userId}/order_templates`
         : `${BASE_URL}/users/${userId}/order_templates?vendor_id=${vendorId}`,
-      confObj
+      confObjAuth("GET")
     ).then(respFunc);
   }
 
   fetchAnOrderTemplate(templateId) {
-    //fetch one template for ordering purpose
-    const jwt = localStorage.getItem("jwt");
-    const confObj = {
-      method: "GET",
-      headers: {
-        "content-type": "application/json",
-        accept: "application/json",
-        Authorization: "Bearer " + jwt,
-      },
-    };
     return fetch(
       BASE_URL + `/user/order_form?template_id=${templateId}`,
-      confObj
+      confObjAuth("GET")
     ).then(respFunc);
   }
+
+  // fetchAddOrder(vendorId) {
+  //   //fetch add order
+  //   const jwt = localStorage.getItem("jwt");
+  //   const confObj = {
+  //     method: "POST",
+  //     headers: {
+  //       "content-type": "application/json",
+  //       accept: "application/json",
+  //       Authorization: "Bearer " + jwt,
+  //     },
+  //   };
+  //   return fetch(
+  //     BASE_URL + `/user/order_form?template_id=${templateId}`,
+  //     confObj
+  //   ).then(respFunc);
+  // }
 }
 export default new DataService();
