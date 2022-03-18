@@ -12,8 +12,9 @@ import ListItemButton from "@mui/material/ListItemButton";
 import Box from "@mui/material/Box";
 import dataService from "../../lib/dataService";
 import { uiActions } from "../../store/ui-slice";
-import { delay } from "../../utils/delay";
+
 import { errCatch } from "../../lib/helper";
+import { createTemplate } from "../../store/template-slice";
 
 export const OrderTemplateForm = (props) => {
   const { user_id, vendor_id } = useParams();
@@ -21,7 +22,9 @@ export const OrderTemplateForm = (props) => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.productList);
   const vendor = useSelector((state) => state.vendor.vendorList);
+  const finishCreate = useSelector((state) => state.template.createdSuccess);
   let company_name = "";
+  //get company name
   if (vendor.length > 0) {
     const [vendor_detail] = vendor.filter((v) => v.id === parseInt(vendor_id));
     company_name = vendor_detail.company_name;
@@ -34,6 +37,12 @@ export const OrderTemplateForm = (props) => {
     dispatch(getProducts(vendor_id, "template"));
     setCurrentProduct([...products]);
   }, [dispatch]);
+
+  useEffect(() => {
+    if (finishCreate) {
+      navigate(-1);
+    }
+  }, [finishCreate]);
 
   const handleOnChange = (e) => {
     //handle check boxes
@@ -53,27 +62,7 @@ export const OrderTemplateForm = (props) => {
   };
 
   const handleCreateTemplate = (e) => {
-    dataService
-      .fetchAddOrderTemplate(templateName, user_id, vendor_id, currentProduct)
-      .then((data) => {
-        if (data.success) {
-          dispatch(
-            uiActions.showNotification({
-              text: "Order template created.",
-              status: "success",
-            })
-          );
-          delay(1500).then(() => navigate(-1));
-        } else {
-          dispatch(
-            uiActions.showNotification({
-              text: "Error when creating order template.",
-              status: "error",
-            })
-          );
-        }
-      })
-      .catch(errCatch);
+    dispatch(createTemplate(templateName, user_id, vendor_id, currentProduct));
   };
 
   return (

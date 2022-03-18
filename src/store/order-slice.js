@@ -24,6 +24,10 @@ const orderSlice = createSlice({
       state.orderDetails = [...action.payload];
       state.isLoading = false;
     },
+    setOrder(state, action) {
+      state.order = [...action.payload];
+      state.isLoading = false;
+    },
     loading(state) {
       state.isLoading = true;
     },

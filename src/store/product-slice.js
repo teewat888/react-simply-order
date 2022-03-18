@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import DataService from "../lib/dataService";
 import { errCatch } from "../lib/helper";
-import { authActions } from "./auth-slice";
-import { uiActions } from "./ui-slice";
 
 const productSlice = createSlice({
   name: "product",

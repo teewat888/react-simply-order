@@ -87,21 +87,12 @@ class DataService {
     ).then(respFunc);
   }
 
-  // fetchAddOrder(vendorId) {
-  //   //fetch add order
-  //   const jwt = localStorage.getItem("jwt");
-  //   const confObj = {
-  //     method: "POST",
-  //     headers: {
-  //       "content-type": "application/json",
-  //       accept: "application/json",
-  //       Authorization: "Bearer " + jwt,
-  //     },
-  //   };
-  //   return fetch(
-  //     BASE_URL + `/user/order_form?template_id=${templateId}`,
-  //     confObj
-  //   ).then(respFunc);
-  // }
+  fetchAddOrder(userId, vendorId, templateId) {
+    return fetch(
+      BASE_URL +
+        `/user/order_form?template_id=${templateId}&user_id=${userId}&vendor_id=${vendorId}`,
+      confObjAuth("GET")
+    ).then(respFunc);
+  }
 }
 export default new DataService();

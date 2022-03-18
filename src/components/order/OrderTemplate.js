@@ -14,12 +14,14 @@ import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import { Typography } from "@mui/material";
 import { errCatch } from "../../lib/helper";
+import { getTemplates } from "../../store/template-slice";
 
 export const OrderTemplate = (props) => {
   const navigate = useNavigate();
   const { vendor_id, mode } = useParams(); // get mode to distinct own template and company template
   const dispatch = useDispatch();
-  const [templates, setTemplates] = useState([]);
+  //const [templates, setTemplates] = useState([]);
+  const templateList = useSelector((state) => state.template.templateList);
 
   console.log("vendor_id in orderTemplate, ", vendor_id);
   const user_id = useSelector((state) => state.auth.user.id);
@@ -34,20 +36,18 @@ export const OrderTemplate = (props) => {
 
   useEffect(() => {
     if (mode === "mytemplates") {
-      dataService
-        .fetchOrderTemplate(user_id, null)
-        .then((data) => {
-          setTemplates(data.templates);
-        })
-        .catch(errCatch);
+      dispatch(getTemplates(user_id, null));
+      //setTemplates(templateList);
     } else {
       dispatch(getProducts(vendor_id, "template"));
-      dataService
-        .fetchOrderTemplate(user_id, vendor_id)
-        .then((data) => {
-          setTemplates(data.templates);
-        })
-        .catch(errCatch);
+      dispatch(getTemplates(user_id, vendor_id));
+      //setTemplates(templateList);
+      // dataService
+      //   .fetchOrderTemplate(user_id, vendor_id)
+      //   .then((data) => {
+      //     setTemplates(data.templates);
+      //   })
+      //   .catch(errCatch);
     }
     return () => {};
   }, [mode]);
@@ -66,7 +66,7 @@ export const OrderTemplate = (props) => {
           <ListItemText>
             <Typography variant="h6">Order Template</Typography>
           </ListItemText>
-          {templates.map((template) => (
+          {templateList.map((template) => (
             <ListItemButton key={template.id}>
               <ListItemText>{template.name}</ListItemText>
               <Chip

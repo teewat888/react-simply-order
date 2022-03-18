@@ -125,17 +125,8 @@ export const doSignup = (data) => {
 export const doLogout = () => {
   return (dispatch) => {
     AuthService.fetchLogout()
-      .then((data) => {
-        if (data.success) {
-          dispatch(authActions.logout_success());
-        } else {
-          dispatch(
-            uiActions.showNotification({
-              text: "Error: can not sign out this time",
-              status: "error",
-            })
-          );
-        }
+      .then(() => {
+        dispatch(authActions.logout_success());
       })
       .catch(errCatch);
   };
