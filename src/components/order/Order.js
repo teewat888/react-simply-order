@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import dataService from "../../lib/dataService";
-import { orderActions } from "../../store/order-slice";
-import { uiActions } from "../../store/ui-slice";
 import { getAvendor } from "../../store/vendor-slice";
 import List from "@mui/material/List";
 import Box from "@mui/material/Box";
@@ -15,16 +12,15 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { SearchBox } from "../form/SearchBox";
 import { OrderForm } from "./OrderForm";
-import { errCatch } from "../../lib/helper";
 
 export const Order = (props) => {
-  const { user_id, vendor_id, template_id } = useParams();
+  //const { user_id, vendor_id, template_id } = useParams();
   const dispatch = useDispatch();
-
   const currentVendor = useSelector((state) => state.vendor.currentVendor);
-  const orderDetailsOrg = useSelector((state) => state.order.orderDetails);
+
+  const order = useSelector((state) => state.order.order);
+  const orderDetailsOrg = order.order_details;
   const [orderDetails, setOrderDetails] = useState(orderDetailsOrg);
-  console.log("order details: ", orderDetails);
   const [expanded, setExpanded] = React.useState(false); //accordian state
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -50,14 +46,16 @@ export const Order = (props) => {
   };
 
   useEffect(() => {
-    dispatch(getAvendor(vendor_id));
-    dataService
-      .fetchAnOrderTemplate(template_id)
-      .then((data) => {
-        dispatch(orderActions.setOrderDetails(data.products));
-      })
-      .catch(errCatch);
-  }, [dispatch]);
+    // dispatch(getAvendor(vendor_id));
+    // dataService
+    //   .fetchAddOrder(user_id, vendor_id, template_id)
+    //   .then((data) => {
+    //     if (data.success) {
+    //       dispatch(orderActions.setOrder(data));
+    //     }
+    //   })
+    //   .catch(errCatch);
+  }, []);
 
   const orderHeading = [
     {
@@ -66,11 +64,11 @@ export const Order = (props) => {
     },
     {
       label: "Order Reference",
-      value: currentVendor.company_name,
+      value: order.order_ref,
     },
     {
       label: "Comments",
-      value: currentVendor.company_name,
+      value: order.comment,
     },
   ];
   return (
@@ -99,6 +97,7 @@ export const Order = (props) => {
               size="small"
               fullWidth
               type="date"
+              value={order.order_date}
             />
             <TextField
               label="Delivery date"
@@ -107,6 +106,7 @@ export const Order = (props) => {
               size="small"
               fullWidth
               type="date"
+              value={order.delivery_date}
             />
             {orderHeading.map((h, i) => (
               <TextField

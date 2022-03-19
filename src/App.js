@@ -20,6 +20,7 @@ import { OrderTemplate } from "./components/order/OrderTemplate";
 import { OrderTemplateForm } from "./components/order/OrderTemplateForm";
 import { Order } from "./components/order/Order";
 import SignUp from "./components/auth/SignUp";
+import { MyOrder } from "./components/order/MyOrder";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -98,10 +99,19 @@ function App() {
       ),
     },
     {
-      path: "/user/:user_id/vendor/:vendor_id/order/new/:template_id",
+      //path: "/user/:user_id/vendor/:vendor_id/order/new/:template_id",
+      path: "/user/order/new",
       element: (
         <ProtectedRoute isAllow={isLoggedIn}>
           <Order />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "customer/orders",
+      element: (
+        <ProtectedRoute isAllow={isLoggedIn}>
+          <MyOrder />
         </ProtectedRoute>
       ),
     },

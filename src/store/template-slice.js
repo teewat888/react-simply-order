@@ -61,7 +61,6 @@ export const createTemplate = (
             })
           );
           delay(1500).then(() => dispatch(templateActions.finishCreated()));
-          dispatch(templateActions.startCreate());
         } else {
           dispatch(
             uiActions.showNotification({
@@ -70,6 +69,7 @@ export const createTemplate = (
             })
           );
         }
+        dispatch(templateActions.startCreate());
       })
       .catch(errCatch);
   };

@@ -5,16 +5,12 @@ import { getProducts } from "../../store/product-slice";
 import Checkbox from "@mui/material/Checkbox";
 import { Button, TextField } from "@mui/material";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import Divider from "@mui/material/Divider";
 import ListItemButton from "@mui/material/ListItemButton";
 import Box from "@mui/material/Box";
-import dataService from "../../lib/dataService";
-import { uiActions } from "../../store/ui-slice";
-
-import { errCatch } from "../../lib/helper";
 import { createTemplate } from "../../store/template-slice";
+
+// This component take care of each product to be enable in each template
 
 export const OrderTemplateForm = (props) => {
   const { user_id, vendor_id } = useParams();
@@ -22,6 +18,7 @@ export const OrderTemplateForm = (props) => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.productList);
   const vendor = useSelector((state) => state.vendor.vendorList);
+  // flag to be set once order just create to redirect once finish created template
   const finishCreate = useSelector((state) => state.template.createdSuccess);
   let company_name = "";
   //get company name

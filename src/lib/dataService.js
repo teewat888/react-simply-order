@@ -94,5 +94,11 @@ class DataService {
       confObjAuth("GET")
     ).then(respFunc);
   }
+
+  fetchOrders(userId) {
+    return fetch(BASE_URL + `/users/${userId}/orders`, confObjAuth("GET")).then(
+      respFunc
+    );
+  }
 }
 export default new DataService();

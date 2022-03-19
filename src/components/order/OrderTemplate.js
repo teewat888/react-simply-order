@@ -5,24 +5,27 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../../store/product-slice";
 import List from "@mui/material/List";
-import IconButton from "@mui/material/IconButton";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import dataService from "../../lib/dataService";
-import { uiActions } from "../../store/ui-slice";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
-import { Typography } from "@mui/material";
-import { errCatch } from "../../lib/helper";
+import Typography from "@mui/material/Typography";
 import { getTemplates } from "../../store/template-slice";
+import { createOrder } from "../../store/order-slice";
+import { orderActions } from "../../store/order-slice";
+
+//this component responsible for own template list and vender template list
 
 export const OrderTemplate = (props) => {
   const navigate = useNavigate();
   const { vendor_id, mode } = useParams(); // get mode to distinct own template and company template
+  console.log("mode->", mode);
   const dispatch = useDispatch();
   //const [templates, setTemplates] = useState([]);
   const templateList = useSelector((state) => state.template.templateList);
 
+  const orderCreated = useSelector((state) => state.order.createdSuccess);
+  console.log("orderCreated->", orderCreated);
   console.log("vendor_id in orderTemplate, ", vendor_id);
   const user_id = useSelector((state) => state.auth.user.id);
   const style = {
@@ -35,19 +38,18 @@ export const OrderTemplate = (props) => {
   };
 
   useEffect(() => {
+    if (orderCreated) {
+      navigate("/user/order/new");
+      dispatch(orderActions.startCreate());
+    }
+  }, [orderCreated]);
+
+  useEffect(() => {
     if (mode === "mytemplates") {
       dispatch(getTemplates(user_id, null));
-      //setTemplates(templateList);
     } else {
       dispatch(getProducts(vendor_id, "template"));
       dispatch(getTemplates(user_id, vendor_id));
-      //setTemplates(templateList);
-      // dataService
-      //   .fetchOrderTemplate(user_id, vendor_id)
-      //   .then((data) => {
-      //     setTemplates(data.templates);
-      //   })
-      //   .catch(errCatch);
     }
     return () => {};
   }, [mode]);
@@ -57,7 +59,9 @@ export const OrderTemplate = (props) => {
   };
 
   const handleClick = (template_id, vendor_id) => {
-    navigate(`/user/${user_id}/vendor/${vendor_id}/order/new/${template_id}`); //to <Order/>
+    //handle to create new order
+    dispatch(createOrder(user_id, vendor_id, template_id));
+    //navigate(`/user/${user_id}/vendor/${vendor_id}/order/new/${template_id}`); //to <Order/>
   };
   return (
     <>
