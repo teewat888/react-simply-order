@@ -3,6 +3,7 @@ import DataService from "../lib/dataService";
 import { errCatch } from "../lib/helper";
 import { delay } from "../utils/delay";
 import { uiActions } from "./ui-slice";
+import { getAvendor } from "./vendor-slice";
 
 const orderSlice = createSlice({
   name: "order",
@@ -18,6 +19,7 @@ const orderSlice = createSlice({
       vendor_id: null,
       order_details: [],
       success: null,
+      id: null,
     },
     changed: false,
     createdSuccess: false,
@@ -31,7 +33,11 @@ const orderSlice = createSlice({
       console.log("action payload", action.payload);
       state.order = { ...action.payload };
       state.isLoading = false;
-      state.finishCreate = true;
+    },
+    removeOrder(state, action) {
+      state.orderList = state.orderList.filter(
+        (order) => order.id !== action.payload
+      );
     },
     loading(state) {
       state.isLoading = true;
@@ -45,7 +51,26 @@ const orderSlice = createSlice({
   },
 });
 
-export const sendData = () => {
+export const updateOrder = (orderId, order, userId, vendorId) => {
+  return (dispatch) => {
+    DataService.fetchEditOrder(orderId, order, userId, vendorId)
+      .then((data) => {
+        if (data.success) {
+          dispatch(orderActions.setOrder(data.order));
+        } else {
+          dispatch(
+            uiActions.showNotification({
+              text: "Error comuunication with server (edit), please try again",
+              status: "error",
+            })
+          );
+        }
+      })
+      .catch(errCatch);
+  };
+};
+
+export const getData = () => {
   return (dispatch) => {
     DataService.fetchVendor()
       .then((data) => {})
@@ -73,9 +98,56 @@ export const getOrders = (user_id) => {
   };
 };
 
+export const deleteOrder = (user_id, order_id) => {
+  return (dispatch) => {
+    dispatch(orderActions.loading);
+    DataService.fetchDeleteOrder(user_id, order_id)
+      .then((data) => {
+        if (data.success) {
+          dispatch(orderActions.removeOrder(order_id));
+          dispatch(
+            uiActions.showNotification({
+              text: "Order deleted successfully.",
+              status: "success",
+            })
+          );
+        } else {
+          dispatch(
+            uiActions.showNotification({
+              text: "Error finding orders, please try again",
+              status: "error",
+            })
+          );
+        }
+      })
+      .catch(errCatch);
+  };
+};
+
+export const getOrder = (userId, orderId) => {
+  return (dispatch) => {
+    dispatch(orderActions.loading);
+    DataService.fetchOrder(userId, orderId)
+      .then((data) => {
+        if (data.success) {
+          dispatch(orderActions.setOrder(data.order));
+        } else {
+          dispatch(
+            uiActions.showNotification({
+              text: "Error finding orders, please try again",
+              status: "error",
+            })
+          );
+        }
+      })
+      .catch(errCatch);
+  };
+};
+
 export const createOrder = (user_id, vendor_id, template_id) => {
   return (dispatch) => {
     dispatch(orderActions.loading);
+    dispatch(getAvendor(vendor_id));
     DataService.fetchAddOrder(user_id, vendor_id, template_id)
       .then((data) => {
         if (data.success) {

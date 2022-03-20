@@ -70,7 +70,7 @@ class DataService {
       confObjAuthwithBody("POST", body)
     ).then(respFunc);
   }
-
+  // vendor = null => to get all templates belong to the owner
   fetchOrderTemplate(userId, vendorId) {
     return fetch(
       vendorId === null
@@ -94,11 +94,43 @@ class DataService {
       confObjAuth("GET")
     ).then(respFunc);
   }
-
+  //fetch id and order_ref for orders
   fetchOrders(userId) {
     return fetch(BASE_URL + `/users/${userId}/orders`, confObjAuth("GET")).then(
       respFunc
     );
+  }
+  fetchOrder(userId, orderId) {
+    return fetch(
+      BASE_URL + `/users/${userId}/orders/${orderId}/edit`,
+      confObjAuth("GET")
+    ).then(respFunc);
+  }
+
+  fetchEditOrder(orderId, order, userId, vendorId) {
+    const body = JSON.stringify({
+      order: {
+        order_date: order.order_date,
+        delivery_date: order.delivery_date,
+        order_ref: order.order_ref,
+        comment: order.comment,
+        user_id: userId,
+        vendor_id: vendorId,
+        order_details: order.order_details,
+      },
+    });
+    console.log("body-> ", body);
+    return fetch(
+      BASE_URL + `/users/${userId}/orders/${orderId}`,
+      confObjAuthwithBody("PATCH", body)
+    ).then(respFunc);
+  }
+
+  fetchDeleteOrder(userId, orderId) {
+    return fetch(
+      BASE_URL + `/users/${userId}/orders/${orderId}`,
+      confObjAuth("DELETE")
+    ).then(respFunc);
   }
 }
 export default new DataService();

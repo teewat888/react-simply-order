@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import DataService from "../lib/dataService";
 import { errCatch } from "../lib/helper";
-import { authActions } from "./auth-slice";
-import { uiActions } from "./ui-slice";
 
 const vendorSlice = createSlice({
   name: "vendor",
@@ -27,9 +25,7 @@ const vendorSlice = createSlice({
 });
 
 export const getVendors = () => {
-  console.log("dispatch getvendor call");
   return (dispatch) => {
-    console.log("dispatch inside call");
     dispatch(vendorActions.loading());
     DataService.fetchVendors()
       .then((data) => {

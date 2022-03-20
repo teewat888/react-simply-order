@@ -82,7 +82,7 @@ function App() {
       ),
     },
     {
-      //  /user/#user_id/order_templates?mode=mytemplates
+      //  /user/#user_id/order_templates/mytemplates  -> useParams will get const mode
       path: "/user/:user_id/order_templates/:mode",
       element: (
         <ProtectedRoute isAllow={isLoggedIn}>
@@ -99,8 +99,16 @@ function App() {
       ),
     },
     {
-      //path: "/user/:user_id/vendor/:vendor_id/order/new/:template_id",
       path: "/user/order/new",
+      element: (
+        <ProtectedRoute isAllow={isLoggedIn}>
+          <Order />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      //  /user/order/##  ##= order_id
+      path: "/user/order/:order_id",
       element: (
         <ProtectedRoute isAllow={isLoggedIn}>
           <Order />
