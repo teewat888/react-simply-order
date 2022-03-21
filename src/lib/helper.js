@@ -31,5 +31,5 @@ export const confObjAuthwithBody = (method, body) => {
 
 export const errCatch = (e) => {
   console.log("error: ", e.message);
-  localStorage.clear();
+  //localStorage.clear();
 };

@@ -21,8 +21,8 @@ const orderSlice = createSlice({
       success: null,
       id: null,
     },
-    changed: false,
-    createdSuccess: false,
+    editMode: false,
+    fetchSuccess: false,
   },
   reducers: {
     setOrderList(state, action) {
@@ -42,11 +42,17 @@ const orderSlice = createSlice({
     loading(state) {
       state.isLoading = true;
     },
-    startCreate(state) {
-      state.createdSuccess = false;
+    resetFetchFlag(state) {
+      state.fetchSuccess = false;
     },
-    finishCreated(state) {
-      state.createdSuccess = true;
+    finishFetch(state) {
+      state.fetchSuccess = true;
+    },
+    setEditMode(state) {
+      state.editMode = true;
+    },
+    resetEditMode(state) {
+      state.editMode = false;
     },
   },
 });
@@ -77,7 +83,7 @@ export const getData = () => {
       .catch(errCatch);
   };
 };
-
+//get lis of orders
 export const getOrders = (user_id) => {
   return (dispatch) => {
     dispatch(orderActions.loading);
@@ -123,14 +129,17 @@ export const deleteOrder = (user_id, order_id) => {
       .catch(errCatch);
   };
 };
-
+// get order detail for edit/view
 export const getOrder = (userId, orderId) => {
   return (dispatch) => {
     dispatch(orderActions.loading);
     DataService.fetchOrder(userId, orderId)
       .then((data) => {
         if (data.success) {
+          console.log("at get order");
           dispatch(orderActions.setOrder(data.order));
+          //delay(1500).then(() => dispatch(orderActions.finishFetch()));
+          dispatch(orderActions.finishFetch());
         } else {
           dispatch(
             uiActions.showNotification({
@@ -158,7 +167,7 @@ export const createOrder = (user_id, vendor_id, template_id) => {
             })
           );
           dispatch(orderActions.setOrder(data));
-          delay(1500).then(() => dispatch(orderActions.finishCreated()));
+          delay(1500).then(() => dispatch(orderActions.finishFetch()));
         } else {
           dispatch(
             uiActions.showNotification({

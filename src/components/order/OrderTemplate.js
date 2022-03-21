@@ -24,7 +24,7 @@ export const OrderTemplate = (props) => {
   //const [templates, setTemplates] = useState([]);
   const templateList = useSelector((state) => state.template.templateList);
 
-  const orderCreated = useSelector((state) => state.order.createdSuccess);
+  const orderCreated = useSelector((state) => state.order.fetchSuccess);
   console.log("orderCreated->", orderCreated);
   console.log("vendor_id in orderTemplate, ", vendor_id);
   const user_id = useSelector((state) => state.auth.user.id);
@@ -40,7 +40,7 @@ export const OrderTemplate = (props) => {
   useEffect(() => {
     if (orderCreated) {
       navigate("/user/order/new");
-      dispatch(orderActions.startCreate());
+      dispatch(orderActions.resetFetchFlag()); // reset flag so can be use for next order
     }
   }, [orderCreated]);
 
@@ -61,7 +61,7 @@ export const OrderTemplate = (props) => {
   const handleClick = (template_id, vendor_id) => {
     //handle to create new order
     dispatch(createOrder(user_id, vendor_id, template_id));
-    //navigate(`/user/${user_id}/vendor/${vendor_id}/order/new/${template_id}`); //to <Order/>
+    // once complete create order flag createSuccess to useEffect to lauch <Order />
   };
   return (
     <>

@@ -1,11 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteOrder, getOrders } from "../../store/order-slice";
+import {
+  deleteOrder,
+  getOrder,
+  getOrders,
+  orderActions,
+} from "../../store/order-slice";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
@@ -21,13 +26,18 @@ export const MyOrder = (props) => {
   const orderList = useSelector((state) => state.order.orderList);
   const userId = useSelector((state) => state.auth.user.id);
   const navigate = useNavigate();
+  const readyToEdit = useSelector((state) => state.order.fetchSuccess);
+  const [orderId, setOrderId] = useState(null);
+
   const listLen = orderList.length;
   const arr = new Array(listLen);
   for (let i = 0; i < listLen; i++) {
     arr[i] = false;
   }
+  // state for confirm dialogs
   const [open, setOpen] = React.useState(arr);
-
+  console.log("orderlIst state-> ", orderList);
+  console.log("open state-> ", open);
   const handleClickOpen = (i) => {
     setOpen((arr) => {
       let temp = [...arr];
@@ -43,26 +53,30 @@ export const MyOrder = (props) => {
       return temp;
     });
   };
+  console.log("orderId outside-> ", orderId);
+  //monitoring that edit order state ready for edit page <Order />
+  useEffect(() => {
+    console.log("orderId in myorder-> ", orderId);
+    if (readyToEdit) {
+      navigate(`/user/order/${orderId}`);
+      dispatch(orderActions.resetFetchFlag());
+    }
+  }, [readyToEdit]);
 
   useEffect(() => {
-    console.log("current open -> ", open);
-  }, [open]);
-
-  useEffect(() => {
+    console.log("run first");
     dispatch(getOrders(userId));
-  }, [orderList]);
+  }, []);
 
   const handleEdit = (orderId) => {
     console.log("order edit id=>", orderId);
-    navigate(`/user/order/${orderId}`);
+    setOrderId(orderId);
+    // navigate(`/user/order/${orderId}`);
+    dispatch(getOrder(userId, orderId));
   };
   const handleDelete = (orderId, i) => {
     handleClose(i);
     dispatch(deleteOrder(userId, orderId));
-    setOpen((arr) => {
-      arr.pop();
-      return arr;
-    });
   };
   return (
     <>

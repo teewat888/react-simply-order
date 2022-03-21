@@ -19,7 +19,7 @@ export const OrderTemplateForm = (props) => {
   const products = useSelector((state) => state.product.productList);
   const vendor = useSelector((state) => state.vendor.vendorList);
   // flag to be set once order just create to redirect once finish created template
-  const finishCreate = useSelector((state) => state.template.createdSuccess);
+  const finishCreate = useSelector((state) => state.template.fetchSuccess);
   let company_name = "";
   //get company name
   if (vendor.length > 0) {

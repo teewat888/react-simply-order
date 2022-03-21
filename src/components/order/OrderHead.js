@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useDispatch, useSelector } from "react-redux";
+import { getAvendor } from "../../store/vendor-slice";
 
 export const OrderHead = ({
   handleExpand,
   handleChange,
   heading,
-  currentVendor,
   expanded,
 }) => {
   const orderHeading = [
@@ -25,6 +26,13 @@ export const OrderHead = ({
       value: heading.comment,
     },
   ];
+  const dispatch = useDispatch();
+  const currentVendor = useSelector((state) => state.vendor.currentVendor);
+
+  useEffect(() => {
+    console.log("heading.vendor_id=> ", heading.vendor_id);
+    dispatch(getAvendor(heading.vendor_id));
+  }, []);
   return (
     <>
       <Accordion

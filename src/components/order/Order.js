@@ -9,20 +9,23 @@ import { OrderHead } from "./OrderHead";
 import { useParams } from "react-router-dom";
 
 // to take care new & edit order , received from OrderTemplate & MyOrder
+let firstLoad = true;
 
 export const Order = (props) => {
   const dispatch = useDispatch();
-  const currentVendor = useSelector((state) => state.vendor.currentVendor);
+  //const currentVendor = useSelector((state) => state.vendor.currentVendor);
   const userId = useSelector((state) => state.auth.user.id);
-  // get params if exist from the route /user/order/:order_id
-  const { order_id } = useParams();
   const order = useSelector((state) => state.order.order);
   const orderId = order.id;
   console.log("order at the first->", order);
-  const orderDetailsOrg = order.order_details;
-  const [orderDetails, setOrderDetails] = useState(orderDetailsOrg);
   const [expanded, setExpanded] = React.useState(false); //accordian state
   const [searchTerm, setSearchTerm] = useState("");
+  const { order_id } = useParams();
+
+  const orderDetailsOrg = order.order_details;
+  const [orderDetails, setOrderDetails] = useState(orderDetailsOrg);
+
+  //state for current order heading
   const [heading, setHeading] = useState({
     id: orderId,
     order_date: order.order_date,
@@ -30,7 +33,7 @@ export const Order = (props) => {
     order_ref: order.order_ref,
     comment: order.comment,
     user_id: userId,
-    vendor_id: currentVendor.id,
+    vendor_id: order.vendor_id,
   });
   const [orderInfo, setOrderInfo] = useState({
     ...heading,
@@ -61,12 +64,7 @@ export const Order = (props) => {
   const handleChange = (e) => {
     setHeading({ ...heading, [e.target.id]: e.target.value });
   };
-  // if pass order_id param get the product details
-  useEffect(() => {
-    if (order_id) {
-      dispatch(getOrder(userId, order_id));
-    }
-  }, [order_id]);
+
   // once each input update , update order info
   useEffect(() => {
     setOrderInfo({ ...heading, order_details: orderDetails });
@@ -74,32 +72,46 @@ export const Order = (props) => {
 
   // update orderInfo state
   useEffect(() => {
-    console.log("orderInfo->", orderInfo);
-    dispatch(orderActions.setOrder(orderInfo));
-    console.log("updated order-> ", order);
-    //dispatch(updateOrder(orderId, orderInfo, userId, currentVendor.id));
+    if (!firstLoad) {
+      console.log("orderInfo->", orderInfo);
+      dispatch(orderActions.setOrder(orderInfo));
+      console.log("updated order-> ", order);
+      firstLoad = false;
+    }
+
+    dispatch(updateOrder(orderId, orderInfo, userId, order.vendor_id));
   }, [orderInfo]);
 
+  useEffect(() => {
+    console.log("suppose to run here first");
+    if (order_id) {
+      console.log("contatin order_id", order_id);
+      dispatch(getOrder(userId, order_id));
+    }
+  }, []);
+
+  console.log("heading-> ", heading);
   return (
     <>
-      <Box sx={{ width: "90%", bgcolor: "background.paper" }}>
-        <OrderHead
-          handleExpand={handleExpand}
-          handleChange={handleChange}
-          heading={heading}
-          currentVendor={currentVendor}
-          expanded={expanded}
-        />
-
-        <SearchBox handleSearch={handleSearch} searchTerm={searchTerm} />
-
-        <List>
-          <OrderForm
-            handleQuantity={handleQuantity}
-            orderDetails={orderDetails}
+      {heading && (
+        <Box sx={{ width: "90%", bgcolor: "background.paper" }}>
+          <OrderHead
+            handleExpand={handleExpand}
+            handleChange={handleChange}
+            heading={heading}
+            expanded={expanded}
           />
-        </List>
-      </Box>
+
+          <SearchBox handleSearch={handleSearch} searchTerm={searchTerm} />
+
+          <List>
+            <OrderForm
+              handleQuantity={handleQuantity}
+              orderDetails={orderDetails}
+            />
+          </List>
+        </Box>
+      )}
     </>
   );
 };

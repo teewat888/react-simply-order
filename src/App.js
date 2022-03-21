@@ -30,9 +30,10 @@ function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   console.log("logged in status ", isLoggedIn);
-  console.log("jwt in sotrage ", jwt);
+  console.log("jwt in storage ", jwt);
   const handleUnAuth = () => {
     dispatch(authActions.logout_success()); // as jwt expire reset state at client
+    console.log("jwt expire");
   };
   //dispatch(authActions.logout_success());
   useEffect(() => {

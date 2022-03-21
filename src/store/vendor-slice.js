@@ -15,7 +15,7 @@ const vendorSlice = createSlice({
       state.isLoading = false;
     },
     setCurrentVendor(state, action) {
-      state.currentVendor = action.payload;
+      state.currentVendor = { ...action.payload };
       console.log("current vendor ", state.currentVendor);
     },
     loading(state) {
@@ -39,6 +39,7 @@ export const getVendors = () => {
 export const getAvendor = (vendorId) => {
   return (dispatch) => {
     dispatch(vendorActions.loading());
+    console.log("get fetch a vendor");
     DataService.fetchVendor(vendorId)
       .then((data) => {
         dispatch(vendorActions.setCurrentVendor(data.vendor));
