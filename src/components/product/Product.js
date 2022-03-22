@@ -32,6 +32,7 @@ export const Product = ({ products }) => {
       navigate("/");
     }
   }, []);
+
   useEffect(() => {
     if (checked) {
       const res = products.filter((product) => {

@@ -7,6 +7,7 @@ import { OrderForm } from "./OrderForm";
 import { getOrder, orderActions, updateOrder } from "../../store/order-slice";
 import { OrderHead } from "./OrderHead";
 import { useParams } from "react-router-dom";
+import { SkeletonLoading } from "../layout/SkeletonLoading";
 
 // to take care new & edit order , received from OrderTemplate & MyOrder
 let firstLoad = true;
@@ -21,6 +22,7 @@ export const Order = (props) => {
   const { order_id } = useParams();
   const orderDetailsOrg = order.order_details;
   const [orderDetails, setOrderDetails] = useState(orderDetailsOrg);
+  const isLoading = useSelector((state) => state.order.isLoading);
 
   //state for current order heading
   const [heading, setHeading] = useState({
@@ -87,6 +89,7 @@ export const Order = (props) => {
 
   return (
     <>
+      {isLoading && <SkeletonLoading />}
       {heading && (
         <Box sx={{ width: "90%", bgcolor: "background.paper" }}>
           <OrderHead
@@ -95,8 +98,9 @@ export const Order = (props) => {
             heading={heading}
             expanded={expanded}
           />
-
-          <SearchBox handleSearch={handleSearch} searchTerm={searchTerm} />
+          <Box sx={{ textAlign: "center" }}>
+            <SearchBox handleSearch={handleSearch} searchTerm={searchTerm} />
+          </Box>
 
           <List>
             <OrderForm
