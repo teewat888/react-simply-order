@@ -128,7 +128,9 @@ export const doLogout = () => {
       .then(() => {
         dispatch(authActions.logout_success());
       })
-      .catch(errCatch);
+      .catch((e) => {
+        dispatch(authActions.logout_success());
+      });
   };
 };
 
