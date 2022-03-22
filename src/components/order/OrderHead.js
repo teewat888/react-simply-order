@@ -33,6 +33,7 @@ export const OrderHead = ({
     console.log("heading.vendor_id=> ", heading.vendor_id);
     dispatch(getAvendor(heading.vendor_id));
   }, []);
+
   return (
     <>
       <Accordion

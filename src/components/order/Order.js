@@ -13,15 +13,12 @@ let firstLoad = true;
 
 export const Order = (props) => {
   const dispatch = useDispatch();
-  //const currentVendor = useSelector((state) => state.vendor.currentVendor);
   const userId = useSelector((state) => state.auth.user.id);
   const order = useSelector((state) => state.order.order);
   const orderId = order.id;
-  console.log("order at the first->", order);
   const [expanded, setExpanded] = React.useState(false); //accordian state
   const [searchTerm, setSearchTerm] = useState("");
   const { order_id } = useParams();
-
   const orderDetailsOrg = order.order_details;
   const [orderDetails, setOrderDetails] = useState(orderDetailsOrg);
 
@@ -35,6 +32,8 @@ export const Order = (props) => {
     user_id: userId,
     vendor_id: order.vendor_id,
   });
+
+  //combine heading and details
   const [orderInfo, setOrderInfo] = useState({
     ...heading,
     order_details: orderDetails,
@@ -73,24 +72,19 @@ export const Order = (props) => {
   // update orderInfo state
   useEffect(() => {
     if (!firstLoad) {
-      console.log("orderInfo->", orderInfo);
+      //prevent first load execute
       dispatch(orderActions.setOrder(orderInfo));
-      console.log("updated order-> ", order);
       firstLoad = false;
     }
-
     dispatch(updateOrder(orderId, orderInfo, userId, order.vendor_id));
   }, [orderInfo]);
 
   useEffect(() => {
-    console.log("suppose to run here first");
     if (order_id) {
-      console.log("contatin order_id", order_id);
       dispatch(getOrder(userId, order_id));
     }
   }, []);
 
-  console.log("heading-> ", heading);
   return (
     <>
       {heading && (

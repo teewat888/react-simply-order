@@ -19,14 +19,13 @@ import { orderActions } from "../../store/order-slice";
 export const OrderTemplate = (props) => {
   const navigate = useNavigate();
   const { vendor_id, mode } = useParams(); // get mode to distinct own template and company template
-  console.log("mode->", mode);
+
   const dispatch = useDispatch();
   //const [templates, setTemplates] = useState([]);
   const templateList = useSelector((state) => state.template.templateList);
 
   const orderCreated = useSelector((state) => state.order.fetchSuccess);
-  console.log("orderCreated->", orderCreated);
-  console.log("vendor_id in orderTemplate, ", vendor_id);
+
   const user_id = useSelector((state) => state.auth.user.id);
   const style = {
     margin: 0,

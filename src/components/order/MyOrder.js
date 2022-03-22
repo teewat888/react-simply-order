@@ -29,6 +29,7 @@ export const MyOrder = (props) => {
   const readyToEdit = useSelector((state) => state.order.fetchSuccess);
   const [orderId, setOrderId] = useState(null);
 
+  //predefine open flags state
   const listLen = orderList.length;
   const arr = new Array(listLen);
   for (let i = 0; i < listLen; i++) {
@@ -36,8 +37,7 @@ export const MyOrder = (props) => {
   }
   // state for confirm dialogs
   const [open, setOpen] = React.useState(arr);
-  console.log("orderlIst state-> ", orderList);
-  console.log("open state-> ", open);
+
   const handleClickOpen = (i) => {
     setOpen((arr) => {
       let temp = [...arr];
@@ -53,27 +53,24 @@ export const MyOrder = (props) => {
       return temp;
     });
   };
-  console.log("orderId outside-> ", orderId);
+
   //monitoring that edit order state ready for edit page <Order />
   useEffect(() => {
-    console.log("orderId in myorder-> ", orderId);
     if (readyToEdit) {
       navigate(`/user/order/${orderId}`);
       dispatch(orderActions.resetFetchFlag());
     }
   }, [readyToEdit]);
-
+  // load my orders
   useEffect(() => {
-    console.log("run first");
     dispatch(getOrders(userId));
   }, []);
 
   const handleEdit = (orderId) => {
-    console.log("order edit id=>", orderId);
     setOrderId(orderId);
-    // navigate(`/user/order/${orderId}`);
     dispatch(getOrder(userId, orderId));
   };
+
   const handleDelete = (orderId, i) => {
     handleClose(i);
     dispatch(deleteOrder(userId, orderId));
