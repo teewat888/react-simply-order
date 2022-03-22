@@ -2,7 +2,7 @@ import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 
-import TopNav from "../navigations/TopNav";
+import LeftNav from "../navigations/LeftNav";
 import BottomNav from "../navigations/BottomNav";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -20,7 +20,7 @@ export const Layout = () => {
       }}
     >
       <CssBaseline />
-      <TopNav />
+      <LeftNav />
       {message.text && <Notice message={message} />}
       <Outlet />
 

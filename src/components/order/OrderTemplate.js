@@ -54,7 +54,8 @@ export const OrderTemplate = (props) => {
   }, [mode]);
 
   const handleFabClick = () => {
-    navigate(`/user/${user_id}/vendor/${vendor_id}/order_template/new`); // to <OrderTemplateForm />
+    //navigate(`/user/${user_id}/vendor/${vendor_id}/order_template/new`); // to <OrderTemplateForm />
+    navigate("/vendors");
   };
 
   const handleClick = (template_id, vendor_id) => {
@@ -82,19 +83,16 @@ export const OrderTemplate = (props) => {
             </ListItemButton>
           ))}
         </List>
-        {mode !== "mytemplates" ? (
-          <Fab
-            size="medium"
-            color="primary"
-            aria-label="add"
-            style={style}
-            onClick={handleFabClick}
-          >
-            <AddIcon />
-          </Fab>
-        ) : (
-          ""
-        )}
+
+        <Fab
+          size="medium"
+          color="primary"
+          aria-label="add"
+          style={style}
+          onClick={handleFabClick}
+        >
+          <AddIcon />
+        </Fab>
       </Box>
     </>
   );

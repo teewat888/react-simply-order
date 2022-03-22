@@ -5,8 +5,7 @@ import { Product } from "./Product";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
-import Skeleton from "@mui/material/Skeleton";
-import Box from "@mui/material/Box";
+import { SkeletonLoading } from "../layout/SkeletonLoading";
 
 export default function MyProducts() {
   const products = useSelector((state) => state.product.productList);
@@ -32,34 +31,19 @@ export default function MyProducts() {
     navigate("/vendor/products/new");
   };
 
-  //create multiple skeltons
-  const skeletons = [];
-  for (let i = 1; i < 25; i++) {
-    skeletons.push(<Skeleton key={i} />);
-  }
-
   return (
     <>
-      {isLoading ? (
-        <>
-          <Box sx={{ width: "80%", height: "100%", mt: "2em" }}>
-            {skeletons}
-          </Box>
-        </>
-      ) : (
-        <>
-          <Product products={products} />
-          <Fab
-            size="medium"
-            color="primary"
-            aria-label="add"
-            style={style}
-            onClick={handleFabClick}
-          >
-            <AddIcon />
-          </Fab>
-        </>
-      )}
+      {isLoading && <SkeletonLoading />}
+      <Product products={products} />
+      <Fab
+        size="medium"
+        color="primary"
+        aria-label="add"
+        style={style}
+        onClick={handleFabClick}
+      >
+        <AddIcon />
+      </Fab>
     </>
   );
 }

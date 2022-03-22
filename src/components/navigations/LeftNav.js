@@ -30,7 +30,6 @@ const ResponsiveAppBar = () => {
     switch (role) {
       case "customer":
         pages = [
-          { name: "Vendor list", link: "/vendors" },
           { name: "Help", link: "/order/new" },
           { name: "About", link: "/about" },
         ];
