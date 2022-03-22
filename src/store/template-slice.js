@@ -25,6 +25,9 @@ const templateSlice = createSlice({
     finishCreated(state) {
       state.createdSuccess = true;
     },
+    reset(state) {
+      return { ...state.initialState };
+    },
   },
 });
 

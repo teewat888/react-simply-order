@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import AuthService from "../lib/authService";
 import { errCatch } from "../lib/helper";
+import { productActions } from "./product-slice";
 import { uiActions } from "./ui-slice";
 
 let logFlag = localStorage.getItem("jwt") ? true : false;
@@ -71,6 +72,9 @@ const authSlice = createSlice({
     register(state) {
       state = state;
     },
+    reset(state) {
+      return { ...state.initialState };
+    },
   },
 });
 
@@ -127,6 +131,7 @@ export const doLogout = () => {
     AuthService.fetchLogout()
       .then(() => {
         dispatch(authActions.logout_success());
+        dispatch(productActions.reset());
       })
       .catch((e) => {
         dispatch(authActions.logout_success());

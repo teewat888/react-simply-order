@@ -54,6 +54,9 @@ const orderSlice = createSlice({
     resetEditMode(state) {
       state.editMode = false;
     },
+    reset(state) {
+      return { ...state.initialState };
+    },
   },
 });
 

@@ -25,12 +25,16 @@ export default function MyProducts() {
 
   useEffect(() => {
     dispatch(getProducts(userId, "myproduct"));
-  }, [dispatch]);
+  }, []);
 
   const handleFabClick = () => {
     navigate("/vendor/products/new");
   };
-
+  console.log("products in <MyProducts/> ", products);
+  if (!products) {
+    //handling the undefinded edge case
+    return null;
+  }
   return (
     <>
       {isLoading && <SkeletonLoading />}

@@ -21,6 +21,9 @@ const vendorSlice = createSlice({
     loading(state) {
       state.isLoading = true;
     },
+    reset(state) {
+      return { ...state.initialState };
+    },
   },
 });
 
