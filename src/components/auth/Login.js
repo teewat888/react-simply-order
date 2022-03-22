@@ -14,7 +14,7 @@ import { doLogin } from "../../store/auth-slice";
 import { useLocation, useNavigate } from "react-router-dom";
 import Skeleton from "@mui/material/Skeleton";
 
-export default function SignIn() {
+export const Login = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const isLoading = useSelector((state) => state.auth.isLoading);
   const navigate = useNavigate();
@@ -124,4 +124,4 @@ export default function SignIn() {
       </Box>
     </Container>
   );
-}
+};

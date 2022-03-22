@@ -1,7 +1,7 @@
 import Typography from "@mui/material/Typography";
 import React from "react";
 import { useSelector } from "react-redux";
-import Login from "../auth/Login";
+import { Login } from "../auth/Login";
 import Box from "@mui/material/Box";
 
 export const Home = () => {

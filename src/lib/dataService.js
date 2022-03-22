@@ -2,7 +2,7 @@ import { BASE_URL } from "../config/contants";
 import { confObjAuth, confObjAuthwithBody, respFunc } from "./helper";
 
 class DataService {
-  //display all products belongs to user
+  //display all products belongs to user , mode = myproduct for vendor product list, mode = template -> vailable product for template
   fetchProducts(userId, mode) {
     return fetch(BASE_URL + `/users/${userId}/products?mode=${mode}`).then(
       respFunc
@@ -110,6 +110,7 @@ class DataService {
   fetchEditOrder(orderId, order, userId, vendorId) {
     const body = JSON.stringify({
       order: {
+        id: orderId,
         order_date: order.order_date,
         delivery_date: order.delivery_date,
         order_ref: order.order_ref,

@@ -53,7 +53,11 @@ export const Product = ({ products }) => {
   console.log("product_res: outside loop: ", productResult);
   return (
     <>
-      <SearchBox handleSearch={handleSearch} searchTerm={searchTerm} />
+      <SearchBox
+        handleSearch={handleSearch}
+        searchTerm={searchTerm}
+        label="Search Product"
+      />
       <FormGroup>
         <FormControlLabel
           control={

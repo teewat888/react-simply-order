@@ -30,7 +30,7 @@ const orderSlice = createSlice({
       state.isLoading = false;
     },
     setOrder(state, action) {
-      console.log("action payload", action.payload);
+      //console.log("action payload", action.payload);
       state.order = { ...action.payload };
       state.isLoading = false;
     },
@@ -41,6 +41,9 @@ const orderSlice = createSlice({
     },
     loading(state) {
       state.isLoading = true;
+    },
+    endLoading(state) {
+      state.isLoading = false;
     },
     resetFetchFlag(state) {
       state.fetchSuccess = false;
@@ -62,9 +65,11 @@ const orderSlice = createSlice({
 
 export const updateOrder = (orderId, order, userId, vendorId) => {
   return (dispatch) => {
+    console.log("data send to server ->", order);
     DataService.fetchEditOrder(orderId, order, userId, vendorId)
       .then((data) => {
         if (data.success) {
+          console.log("data get back ->", data);
           dispatch(orderActions.setOrder(data.order));
         } else {
           dispatch(
@@ -79,17 +84,17 @@ export const updateOrder = (orderId, order, userId, vendorId) => {
   };
 };
 
-export const getData = () => {
-  return (dispatch) => {
-    DataService.fetchVendor()
-      .then((data) => {})
-      .catch(errCatch);
-  };
-};
+// export const getData = () => {
+//   return (dispatch) => {
+//     DataService.fetchVendor()
+//       .then((data) => {})
+//       .catch(errCatch);
+//   };
+// };
 //get lis of orders
 export const getOrders = (user_id) => {
   return (dispatch) => {
-    dispatch(orderActions.loading);
+    dispatch(orderActions.loading());
     DataService.fetchOrders(user_id)
       .then((data) => {
         if (data.success) {
@@ -109,7 +114,7 @@ export const getOrders = (user_id) => {
 
 export const deleteOrder = (user_id, order_id) => {
   return (dispatch) => {
-    dispatch(orderActions.loading);
+    dispatch(orderActions.loading());
     DataService.fetchDeleteOrder(user_id, order_id)
       .then((data) => {
         if (data.success) {
@@ -135,14 +140,18 @@ export const deleteOrder = (user_id, order_id) => {
 // get order detail for edit/view
 export const getOrder = (userId, orderId) => {
   return (dispatch) => {
-    dispatch(orderActions.loading);
+    dispatch(orderActions.loading());
     DataService.fetchOrder(userId, orderId)
       .then((data) => {
         if (data.success) {
-          console.log("at get order");
+          console.log("at get order", data);
           dispatch(orderActions.setOrder(data.order));
-          //delay(1500).then(() => dispatch(orderActions.finishFetch()));
-          dispatch(orderActions.finishFetch());
+          dispatch(orderActions.loading());
+          delay(1500).then(() => {
+            dispatch(orderActions.finishFetch());
+            dispatch(orderActions.endLoading());
+          });
+          // dispatch(orderActions.finishFetch());
         } else {
           dispatch(
             uiActions.showNotification({
@@ -158,7 +167,7 @@ export const getOrder = (userId, orderId) => {
 
 export const createOrder = (user_id, vendor_id, template_id) => {
   return (dispatch) => {
-    dispatch(orderActions.loading);
+    dispatch(orderActions.loading());
     dispatch(getAvendor(vendor_id));
     DataService.fetchAddOrder(user_id, vendor_id, template_id)
       .then((data) => {

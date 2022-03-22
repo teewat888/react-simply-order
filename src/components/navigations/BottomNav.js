@@ -44,7 +44,7 @@ export default function SimpleBottomNavigation() {
           label="Past Orders"
           icon={<HistoryIcon />}
           onClick={() => {
-            navigate("/");
+            navigate("/customer/orders");
           }}
         />
         <BottomNavigationAction

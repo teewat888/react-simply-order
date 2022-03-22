@@ -7,7 +7,7 @@ import List from "@mui/material/List";
 import { SkeletonLoading } from "../layout/SkeletonLoading";
 import { SearchBox } from "../form/SearchBox";
 
-const VendorList = () => {
+export const VendorList = () => {
   const vendors = useSelector((state) => state.vendor.vendorList);
   const isLoading = useSelector((state) => state.vendor.dispatch);
   const dispatch = useDispatch();
@@ -26,20 +26,25 @@ const VendorList = () => {
   useEffect(() => {
     dispatch(getVendors());
   }, [dispatch]);
-
+  console.log("vendor res->", vendorsRes);
   return (
     <>
-      {isLoading && <SkeletonLoading />}
-      <SearchBox handleSearch={handleSearch} searchTerm={searchTerm} />
-      <Box sx={{ width: "90%", bgcolor: "background.paper" }}>
-        <List>
-          {vendorsRes.map((vendor) => (
-            <Vendor key={vendor.id} vendor={vendor} />
-          ))}
-        </List>
-      </Box>
+      <SearchBox
+        handleSearch={handleSearch}
+        searchTerm={searchTerm}
+        label="Search vendor"
+      />
+      {isLoading ? (
+        <SkeletonLoading />
+      ) : (
+        <Box sx={{ width: "90%", bgcolor: "background.paper" }}>
+          <List>
+            {vendorsRes.map((vendor) => (
+              <Vendor key={vendor.id} vendor={vendor} />
+            ))}
+          </List>
+        </Box>
+      )}
     </>
   );
 };
-
-export default VendorList;

@@ -4,22 +4,22 @@ import { Layout } from "./components/layout/Layout";
 import { Home } from "./components/layout/Home";
 import { NoMatch } from "./components/layout/NoMatch";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import Login from "./components/auth/Login";
-import VendorList from "./components/vendor/VendorList";
-import MyProducts from "./components/product/MyProducts";
-import Profile from "./components/user/Profile";
-import ProtectedRoute from "./components/auth/ProtectedRoute";
+import { Login } from "./components/auth/Login";
+import { VendorList } from "./components/vendor/VendorList";
+import { MyProducts } from "./components/product/MyProducts";
+import { Profile } from "./components/user/Profile";
+import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import { useDispatch } from "react-redux";
 import { authActions } from "./store/auth-slice";
 import { authVerify } from "./lib/authVerify";
 import { ProductForm } from "./components/product/ProductForm";
 import { ThemeProvider } from "@mui/material/styles";
-import theme from "./theme";
+import { theme } from "./theme";
 import { uiActions } from "./store/ui-slice";
 import { OrderTemplate } from "./components/order/OrderTemplate";
 import { OrderTemplateForm } from "./components/order/OrderTemplateForm";
 import { Order } from "./components/order/Order";
-import SignUp from "./components/auth/SignUp";
+import { SignUp } from "./components/auth/SignUp";
 import { MyOrder } from "./components/order/MyOrder";
 
 function App() {
@@ -117,7 +117,7 @@ function App() {
       ),
     },
     {
-      path: "customer/orders",
+      path: "/customer/orders",
       element: (
         <ProtectedRoute isAllow={isLoggedIn}>
           <MyOrder />

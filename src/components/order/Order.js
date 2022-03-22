@@ -23,7 +23,7 @@ export const Order = (props) => {
   const orderDetailsOrg = order.order_details;
   const [orderDetails, setOrderDetails] = useState(orderDetailsOrg);
   const isLoading = useSelector((state) => state.order.isLoading);
-
+  const fetchFlag = useSelector((state) => state.order.fetchSuccess);
   //state for current order heading
   const [heading, setHeading] = useState({
     id: orderId,
@@ -75,15 +75,20 @@ export const Order = (props) => {
   useEffect(() => {
     if (!firstLoad) {
       //prevent first load execute
+      console.log("not first load");
+      console.log("ordrInfo->", orderInfo);
       dispatch(orderActions.setOrder(orderInfo));
-      firstLoad = false;
+      dispatch(updateOrder(orderId, orderInfo, userId, order.vendor_id));
     }
-    dispatch(updateOrder(orderId, orderInfo, userId, order.vendor_id));
+    firstLoad = false;
   }, [orderInfo]);
 
   useEffect(() => {
     if (order_id) {
-      dispatch(getOrder(userId, order_id));
+      console.log("hey we got is-> ", order_id);
+      // dispatch(getOrder(userId, order_id));
+      dispatch(orderActions.resetFetchFlag());
+      console.log("readytoedit has reset???->", fetchFlag);
     }
   }, []);
 
@@ -99,7 +104,11 @@ export const Order = (props) => {
             expanded={expanded}
           />
           <Box sx={{ textAlign: "center" }}>
-            <SearchBox handleSearch={handleSearch} searchTerm={searchTerm} />
+            <SearchBox
+              handleSearch={handleSearch}
+              searchTerm={searchTerm}
+              label="Search order"
+            />
           </Box>
 
           <List>

@@ -7,7 +7,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
 import { SkeletonLoading } from "../layout/SkeletonLoading";
 
-export default function MyProducts() {
+export const MyProducts = () => {
   const products = useSelector((state) => state.product.productList);
   const isLoading = useSelector((state) => state.product.isLoading);
   const dispatch = useDispatch();
@@ -37,8 +37,7 @@ export default function MyProducts() {
   }
   return (
     <>
-      {isLoading && <SkeletonLoading />}
-      <Product products={products} />
+      {isLoading ? <SkeletonLoading /> : <Product products={products} />}
       <Fab
         size="medium"
         color="primary"
@@ -50,4 +49,4 @@ export default function MyProducts() {
       </Fab>
     </>
   );
-}
+};

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { doSignup } from "../../store/auth-slice";
 import { UserForm } from "../form/UserForm";
 
-export default function SignUp() {
+export const SignUp = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const navigate = useNavigate();
@@ -57,4 +57,4 @@ export default function SignUp() {
       />
     </>
   );
-}
+};

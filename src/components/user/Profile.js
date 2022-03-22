@@ -3,7 +3,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { UserForm } from "../form/UserForm";
 
-export default function Profile() {
+export function Profile() {
   const current_user = useSelector((state) => state.auth.user);
   const handleSubmit = (e) => {
     e.preventDefault();
