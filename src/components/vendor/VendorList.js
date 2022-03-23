@@ -27,6 +27,7 @@ export const VendorList = () => {
   useEffect(() => {
     dispatch(getVendors());
     dispatch(productActions.resetFetchFlag());
+    console.log("vendors", vendors);
   }, []);
   console.log("vendor res->", vendorsRes);
   return (

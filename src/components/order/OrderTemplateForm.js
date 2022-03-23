@@ -10,6 +10,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import Box from "@mui/material/Box";
 import { createTemplate, templateActions } from "../../store/template-slice";
 import { SkeletonLoading } from "../layout/SkeletonLoading";
+import { vendorActions } from "../../store/vendor-slice";
 
 // This component take care of each product to be enable in each template
 
@@ -33,7 +34,6 @@ export const OrderTemplateForm = (props) => {
   const [templateName, setTemplateName] = useState(company_name);
   console.log("current products->", currentProduct);
   useEffect(() => {
-    //dispatch(getProducts(vendor_id, "template"));
     setCurrentProduct([...products]);
   }, [dispatch]);
 
@@ -41,6 +41,7 @@ export const OrderTemplateForm = (props) => {
     if (finishCreate) {
       navigate("/vendors");
       dispatch(templateActions.resetFetchFlag());
+      dispatch(vendorActions.resetCurrentVendor());
     }
   }, [finishCreate]);
 
@@ -90,6 +91,7 @@ export const OrderTemplateForm = (props) => {
             <Button
               onClick={() => {
                 dispatch(productActions.resetFetchFlag());
+                dispatch(vendorActions.resetCurrentVendor());
                 navigate("/vendors");
               }}
               variant="outlined"

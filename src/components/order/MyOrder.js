@@ -75,6 +75,7 @@ export const MyOrder = (props) => {
   // load my orders
   useEffect(() => {
     dispatch(getOrders(userId));
+    console.log("order list", orderList);
   }, []);
 
   const handleEdit = (orderId) => {

@@ -7,10 +7,12 @@ import AutoAwesomeMotionIcon from "@mui/icons-material/AutoAwesomeMotion";
 import HistoryIcon from "@mui/icons-material/History";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function SimpleBottomNavigation() {
   const [value, setValue] = React.useState(0);
   const navigate = useNavigate();
+  const userId = useSelector((state) => state.auth.user.id);
   return (
     <Box sx={{ width: "100%", paddingTop: "60px" }}>
       <BottomNavigation
@@ -37,7 +39,7 @@ export default function SimpleBottomNavigation() {
           label="Templates"
           icon={<AutoAwesomeMotionIcon />}
           onClick={() => {
-            navigate("/test");
+            navigate(`/user/${userId}/order_templates/mytemplates`);
           }}
         />
         <BottomNavigationAction

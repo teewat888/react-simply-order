@@ -139,7 +139,15 @@ export const deleteOrder = (user_id, order_id) => {
               status: "success",
             })
           );
-          delay(1000).then(() => dispatch(orderActions.finishFetch()));
+          delay(1000).then(() => {
+            dispatch(orderActions.finishFetch());
+            dispatch(
+              uiActions.showNotification({
+                text: "",
+                status: "error",
+              })
+            );
+          });
           dispatch(orderActions.endLoading());
         } else {
           dispatch(

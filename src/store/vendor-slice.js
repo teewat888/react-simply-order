@@ -21,6 +21,9 @@ const vendorSlice = createSlice({
     loading(state) {
       state.isLoading = true;
     },
+    resetCurrentVendor(state) {
+      state.currentVendor = {};
+    },
     reset(state) {
       return { ...state.initialState };
     },

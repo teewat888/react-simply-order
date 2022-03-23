@@ -6,6 +6,7 @@ import Chip from "@mui/material/Chip";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts, productActions } from "../../store/product-slice";
 import { getAvendor } from "../../store/vendor-slice";
+import NoteAddIcon from "@mui/icons-material/NoteAdd";
 
 export const Vendor = ({ vendor }) => {
   const userId = useSelector((state) => state.auth.user.id);
@@ -26,25 +27,27 @@ export const Vendor = ({ vendor }) => {
 
   useEffect(() => {
     if (readyToCreate) {
-      console.log("ready to create->", readyToCreate);
-      console.log(
-        "current vendor=->",
-        currentVendor.id,
-        `/user/${userId}/vendor/${currentVendor.id}/order_template/new`
-      );
+      if (currentVendor.id !== undefined) {
+        //make sure we get vendor
+        console.log("ready to create->", readyToCreate);
+        console.log(
+          "current vendor=->",
+          currentVendor.id,
+          `/user/${userId}/vendor/${currentVendor.id}/order_template/new`
+        );
 
-      navigate(`/user/${userId}/vendor/${currentVendor.id}/order_template/new`);
+        navigate(
+          `/user/${userId}/vendor/${currentVendor.id}/order_template/new`
+        );
+      }
     }
-  }, [readyToCreate]);
+  }, [readyToCreate, currentVendor.id]);
 
   return (
     <ListItemButton>
       <ListItemText>{vendor.company_name}</ListItemText>
-      <Chip
-        label="Create template"
-        size="small"
-        variant="outlined"
-        color="primary"
+      <NoteAddIcon
+        color={"primary"}
         onClick={() => {
           handleOnClick(vendor.id);
         }}

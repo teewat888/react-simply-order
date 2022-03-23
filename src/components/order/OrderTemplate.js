@@ -14,6 +14,9 @@ import { getTemplates } from "../../store/template-slice";
 import { createOrder } from "../../store/order-slice";
 import { orderActions } from "../../store/order-slice";
 import { SkeletonLoading } from "../layout/SkeletonLoading";
+import EditIcon from "@mui/icons-material/Edit";
+import NoteAddIcon from "@mui/icons-material/NoteAdd";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 //this component responsible for own template list and vender template list
 
@@ -87,11 +90,10 @@ export const OrderTemplate = (props) => {
           {templateList.map((template) => (
             <ListItemButton key={template.id}>
               <ListItemText>{template.name}</ListItemText>
-              <Chip
-                label="Create order"
-                size="small"
-                variant="outlined"
-                color="primary"
+              <EditIcon color={"primary"} sx={{ mr: "0.5em" }} />
+              <DeleteIcon color={"primary"} sx={{ mr: "0.5em" }} />
+              <NoteAddIcon
+                color={"primary"}
                 onClick={() => handleClick(template.id, template.vendor_id)}
               />
             </ListItemButton>
