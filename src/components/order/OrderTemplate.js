@@ -73,6 +73,10 @@ export const OrderTemplate = (props) => {
     // once complete create order flag createSuccess to useEffect to lauch <Order />
   };
 
+  if (isLoading) {
+    return <SkeletonLoading />;
+  }
+
   return (
     <>
       <Box sx={{ width: "90%", bgcolor: "background.paper" }}>

@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import { SkeletonLoading } from "../layout/SkeletonLoading";
 import { SearchBox } from "../form/SearchBox";
+import { productActions } from "../../store/product-slice";
 
 export const VendorList = () => {
   const vendors = useSelector((state) => state.vendor.vendorList);
@@ -25,7 +26,8 @@ export const VendorList = () => {
   }, [searchTerm]);
   useEffect(() => {
     dispatch(getVendors());
-  }, [dispatch]);
+    dispatch(productActions.resetFetchFlag());
+  }, []);
   console.log("vendor res->", vendorsRes);
   return (
     <>

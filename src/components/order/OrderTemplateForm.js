@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getProducts } from "../../store/product-slice";
+import { getProducts, productActions } from "../../store/product-slice";
 import Checkbox from "@mui/material/Checkbox";
 import { Button, TextField } from "@mui/material";
 import List from "@mui/material/List";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
 import Box from "@mui/material/Box";
-import { createTemplate } from "../../store/template-slice";
+import { createTemplate, templateActions } from "../../store/template-slice";
+import { SkeletonLoading } from "../layout/SkeletonLoading";
 
 // This component take care of each product to be enable in each template
 
@@ -20,24 +21,26 @@ export const OrderTemplateForm = (props) => {
   const vendor = useSelector((state) => state.vendor.vendorList);
   // flag to be set once order just create to redirect once finish created template
   const finishCreate = useSelector((state) => state.template.fetchSuccess);
+  const isLoading = useSelector((state) => state.product.isLoading);
   let company_name = "";
   //get company name
   if (vendor.length > 0) {
     const [vendor_detail] = vendor.filter((v) => v.id === parseInt(vendor_id));
     company_name = vendor_detail.company_name;
   }
-
+  console.log("we are at template now-finishcreate => ", finishCreate);
   const [currentProduct, setCurrentProduct] = useState(products);
   const [templateName, setTemplateName] = useState(company_name);
-
+  console.log("current products->", currentProduct);
   useEffect(() => {
-    dispatch(getProducts(vendor_id, "template"));
+    //dispatch(getProducts(vendor_id, "template"));
     setCurrentProduct([...products]);
   }, [dispatch]);
 
   useEffect(() => {
     if (finishCreate) {
-      navigate(-1);
+      navigate("/vendors");
+      dispatch(templateActions.resetFetchFlag());
     }
   }, [finishCreate]);
 
@@ -61,6 +64,9 @@ export const OrderTemplateForm = (props) => {
   const handleCreateTemplate = (e) => {
     dispatch(createTemplate(templateName, user_id, vendor_id, currentProduct));
   };
+  if (isLoading) {
+    return <SkeletonLoading />;
+  }
 
   return (
     <>
@@ -83,7 +89,8 @@ export const OrderTemplateForm = (props) => {
             </Button>
             <Button
               onClick={() => {
-                navigate(-1);
+                dispatch(productActions.resetFetchFlag());
+                navigate("/vendors");
               }}
               variant="outlined"
               sx={{ ml: "1em" }}

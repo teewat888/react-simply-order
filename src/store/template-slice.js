@@ -9,7 +9,7 @@ const templateSlice = createSlice({
   initialState: {
     templateList: [],
     isLoading: false,
-    createdSuccess: false,
+    fetchSuccess: false,
   },
   reducers: {
     setTemplates(state, action) {
@@ -19,11 +19,15 @@ const templateSlice = createSlice({
     loading(state) {
       state.isLoading = true;
     },
-    startCreate(state) {
-      state.createdSuccess = false;
+    setFetchFlag(state) {
+      state.fetchSuccess = true;
     },
-    finishCreated(state) {
-      state.createdSuccess = true;
+    resetFetchFlag(state) {
+      state.fetchSuccess = false;
+      console.log("reset flag", state.fetchSuccess);
+    },
+    endLoading(state) {
+      state.isLoading = false;
     },
     reset(state) {
       return { ...state.initialState };
@@ -63,7 +67,7 @@ export const createTemplate = (
               status: "success",
             })
           );
-          delay(1500).then(() => dispatch(templateActions.finishCreated()));
+          delay(1500).then(() => dispatch(templateActions.setFetchFlag()));
         } else {
           dispatch(
             uiActions.showNotification({
@@ -72,7 +76,7 @@ export const createTemplate = (
             })
           );
         }
-        dispatch(templateActions.startCreate());
+        dispatch(templateActions.resetFetchFlag());
       })
       .catch(errCatch);
   };
