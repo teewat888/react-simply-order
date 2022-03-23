@@ -8,6 +8,7 @@ import { getOrder, orderActions, updateOrder } from "../../store/order-slice";
 import { OrderHead } from "./OrderHead";
 import { useParams } from "react-router-dom";
 import { SkeletonLoading } from "../layout/SkeletonLoading";
+import { getAvendor } from "../../store/vendor-slice";
 
 // to take care new & edit order , received from OrderTemplate & MyOrder
 let firstLoad = true;
@@ -16,7 +17,7 @@ export const Order = (props) => {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.user.id);
   const order = useSelector((state) => state.order.order);
-  const orderId = order.id;
+  //const orderId = order.id;
   const [expanded, setExpanded] = React.useState(false); //accordian state
   const [searchTerm, setSearchTerm] = useState("");
   const { order_id } = useParams();
@@ -24,9 +25,10 @@ export const Order = (props) => {
   const [orderDetails, setOrderDetails] = useState(orderDetailsOrg);
   const isLoading = useSelector((state) => state.order.isLoading);
   const fetchFlag = useSelector((state) => state.order.fetchSuccess);
+  const currentVendor = useSelector((state) => state.vendor.currentVendor);
   //state for current order heading
   const [heading, setHeading] = useState({
-    id: orderId,
+    id: order_id,
     order_date: order.order_date,
     delivery_date: order.delivery_date,
     order_ref: order.order_ref,
@@ -66,6 +68,12 @@ export const Order = (props) => {
     setHeading({ ...heading, [e.target.id]: e.target.value });
   };
 
+  useEffect(() => {
+    console.log("suppose to call first", userId, order_id);
+    //dispatch(getOrder(userId, order_id));
+    console.log("order here->", order);
+  }, []);
+
   // once each input update , update order info
   useEffect(() => {
     setOrderInfo({ ...heading, order_details: orderDetails });
@@ -77,24 +85,22 @@ export const Order = (props) => {
       //prevent first load execute
       console.log("not first load");
       console.log("ordrInfo->", orderInfo);
+      dispatch(getAvendor(order.vendor_id));
       dispatch(orderActions.setOrder(orderInfo));
-      dispatch(updateOrder(orderId, orderInfo, userId, order.vendor_id));
+      dispatch(updateOrder(order_id, orderInfo, userId, order.vendor_id));
     }
     firstLoad = false;
   }, [orderInfo]);
 
-  useEffect(() => {
-    if (order_id) {
-      console.log("hey we got is-> ", order_id);
-      // dispatch(getOrder(userId, order_id));
-      dispatch(orderActions.resetFetchFlag());
-      console.log("readytoedit has reset???->", fetchFlag);
-    }
-  }, []);
-
+  if (isLoading) {
+    return <SkeletonLoading />;
+  }
+  if (!currentVendor) {
+    return null;
+  }
   return (
     <>
-      {isLoading && <SkeletonLoading />}
+      {/* {isLoading && <SkeletonLoading />} */}
       {heading && (
         <Box sx={{ width: "90%", bgcolor: "background.paper" }}>
           <OrderHead
@@ -102,6 +108,7 @@ export const Order = (props) => {
             handleChange={handleChange}
             heading={heading}
             expanded={expanded}
+            currentVendor={currentVendor}
           />
           <Box sx={{ textAlign: "center" }}>
             <SearchBox

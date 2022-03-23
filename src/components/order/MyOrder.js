@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useDebugValue, useEffect, useState } from "react";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
@@ -27,9 +27,10 @@ export const MyOrder = (props) => {
   const orderList = useSelector((state) => state.order.orderList);
   const userId = useSelector((state) => state.auth.user.id);
   const navigate = useNavigate();
-  const readyToEdit = useSelector((state) => state.order.fetchSuccess);
+  const finishDelete = useSelector((state) => state.order.fetchSuccess);
   const [orderId, setOrderId] = useState(null);
   const isLoading = useSelector((state) => state.order.isLoading);
+  const readyToEdit = useSelector((state) => state.order.editMode);
   //predefine open flags state
   const listLen = orderList.length;
   console.log(" listlen and orderList ->", listLen, orderList);
@@ -39,7 +40,7 @@ export const MyOrder = (props) => {
   }
   // state for confirm dialogs
   const [open, setOpen] = React.useState(arr);
-  console.log("readytoedit->", readyToEdit);
+  console.log("readytoedit->", finishDelete);
   const handleClickOpen = (i) => {
     setOpen((arr) => {
       let temp = [...arr];
@@ -55,15 +56,22 @@ export const MyOrder = (props) => {
       return temp;
     });
   };
-
-  //monitoring that edit order state ready for edit page <Order />
   useEffect(() => {
     if (readyToEdit) {
-      dispatch(orderActions.resetFetchFlag());
-      console.log("readytoedit has reset->", readyToEdit);
+      dispatch(orderActions.resetEditMode());
       navigate(`/user/order/${orderId}`);
     }
   }, [readyToEdit]);
+
+  //once finisnh delet redirect
+  useEffect(() => {
+    if (finishDelete) {
+      //   dispatch(orderActions.resetFetchFlag());
+      //   console.log("readytoedit has reset->", readyToEdit);
+      navigate("/customer/orders");
+      // }
+    }
+  }, [finishDelete]);
   // load my orders
   useEffect(() => {
     dispatch(getOrders(userId));

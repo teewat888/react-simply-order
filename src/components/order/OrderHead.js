@@ -13,6 +13,7 @@ export const OrderHead = ({
   handleChange,
   heading,
   expanded,
+  currentVendor,
 }) => {
   const orderHeading = [
     {
@@ -27,11 +28,11 @@ export const OrderHead = ({
     },
   ];
   const dispatch = useDispatch();
-  const currentVendor = useSelector((state) => state.vendor.currentVendor);
+  // const currentVendor = useSelector((state) => state.vendor.currentVendor);
 
   useEffect(() => {
-    console.log("heading.vendor_id=> ", heading.vendor_id);
-    dispatch(getAvendor(heading.vendor_id));
+    // console.log("heading.vendor_id=> ", heading.vendor_id);
+    // dispatch(getAvendor(heading.vendor_id));
   }, []);
 
   return (

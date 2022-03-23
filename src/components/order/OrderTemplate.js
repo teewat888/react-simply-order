@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import { getTemplates } from "../../store/template-slice";
 import { createOrder } from "../../store/order-slice";
 import { orderActions } from "../../store/order-slice";
+import { SkeletonLoading } from "../layout/SkeletonLoading";
 
 //this component responsible for own template list and vender template list
 
@@ -23,9 +24,10 @@ export const OrderTemplate = (props) => {
   const dispatch = useDispatch();
   //const [templates, setTemplates] = useState([]);
   const templateList = useSelector((state) => state.template.templateList);
-
+  const isLoading = useSelector((state) => state.order.isLoading);
   const orderCreated = useSelector((state) => state.order.fetchSuccess);
-
+  const orderId = useSelector((state) => state.order.order.id);
+  console.log("order create status ", orderCreated);
   const user_id = useSelector((state) => state.auth.user.id);
   const style = {
     margin: 0,
@@ -37,11 +39,18 @@ export const OrderTemplate = (props) => {
   };
 
   useEffect(() => {
+    dispatch(orderActions.resetFetchFlag());
+  }, []);
+
+  useEffect(() => {
     if (orderCreated) {
-      navigate("/user/order/new");
-      dispatch(orderActions.resetFetchFlag()); // reset flag so can be use for next order
+      console.log("orderId once order create->", orderId);
+      if (orderId) {
+        navigate(`/user/order/${orderId}`);
+        dispatch(orderActions.resetFetchFlag()); // reset flag so can be use for next order
+      }
     }
-  }, [orderCreated]);
+  }, [orderCreated, orderId]);
 
   useEffect(() => {
     if (mode === "mytemplates") {
@@ -63,6 +72,7 @@ export const OrderTemplate = (props) => {
     dispatch(createOrder(user_id, vendor_id, template_id));
     // once complete create order flag createSuccess to useEffect to lauch <Order />
   };
+
   return (
     <>
       <Box sx={{ width: "90%", bgcolor: "background.paper" }}>

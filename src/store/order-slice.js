@@ -32,6 +32,7 @@ const orderSlice = createSlice({
     setOrder(state, action) {
       //console.log("action payload", action.payload);
       state.order = { ...action.payload };
+      console.log("current-> order @ set order redux", state.order);
       state.isLoading = false;
     },
     removeOrder(state, action) {
@@ -57,6 +58,19 @@ const orderSlice = createSlice({
     resetEditMode(state) {
       state.editMode = false;
     },
+    resetOrder(state) {
+      state.order = {
+        order_date: "",
+        delivery_date: "",
+        order_ref: "",
+        comment: "",
+        user_id: null,
+        vendor_id: null,
+        order_details: [],
+        success: null,
+        id: null,
+      };
+    },
     reset(state) {
       return { ...state.initialState };
     },
@@ -74,7 +88,7 @@ export const updateOrder = (orderId, order, userId, vendorId) => {
         } else {
           dispatch(
             uiActions.showNotification({
-              text: "Error comuunication with server (edit), please try again",
+              text: "Error communication with server (edit), please try again",
               status: "error",
             })
           );
@@ -125,6 +139,8 @@ export const deleteOrder = (user_id, order_id) => {
               status: "success",
             })
           );
+          delay(1000).then(() => dispatch(orderActions.finishFetch()));
+          dispatch(orderActions.endLoading());
         } else {
           dispatch(
             uiActions.showNotification({
@@ -148,7 +164,8 @@ export const getOrder = (userId, orderId) => {
           dispatch(orderActions.setOrder(data.order));
           dispatch(orderActions.loading());
           delay(1500).then(() => {
-            dispatch(orderActions.finishFetch());
+            // dispatch(orderActions.finishFetch());
+            dispatch(orderActions.setEditMode());
             dispatch(orderActions.endLoading());
           });
           // dispatch(orderActions.finishFetch());
@@ -179,7 +196,10 @@ export const createOrder = (user_id, vendor_id, template_id) => {
             })
           );
           dispatch(orderActions.setOrder(data));
-          delay(1500).then(() => dispatch(orderActions.finishFetch()));
+
+          delay(1500).then(() => {
+            dispatch(orderActions.finishFetch());
+          });
         } else {
           dispatch(
             uiActions.showNotification({
