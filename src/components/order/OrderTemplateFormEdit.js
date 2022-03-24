@@ -1,49 +1,59 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { productActions } from "../../store/product-slice";
+import { getProducts, productActions } from "../../store/product-slice";
 import Checkbox from "@mui/material/Checkbox";
 import { Button, TextField } from "@mui/material";
 import List from "@mui/material/List";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
 import Box from "@mui/material/Box";
-import { createTemplate, templateActions } from "../../store/template-slice";
+import {
+  createTemplate,
+  editTemplate,
+  templateActions,
+} from "../../store/template-slice";
 import { SkeletonLoading } from "../layout/SkeletonLoading";
 import { vendorActions } from "../../store/vendor-slice";
 import { numbers } from "../../utils/numbers";
 
 // This component take care of each product to be enable in each template
 
-export const OrderTemplateForm = (props) => {
-  const { user_id, vendor_id } = useParams();
+export const OrderTemplateFormEdit = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.product.productList);
+  const products = useSelector(
+    (state) => state.template.templateDetails.products
+  );
 
   // flag to be set once order just create to redirect once finish created template
-  const finishCreate = useSelector((state) => state.template.fetchSuccess);
-  const isLoading = useSelector((state) => state.product.isLoading);
-  const currentVendor = useSelector((state) => state.vendor.currentVendor);
-  const company_name =
-    currentVendor.company_name + numbers(1000, 9999).toString(); // gen random nam for template name
+  const finishEdit = useSelector((state) => state.template.editMode);
+  const isLoading = useSelector((state) => state.template.isLoading);
+  //const currentVendor = useSelector((state) => state.vendor.currentVendor);
+  //   const company_name =
+  //     currentVendor.company_name + numbers(1000, 9999).toString(); // gen random nam for template name
 
-  console.log("we are at template now-finishcreate => ", finishCreate);
+  const company_name = useSelector(
+    (state) => state.template.templateDetails.name
+  );
+
+  console.log("we are at template now-finishcreate => ", finishEdit);
   const [currentProduct, setCurrentProduct] = useState(products);
   const [templateName, setTemplateName] = useState(company_name); // set default template name
   console.log("current products->", currentProduct);
+  // if template_id pass-> edit mode
+  const { user_id, template_id } = useParams();
 
   useEffect(() => {
     setCurrentProduct([...products]);
-  }, [dispatch]);
+    setTemplateName(company_name);
+  }, [products, company_name]);
 
   useEffect(() => {
-    if (finishCreate) {
-      navigate("/vendors");
-      dispatch(templateActions.resetFetchFlag());
-      dispatch(vendorActions.resetCurrentVendor());
+    if (finishEdit) {
+      navigate(`/user/${user_id}/order_templates/mytemplates`);
     }
-  }, [finishCreate]);
+  }, [finishEdit]);
 
   const handleOnChange = (e) => {
     //handle check boxes
@@ -62,8 +72,9 @@ export const OrderTemplateForm = (props) => {
     setTemplateName(e.target.value);
   };
 
-  const handleCreateTemplate = (e) => {
-    dispatch(createTemplate(templateName, user_id, vendor_id, currentProduct));
+  const handleEditTemplate = (e) => {
+    console.log("edit click", currentProduct);
+    dispatch(editTemplate(user_id, template_id, templateName, currentProduct));
   };
 
   const handleCancelCreate = () => {
@@ -71,6 +82,14 @@ export const OrderTemplateForm = (props) => {
     dispatch(vendorActions.resetCurrentVendor());
     navigate("/vendors");
   };
+
+  const handleCancelEdit = () => {
+    navigate(`/user/${user_id}/order_templates/mytemplates`);
+  };
+
+  if (currentProduct === undefined) {
+    return null;
+  }
 
   if (isLoading) {
     return <SkeletonLoading />;
@@ -92,11 +111,11 @@ export const OrderTemplateForm = (props) => {
             />
           </ListItemButton>
           <ListItemButton>
-            <Button onClick={handleCreateTemplate} variant="outlined">
-              Create Template
+            <Button onClick={handleEditTemplate} variant="outlined">
+              Edit template
             </Button>
             <Button
-              onClick={handleCancelCreate}
+              onClick={handleCancelEdit}
               variant="outlined"
               sx={{ ml: "1em" }}
             >

@@ -10,7 +10,12 @@ import ListItemText from "@mui/material/ListItemText";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
-import { deleteTemplate, getTemplates } from "../../store/template-slice";
+import {
+  deleteTemplate,
+  getTemplate,
+  getTemplates,
+  templateActions,
+} from "../../store/template-slice";
 import { createOrder } from "../../store/order-slice";
 import { orderActions } from "../../store/order-slice";
 import { SkeletonLoading } from "../layout/SkeletonLoading";
@@ -34,10 +39,12 @@ export const OrderTemplate = (props) => {
   //const [templates, setTemplates] = useState([]);
   const templateList = useSelector((state) => state.template.templateList);
   const isLoading = useSelector((state) => state.order.isLoading);
+  const isLoadingE = useSelector((state) => state.template.isLoading);
   const orderCreated = useSelector((state) => state.order.fetchSuccess);
   const orderId = useSelector((state) => state.order.order.id);
   console.log("order create status ", orderCreated);
-  const user_id = useSelector((state) => state.auth.user.id);
+  const userId = useSelector((state) => state.auth.user.id);
+  const templateReady = useSelector((state) => state.template.fetchSuccess);
   const style = {
     margin: 0,
     top: "auto",
@@ -55,6 +62,7 @@ export const OrderTemplate = (props) => {
   }
   // state for confirm dialogs
   const [open, setOpen] = useState(arr);
+  const [currentTemplateId, setCurrentTemplateId] = useState(null);
 
   useEffect(() => {
     dispatch(orderActions.resetFetchFlag());
@@ -72,13 +80,26 @@ export const OrderTemplate = (props) => {
 
   useEffect(() => {
     if (mode === "mytemplates") {
-      dispatch(getTemplates(user_id, null));
+      dispatch(getTemplates(userId, null));
     } else {
       dispatch(getProducts(vendor_id, "template"));
-      dispatch(getTemplates(user_id, vendor_id));
+      dispatch(getTemplates(userId, vendor_id));
     }
     return () => {};
   }, [mode]);
+
+  //monitor edit mode
+  useEffect(() => {
+    console.log("template ready->", templateReady);
+    if (templateReady) {
+      if (currentTemplateId !== null) {
+        console.log("current templateid ->", currentTemplateId);
+        dispatch(templateActions.resetFetchFlag());
+        dispatch(templateActions.resetEditMode());
+        navigate(`/user/${userId}/template/${currentTemplateId}/edit`);
+      }
+    }
+  }, [templateReady, currentTemplateId]);
 
   const handleClickOpen = (i) => {
     setOpen((arr) => {
@@ -97,25 +118,34 @@ export const OrderTemplate = (props) => {
   };
 
   const handleFabClick = () => {
-    //navigate(`/user/${user_id}/vendor/${vendor_id}/order_template/new`); // to <OrderTemplateForm />
+    //navigate(`/user/${userId}/vendor/${vendor_id}/order_template/new`); // to <OrderTemplateForm />
     navigate("/vendors");
   };
 
   const handleClick = (template_id, vendor_id) => {
     //handle to create new order
-    dispatch(createOrder(user_id, vendor_id, template_id));
+    dispatch(createOrder(userId, vendor_id, template_id));
     // once complete create order flag createSuccess to useEffect to lauch <Order />
   };
 
-  const handleEdit = (tid) => {
-    navigate(`/user/template/${tid}/edit`);
+  const handleEdit = (uid, tid) => {
+    // navigate(`/user/${uid}/template/${tid}/edit`);
+    console.log("click edit-> ", uid, tid);
+    setCurrentTemplateId(tid);
+    dispatch(templateActions.setEditMode());
+    dispatch(getTemplate(uid, tid));
   };
 
   const handleDelete = (tid) => {
-    dispatch(deleteTemplate(user_id, tid));
+    dispatch(deleteTemplate(userId, tid));
+    setOpen((arr) => {
+      //to adjust dialog state
+      arr.pop();
+      return arr;
+    });
   };
 
-  if (isLoading) {
+  if (isLoading || isLoadingE) {
     return <SkeletonLoading />;
   }
 
@@ -132,7 +162,7 @@ export const OrderTemplate = (props) => {
               <EditIcon
                 color={"primary"}
                 sx={{ mr: "0.5em" }}
-                onClick={() => handleEdit(template.id)}
+                onClick={() => handleEdit(userId, template.id)}
               />
               <DeleteIcon
                 color={"primary"}

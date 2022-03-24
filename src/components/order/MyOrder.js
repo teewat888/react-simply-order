@@ -87,6 +87,11 @@ export const MyOrder = (props) => {
   const handleDelete = (orderId, i) => {
     handleClose(i);
     dispatch(deleteOrder(userId, orderId));
+    setOpen((arr) => {
+      //to adjust dialog state
+      arr.pop();
+      return arr;
+    });
   };
 
   if (isLoading) {

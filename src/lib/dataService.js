@@ -80,10 +80,33 @@ class DataService {
     ).then(respFunc);
   }
 
-  fetchAnOrderTemplate(templateId) {
+  // fetchAnOrderTemplate(templateId) {
+  //   return fetch(
+  //     BASE_URL + `/user/order_form?template_id=${templateId}`,
+  //     confObjAuth("GET")
+  //   ).then(respFunc);
+  // }
+
+  // get a template detail to show in edit form
+  fetchTemplate(userId, templateId) {
     return fetch(
-      BASE_URL + `/user/order_form?template_id=${templateId}`,
+      BASE_URL + `/users/${userId}/order_templates/${templateId}/edit`,
       confObjAuth("GET")
+    ).then(respFunc);
+  }
+
+  fetchEditTemplate(userId, templateId, templateName, templateDetails) {
+    const body = JSON.stringify({
+      order_template: {
+        id: templateId,
+        name: templateName,
+        products: templateDetails,
+      },
+    });
+    console.log("body-> ", body);
+    return fetch(
+      BASE_URL + `/users/${userId}/order_templates/${templateId}`,
+      confObjAuthwithBody("PATCH", body)
     ).then(respFunc);
   }
 

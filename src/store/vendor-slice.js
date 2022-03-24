@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import DataService from "../lib/dataService";
 import { errCatch } from "../lib/helper";
+import { delay } from "../utils/delay";
 
 const vendorSlice = createSlice({
   name: "vendor",
@@ -21,6 +22,9 @@ const vendorSlice = createSlice({
     loading(state) {
       state.isLoading = true;
     },
+    endLoading(state) {
+      state.isLoading = false;
+    },
     resetCurrentVendor(state) {
       state.currentVendor = {};
     },
@@ -37,6 +41,10 @@ export const getVendors = () => {
       .then((data) => {
         console.log("fet v here");
         dispatch(vendorActions.setVendors(data.vendors));
+        dispatch(vendorActions.loading());
+        delay(1500).then(() => {
+          dispatch(vendorActions.endLoading());
+        });
       })
       .catch(errCatch);
   };

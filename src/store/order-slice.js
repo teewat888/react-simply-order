@@ -4,6 +4,7 @@ import { errCatch } from "../lib/helper";
 import { delay } from "../utils/delay";
 import { uiActions } from "./ui-slice";
 import { getAvendor } from "./vendor-slice";
+import { handleDataErrMsg, handleDataSuccessMsg } from "../lib/handleDataMsg";
 
 const orderSlice = createSlice({
   name: "order",
@@ -86,12 +87,7 @@ export const updateOrder = (orderId, order, userId, vendorId) => {
           console.log("data get back ->", data);
           dispatch(orderActions.setOrder(data.order));
         } else {
-          dispatch(
-            uiActions.showNotification({
-              text: data.message,
-              status: "error",
-            })
-          );
+          handleDataErrMsg(dispatch, data)();
         }
       })
       .catch(errCatch);
@@ -114,12 +110,7 @@ export const getOrders = (user_id) => {
         if (data.success) {
           dispatch(orderActions.setOrderList(data.orders));
         } else {
-          dispatch(
-            uiActions.showNotification({
-              text: data.message,
-              status: "error",
-            })
-          );
+          handleDataErrMsg(dispatch, data)();
         }
       })
       .catch(errCatch);
@@ -133,12 +124,7 @@ export const deleteOrder = (user_id, order_id) => {
       .then((data) => {
         if (data.success) {
           dispatch(orderActions.removeOrder(order_id));
-          dispatch(
-            uiActions.showNotification({
-              text: data.message,
-              status: "success",
-            })
-          );
+          handleDataSuccessMsg(dispatch, data)();
           delay(1000).then(() => {
             dispatch(orderActions.finishFetch());
             dispatch(
@@ -150,12 +136,7 @@ export const deleteOrder = (user_id, order_id) => {
           });
           dispatch(orderActions.endLoading());
         } else {
-          dispatch(
-            uiActions.showNotification({
-              text: data.message,
-              status: "error",
-            })
-          );
+          handleDataErrMsg(dispatch, data)();
         }
       })
       .catch(errCatch);
@@ -178,12 +159,7 @@ export const getOrder = (userId, orderId) => {
           });
           // dispatch(orderActions.finishFetch());
         } else {
-          dispatch(
-            uiActions.showNotification({
-              text: data.message,
-              status: "error",
-            })
-          );
+          handleDataErrMsg(dispatch, data)();
         }
       })
       .catch(errCatch);
@@ -197,24 +173,14 @@ export const createOrder = (user_id, vendor_id, template_id) => {
     DataService.fetchAddOrder(user_id, vendor_id, template_id)
       .then((data) => {
         if (data.success) {
-          dispatch(
-            uiActions.showNotification({
-              text: data.message,
-              status: "success",
-            })
-          );
+          handleDataSuccessMsg(dispatch, data)();
           dispatch(orderActions.setOrder(data));
 
           delay(1500).then(() => {
             dispatch(orderActions.finishFetch());
           });
         } else {
-          dispatch(
-            uiActions.showNotification({
-              text: data.message,
-              status: "error",
-            })
-          );
+          handleDataErrMsg(dispatch, data)();
         }
       })
       .catch(errCatch);
