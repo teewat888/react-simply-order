@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
@@ -8,11 +8,20 @@ import HistoryIcon from "@mui/icons-material/History";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Drawer from "@mui/material/Drawer";
+import { Bag } from "../order/Bag";
 
 export default function SimpleBottomNavigation() {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
   const navigate = useNavigate();
   const userId = useSelector((state) => state.auth.user.id);
+  const order = useSelector((state) => state.order.order);
+  const [state, setState] = useState(false);
+
+  const toggleDrawer = (open) => (event) => {
+    setState(open);
+  };
+
   return (
     <Box sx={{ width: "100%", paddingTop: "60px" }}>
       <BottomNavigation
@@ -52,10 +61,16 @@ export default function SimpleBottomNavigation() {
         <BottomNavigationAction
           label="Bag"
           icon={<LocalMallIcon />}
-          onClick={() => {
-            navigate("/");
-          }}
+          onClick={toggleDrawer(true)}
         />
+        <Drawer
+          anchor="right"
+          open={state}
+          onClose={toggleDrawer(false)}
+          PaperProps={{ style: { backgroundColor: "#ede4e1" } }}
+        >
+          <Bag toggleDrawer={toggleDrawer} order={order} />
+        </Drawer>
       </BottomNavigation>
     </Box>
   );
