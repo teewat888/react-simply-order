@@ -19,20 +19,19 @@ export const OrderTemplateForm = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.productList);
-  const vendor = useSelector((state) => state.vendor.vendorList);
+
   // flag to be set once order just create to redirect once finish created template
   const finishCreate = useSelector((state) => state.template.fetchSuccess);
   const isLoading = useSelector((state) => state.product.isLoading);
-  let company_name = "";
-  //get company name
-  if (vendor.length > 0) {
-    const [vendor_detail] = vendor.filter((v) => v.id === parseInt(vendor_id));
-    company_name = vendor_detail.company_name;
-  }
+  const currentVendor = useSelector((state) => state.vendor.currentVendor);
+  const company_name = currentVendor.company_name;
+
   console.log("we are at template now-finishcreate => ", finishCreate);
   const [currentProduct, setCurrentProduct] = useState(products);
   const [templateName, setTemplateName] = useState(company_name);
   console.log("current products->", currentProduct);
+  const { template_id } = useParams(); // if template_id pass-> edit mode
+
   useEffect(() => {
     setCurrentProduct([...products]);
   }, [dispatch]);
@@ -65,6 +64,19 @@ export const OrderTemplateForm = (props) => {
   const handleCreateTemplate = (e) => {
     dispatch(createTemplate(templateName, user_id, vendor_id, currentProduct));
   };
+
+  const handleEditTemplate = (e) => {};
+
+  const handleCancelCreate = () => {
+    dispatch(productActions.resetFetchFlag());
+    dispatch(vendorActions.resetCurrentVendor());
+    navigate("/vendors");
+  };
+
+  const handleCancelEdit = () => {
+    navigate(`/user/${user_id}/order_templates/mytemplates`);
+  };
+
   if (isLoading) {
     return <SkeletonLoading />;
   }
@@ -86,14 +98,10 @@ export const OrderTemplateForm = (props) => {
           </ListItemButton>
           <ListItemButton>
             <Button onClick={handleCreateTemplate} variant="outlined">
-              Create Template
+              {template_id ? "Edit template" : "Create Template"}
             </Button>
             <Button
-              onClick={() => {
-                dispatch(productActions.resetFetchFlag());
-                dispatch(vendorActions.resetCurrentVendor());
-                navigate("/vendors");
-              }}
+              onClick={template_id ? handleCancelEdit : handleCancelCreate}
               variant="outlined"
               sx={{ ml: "1em" }}
             >

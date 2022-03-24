@@ -26,6 +26,11 @@ const templateSlice = createSlice({
       state.fetchSuccess = false;
       console.log("reset flag", state.fetchSuccess);
     },
+    removeTemplate(state, action) {
+      state.templateList = state.templateList.filter(
+        (template) => template.id !== action.payload
+      );
+    },
     endLoading(state) {
       state.isLoading = false;
     },
@@ -63,7 +68,7 @@ export const createTemplate = (
         if (data.success) {
           dispatch(
             uiActions.showNotification({
-              text: "Order template created.",
+              text: data.message,
               status: "success",
             })
           );
@@ -71,12 +76,45 @@ export const createTemplate = (
         } else {
           dispatch(
             uiActions.showNotification({
-              text: "Error when creating order template.",
+              text: data.message,
               status: "error",
             })
           );
         }
         dispatch(templateActions.resetFetchFlag());
+      })
+      .catch(errCatch);
+  };
+};
+
+export const deleteTemplate = (userId, templateId) => {
+  return (dispatch) => {
+    DataService.fetchDeleteTemplate(userId, templateId)
+      .then((data) => {
+        if (data.success) {
+          dispatch(templateActions.removeTemplate(templateId));
+          dispatch(
+            uiActions.showNotification({
+              text: data.message,
+              status: "success",
+            })
+          );
+          delay(1000).then(() => {
+            dispatch(
+              uiActions.showNotification({
+                text: "",
+                status: "error",
+              })
+            );
+          });
+        } else {
+          dispatch(
+            uiActions.showNotification({
+              text: data.message,
+              status: "error",
+            })
+          );
+        }
       })
       .catch(errCatch);
   };

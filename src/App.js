@@ -124,6 +124,14 @@ function App() {
         </ProtectedRoute>
       ),
     },
+    {
+      path: "/user/template/:template_id/edit",
+      element: (
+        <ProtectedRoute isAllow={isLoggedIn}>
+          <OrderTemplateForm />
+        </ProtectedRoute>
+      ),
+    },
   ];
 
   return (

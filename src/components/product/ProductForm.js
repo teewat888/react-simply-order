@@ -18,7 +18,7 @@ import { errCatch } from "../../lib/helper";
 
 export const ProductForm = (props) => {
   const products = useSelector((state) => state.product.productList);
-  const { product_id } = useParams(); // get params from navigated
+  const { product_id } = useParams(); // get params from navigated // if product_id pass = edit mode
 
   const vendor_id = useSelector((state) => state.auth.user.id);
 

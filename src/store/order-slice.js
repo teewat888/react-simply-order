@@ -88,7 +88,7 @@ export const updateOrder = (orderId, order, userId, vendorId) => {
         } else {
           dispatch(
             uiActions.showNotification({
-              text: "Error communication with server (edit), please try again",
+              text: data.message,
               status: "error",
             })
           );
@@ -116,7 +116,7 @@ export const getOrders = (user_id) => {
         } else {
           dispatch(
             uiActions.showNotification({
-              text: "Error finding orders, please try again",
+              text: data.message,
               status: "error",
             })
           );
@@ -135,7 +135,7 @@ export const deleteOrder = (user_id, order_id) => {
           dispatch(orderActions.removeOrder(order_id));
           dispatch(
             uiActions.showNotification({
-              text: "Order deleted successfully.",
+              text: data.message,
               status: "success",
             })
           );
@@ -152,7 +152,7 @@ export const deleteOrder = (user_id, order_id) => {
         } else {
           dispatch(
             uiActions.showNotification({
-              text: "Error finding orders, please try again",
+              text: data.message,
               status: "error",
             })
           );
@@ -180,7 +180,7 @@ export const getOrder = (userId, orderId) => {
         } else {
           dispatch(
             uiActions.showNotification({
-              text: "Error finding orders, please try again",
+              text: data.message,
               status: "error",
             })
           );
@@ -199,7 +199,7 @@ export const createOrder = (user_id, vendor_id, template_id) => {
         if (data.success) {
           dispatch(
             uiActions.showNotification({
-              text: "Order successfully created.",
+              text: data.message,
               status: "success",
             })
           );
@@ -211,7 +211,7 @@ export const createOrder = (user_id, vendor_id, template_id) => {
         } else {
           dispatch(
             uiActions.showNotification({
-              text: "Error creating order, please try again",
+              text: data.message,
               status: "error",
             })
           );

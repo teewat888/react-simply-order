@@ -39,8 +39,9 @@ export const MyOrder = (props) => {
     arr[i] = false;
   }
   // state for confirm dialogs
-  const [open, setOpen] = React.useState(arr);
+  const [open, setOpen] = useState(arr);
   console.log("readytoedit->", finishDelete);
+
   const handleClickOpen = (i) => {
     setOpen((arr) => {
       let temp = [...arr];

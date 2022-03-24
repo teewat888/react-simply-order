@@ -87,6 +87,13 @@ class DataService {
     ).then(respFunc);
   }
 
+  fetchDeleteTemplate(userId, templateId) {
+    return fetch(
+      BASE_URL + `/users/${userId}/order_templates/${templateId}`,
+      confObjAuth("DELETE")
+    ).then(respFunc);
+  }
+
   fetchAddOrder(userId, vendorId, templateId) {
     return fetch(
       BASE_URL +
