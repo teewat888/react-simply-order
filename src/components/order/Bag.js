@@ -5,9 +5,13 @@ import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import Container from "@mui/material/Container";
 import { convertToPlainText } from "../../lib/convertText";
+import { useSelector } from "react-redux";
 
 export const Bag = ({ toggleDrawer, order }) => {
   const [items, setItems] = useState(order.order_details);
+  const user = useSelector((state) => state.auth.user);
+  order = { ...order, customer: user.company_name };
+
   console.log("order in drwaer->", order);
   return (
     <>
@@ -27,7 +31,7 @@ export const Bag = ({ toggleDrawer, order }) => {
         <ul>
           {items.map((item) => {
             if (item.qty !== "0") {
-              return <li>{item.name}</li>;
+              return <li key={item.id}>{item.name}</li>;
             }
           })}
         </ul>
