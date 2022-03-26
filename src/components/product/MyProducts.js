@@ -32,7 +32,7 @@ export const MyProducts = () => {
   };
   console.log("products in <MyProducts/> ", products);
   if (!products) {
-    //handling the undefinded edge case
+    //handling the undefinded
     return null;
   }
   return (

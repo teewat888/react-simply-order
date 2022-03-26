@@ -24,14 +24,19 @@ export const VendorList = () => {
     const res = vendors.filter((vendor) =>
       vendor.company_name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setVendorsRes([...res]);
+    if (searchTerm.length() !== "") {
+      setVendorsRes([...res]);
+    } else {
+      setVendorsRes(vendors);
+    }
   }, [searchTerm]);
+
   useEffect(() => {
     dispatch(getVendors());
     setVendorsRes(vendors);
     dispatch(productActions.resetFetchFlag());
     console.log("vendors", vendors);
-  }, []);
+  }, [vendors]);
   console.log("vendor res->", vendorsRes);
   return (
     <>
