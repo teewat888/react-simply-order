@@ -21,6 +21,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useNavigate } from "react-router-dom";
 import { SkeletonLoading } from "../layout/SkeletonLoading";
+import Fab from "@mui/material/Fab";
+import AddIcon from "@mui/icons-material/Add";
 
 export const MyOrder = (props) => {
   const dispatch = useDispatch();
@@ -41,6 +43,14 @@ export const MyOrder = (props) => {
   // state for confirm dialogs
   const [open, setOpen] = useState(arr);
   console.log("readytoedit->", finishDelete);
+  const style = {
+    margin: 0,
+    top: "auto",
+    right: 20,
+    bottom: 100,
+    left: "auto",
+    position: "fixed",
+  }; //style for FAB
 
   const handleClickOpen = (i) => {
     setOpen((arr) => {
@@ -64,13 +74,10 @@ export const MyOrder = (props) => {
     }
   }, [readyToEdit]);
 
-  //once finisnh delet redirect
+  //once finisnh delete redirect
   useEffect(() => {
     if (finishDelete) {
-      //   dispatch(orderActions.resetFetchFlag());
-      //   console.log("readytoedit has reset->", readyToEdit);
       navigate("/customer/orders");
-      // }
     }
   }, [finishDelete]);
   // load my orders
@@ -92,6 +99,10 @@ export const MyOrder = (props) => {
       arr.pop();
       return arr;
     });
+  };
+
+  const handleFabClick = () => {
+    navigate(`/user/${userId}/order_templates/neworder`);
   };
 
   if (isLoading) {
@@ -139,6 +150,15 @@ export const MyOrder = (props) => {
             </ListItemButton>
           ))}
         </List>
+        <Fab
+          size="medium"
+          color="primary"
+          aria-label="add"
+          style={style}
+          onClick={handleFabClick}
+        >
+          <AddIcon />
+        </Fab>
       </Box>
     </>
   );

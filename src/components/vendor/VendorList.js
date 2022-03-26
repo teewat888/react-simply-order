@@ -4,9 +4,11 @@ import { getVendors } from "../../store/vendor-slice";
 import { Vendor } from "./Vendor";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
+import Typography from "@mui/material/Typography";
 import { SkeletonLoading } from "../layout/SkeletonLoading";
 import { SearchBox } from "../form/SearchBox";
 import { productActions } from "../../store/product-slice";
+import NoteAddIcon from "@mui/icons-material/NoteAdd";
 
 export const VendorList = () => {
   const vendors = useSelector((state) => state.vendor.vendorList);
@@ -33,6 +35,10 @@ export const VendorList = () => {
   console.log("vendor res->", vendorsRes);
   return (
     <>
+      <Typography variant="overline">
+        Create <NoteAddIcon color={"primary"} sx={{ mb: "-0.2em" }} />
+        order templates from the vendor
+      </Typography>
       <SearchBox
         handleSearch={handleSearch}
         searchTerm={searchTerm}

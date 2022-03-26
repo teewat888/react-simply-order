@@ -52,7 +52,7 @@ export const OrderTemplate = (props) => {
     bottom: 100,
     left: "auto",
     position: "fixed",
-  };
+  }; //style for FAB
 
   const listLen = templateList.length;
   console.log(" listlen and templateList ->", listLen, templateList);
@@ -79,7 +79,7 @@ export const OrderTemplate = (props) => {
   }, [orderCreated, orderId]);
 
   useEffect(() => {
-    if (mode === "mytemplates") {
+    if (mode === "mytemplates" || mode === "neworder") {
       dispatch(getTemplates(userId, null));
     } else {
       dispatch(getProducts(vendor_id, "template"));
@@ -154,46 +154,71 @@ export const OrderTemplate = (props) => {
       <Box sx={{ width: "90%", bgcolor: "background.paper" }}>
         <List>
           <ListItemText>
-            <Typography variant="h6">Order Template</Typography>
+            {mode === "mytemplates" ? (
+              <Typography variant="h6">Order Template</Typography>
+            ) : (
+              <Typography variant="overline">
+                Create <NoteAddIcon color={"primary"} sx={{ mb: "-0.2em" }} />
+                order from the below templates
+              </Typography>
+            )}
           </ListItemText>
           {templateList.map((template, i) => (
             <ListItemButton key={template.id}>
               <ListItemText>{template.name}</ListItemText>
-              <EditIcon
-                color={"primary"}
-                sx={{ mr: "0.5em" }}
-                onClick={() => handleEdit(userId, template.id)}
-              />
-              <DeleteIcon
-                color={"primary"}
-                sx={{ mr: "0.5em" }}
-                onClick={() => handleClickOpen(i)}
-              />
-              <Dialog
-                open={open[i]}
-                onClose={() => handleClose(i)}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-              >
-                <DialogTitle id="alert-dialog-title">
-                  {"Delete this template ?"}
-                </DialogTitle>
-                <DialogContent>
-                  <DialogContentText id="alert-dialog-description">
-                    {template.name}
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={() => handleClose(i)} autoFocus>
-                    Cancel
-                  </Button>
-                  <Button onClick={() => handleDelete(template.id)}>Yes</Button>
-                </DialogActions>
-              </Dialog>
-              <NoteAddIcon
-                color={"primary"}
-                onClick={() => handleClick(template.id, template.vendor_id)}
-              />
+              {mode === "mytemplates" ? (
+                <EditIcon
+                  color={"primary"}
+                  sx={{ mr: "0.5em" }}
+                  onClick={() => handleEdit(userId, template.id)}
+                />
+              ) : (
+                ""
+              )}
+              {mode === "mytemplates" ? (
+                <DeleteIcon
+                  color={"primary"}
+                  sx={{ mr: "0.5em" }}
+                  onClick={() => handleClickOpen(i)}
+                />
+              ) : (
+                ""
+              )}
+              {mode === "mytemplates" ? (
+                <Dialog
+                  open={open[i]}
+                  onClose={() => handleClose(i)}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle id="alert-dialog-title">
+                    {"Delete this template ?"}
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      {template.name}
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={() => handleClose(i)} autoFocus>
+                      Cancel
+                    </Button>
+                    <Button onClick={() => handleDelete(template.id)}>
+                      Yes
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              ) : (
+                ""
+              )}
+              {mode === "neworder" ? (
+                <NoteAddIcon
+                  color={"primary"}
+                  onClick={() => handleClick(template.id, template.vendor_id)}
+                />
+              ) : (
+                ""
+              )}
             </ListItemButton>
           ))}
         </List>
