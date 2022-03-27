@@ -157,6 +157,19 @@ class DataService {
     ).then(respFunc);
   }
 
+  fetchEditEmailTo(orderId, userId, emailTo) {
+    const body = JSON.stringify({
+      order: {
+        email_to: emailTo,
+      },
+    });
+    console.log("body-> ", body);
+    return fetch(
+      BASE_URL + `/users/${userId}/orders/${orderId}`,
+      confObjAuthwithBody("PATCH", body)
+    ).then(respFunc);
+  }
+
   fetchDeleteOrder(userId, orderId) {
     return fetch(
       BASE_URL + `/users/${userId}/orders/${orderId}`,

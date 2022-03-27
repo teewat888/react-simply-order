@@ -203,6 +203,21 @@ export const sendEmail = (orderId) => {
   };
 };
 
+export const editEmailTo = (orderId, userId, emailTo) => {
+  return (dispatch) => {
+    DataService.fetchEditEmailTo(orderId, userId, emailTo)
+      .then((data) => {
+        if (data.success) {
+          console.log("data get back ->", data);
+          dispatch(orderActions.setOrder(data.order));
+        } else {
+          handleDataErrMsg(dispatch, data)();
+        }
+      })
+      .catch(errCatch);
+  };
+};
+
 export const orderActions = orderSlice.actions;
 
 export default orderSlice;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { convertToPlainText } from "../../lib/convertText";
@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { formatDate } from "../../utils/timeFormat";
 import TextField from "@mui/material/TextField";
 import Divider from "@mui/material/Divider";
-import { sendEmail } from "../../store/order-slice";
+import { editEmailTo, sendEmail } from "../../store/order-slice";
 
 export const Bag = ({ toggleDrawer, order }) => {
   const [items, setItems] = useState(order.order_details);
@@ -22,6 +22,10 @@ export const Bag = ({ toggleDrawer, order }) => {
   const handleClickEmail = (e) => {
     dispatch(sendEmail(order.id));
   };
+
+  useEffect(() => {
+    dispatch(editEmailTo(order.id, user.id, emailTo));
+  }, [emailTo]);
 
   return (
     <>
