@@ -24,7 +24,7 @@ export const VendorList = () => {
     const res = vendors.filter((vendor) =>
       vendor.company_name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    if (searchTerm.length() !== "") {
+    if (searchTerm.length !== 0) {
       setVendorsRes([...res]);
     } else {
       setVendorsRes(vendors);
@@ -35,9 +35,12 @@ export const VendorList = () => {
     dispatch(getVendors());
     setVendorsRes(vendors);
     dispatch(productActions.resetFetchFlag());
-    console.log("vendors", vendors);
-  }, [vendors]);
-  console.log("vendor res->", vendorsRes);
+    console.log("vendors", vendorsRes);
+  }, []);
+  console.log("vendor res->", vendors);
+  if (!vendors) {
+    return null;
+  }
   return (
     <>
       <Typography variant="overline">

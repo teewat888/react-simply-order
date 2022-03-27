@@ -4,7 +4,7 @@ import List from "@mui/material/List";
 import Box from "@mui/material/Box";
 import { SearchBox } from "../form/SearchBox";
 import { OrderForm } from "./OrderForm";
-import { getOrder, orderActions, updateOrder } from "../../store/order-slice";
+import { orderActions, updateOrder } from "../../store/order-slice";
 import { OrderHead } from "./OrderHead";
 import { useParams } from "react-router-dom";
 import { SkeletonLoading } from "../layout/SkeletonLoading";
@@ -23,6 +23,7 @@ export const Order = (props) => {
   const { order_id } = useParams();
   const orderDetailsOrg = order.order_details;
   const [orderDetails, setOrderDetails] = useState(orderDetailsOrg);
+  const [orderDetailsRes, setOrderDetailsRes] = useState(orderDetails);
   const isLoading = useSelector((state) => state.order.isLoading);
   const fetchFlag = useSelector((state) => state.order.fetchSuccess);
   const currentVendor = useSelector((state) => state.vendor.currentVendor);
@@ -45,6 +46,7 @@ export const Order = (props) => {
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value.toLowerCase());
+    console.log("search term:", searchTerm);
   };
 
   const handleExpand = (panel) => (event, isExpanded) => {
@@ -52,9 +54,18 @@ export const Order = (props) => {
   };
 
   const handleQuantity = (e) => {
-    //handle quantity input box
+    // handle quantity input box
     setOrderDetails(
       orderDetails.map((item) => {
+        if (item.id === parseInt(e.target.id)) {
+          return { ...item, qty: e.target.value };
+        } else {
+          return item;
+        }
+      })
+    );
+    setOrderDetailsRes(
+      orderDetailsRes.map((item) => {
         if (item.id === parseInt(e.target.id)) {
           return { ...item, qty: e.target.value };
         } else {
@@ -68,11 +79,18 @@ export const Order = (props) => {
     setHeading({ ...heading, [e.target.id]: e.target.value });
   };
 
+  //search item
   useEffect(() => {
-    console.log("suppose to call first", userId, order_id);
-    //dispatch(getOrder(userId, order_id));
-    console.log("order here->", order);
-  }, []);
+    const res = orderDetailsOrg.filter((detail) =>
+      detail.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    if (searchTerm.length !== 0) {
+      setOrderDetailsRes([...res]);
+    } else {
+      setOrderDetailsRes(orderDetailsOrg);
+    }
+    console.log("order details after search", orderDetailsRes);
+  }, [searchTerm]);
 
   // once each input update , update order info
   useEffect(() => {
@@ -121,7 +139,7 @@ export const Order = (props) => {
           <List>
             <OrderForm
               handleQuantity={handleQuantity}
-              orderDetails={orderDetails}
+              orderDetails={orderDetailsRes}
             />
           </List>
         </Box>

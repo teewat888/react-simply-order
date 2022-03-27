@@ -21,6 +21,7 @@ const orderSlice = createSlice({
       order_details: [],
       success: null,
       id: null,
+      item_ordered: [],
     },
     editMode: false,
     fetchSuccess: false,
@@ -33,6 +34,9 @@ const orderSlice = createSlice({
     setOrder(state, action) {
       //console.log("action payload", action.payload);
       state.order = { ...action.payload };
+      state.order.item_ordered = state.order.order_details.filter(
+        (detail) => detail.qty !== "0"
+      );
       console.log("current-> order @ set order redux", state.order);
       state.isLoading = false;
     },
@@ -41,6 +45,7 @@ const orderSlice = createSlice({
         (order) => order.id !== action.payload
       );
     },
+
     loading(state) {
       state.isLoading = true;
     },
@@ -175,10 +180,10 @@ export const createOrder = (user_id, vendor_id, template_id) => {
         if (data.success) {
           handleDataSuccessMsg(dispatch, data)();
           dispatch(orderActions.setOrder(data));
-
-          delay(1500).then(() => {
-            dispatch(orderActions.finishFetch());
-          });
+          dispatch(orderActions.finishFetch());
+          // delay(1500).then(() => {
+          //   dispatch(orderActions.finishFetch());
+          // });
         } else {
           handleDataErrMsg(dispatch, data)();
         }

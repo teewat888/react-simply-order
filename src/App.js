@@ -22,6 +22,7 @@ import { Order } from "./components/order/Order";
 import { SignUp } from "./components/auth/SignUp";
 import { MyOrder } from "./components/order/MyOrder";
 import { OrderTemplateFormEdit } from "./components/order/OrderTemplateFormEdit";
+import { orderActions } from "./store/order-slice";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -31,12 +32,13 @@ function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   console.log("logged in status ", isLoggedIn);
-  console.log("jwt in storage ", jwt);
+
   const handleUnAuth = () => {
     dispatch(authActions.logout_success()); // as jwt expire reset state at client
     console.log("jwt expire");
   };
   //dispatch(authActions.logout_success());
+  //dispatch(orderActions.resetOrder());
   useEffect(() => {
     authVerify(handleUnAuth); // expire jwt?
     dispatch(uiActions.clear()); // clear notification each page

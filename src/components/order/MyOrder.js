@@ -119,7 +119,9 @@ export const MyOrder = (props) => {
 
           {orderList.map((order, i) => (
             <ListItemButton key={order.id}>
-              <ListItemText>{order.order_ref}</ListItemText>
+              <ListItemText onClick={() => handleEdit(order.id)}>
+                {order.order_ref}
+              </ListItemText>
               <EditIcon
                 color="primary"
                 onClick={() => handleEdit(order.id)}

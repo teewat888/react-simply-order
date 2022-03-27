@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
@@ -7,9 +7,11 @@ import AutoAwesomeMotionIcon from "@mui/icons-material/AutoAwesomeMotion";
 import HistoryIcon from "@mui/icons-material/History";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Drawer from "@mui/material/Drawer";
 import { Bag } from "../order/Bag";
+import Badge from "@mui/material/Badge";
+import { orderActions } from "../../store/order-slice";
 
 export default function SimpleBottomNavigation() {
   const [value, setValue] = useState(0);
@@ -18,6 +20,7 @@ export default function SimpleBottomNavigation() {
   const order = useSelector((state) => state.order.order);
   const [state, setState] = useState(false);
 
+  console.log("item in bag", order.item_ordered);
   const toggleDrawer = (open) => (event) => {
     setState(open);
   };
@@ -58,9 +61,14 @@ export default function SimpleBottomNavigation() {
             navigate("/customer/orders");
           }}
         />
+
         <BottomNavigationAction
           label="Bag"
-          icon={<LocalMallIcon />}
+          icon={
+            <Badge badgeContent={order.item_ordered.length} color="primary">
+              <LocalMallIcon />
+            </Badge>
+          }
           onClick={toggleDrawer(true)}
         />
         <Drawer

@@ -56,6 +56,7 @@ export const OrderTemplate = (props) => {
 
   const listLen = templateList.length;
   console.log(" listlen and templateList ->", listLen, templateList);
+  console.log(" loading flag ->", isLoading, isLoadingE);
   const arr = new Array(listLen);
   for (let i = 0; i < listLen; i++) {
     arr[i] = false;
