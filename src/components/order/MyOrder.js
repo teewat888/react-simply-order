@@ -119,14 +119,6 @@ export const MyOrder = (props) => {
 
           {orderList.map((order, i) => (
             <ListItemButton key={order.id}>
-              <ListItemText onClick={() => handleEdit(order.id)}>
-                {order.order_ref}
-              </ListItemText>
-              <EditIcon
-                color="primary"
-                onClick={() => handleEdit(order.id)}
-                sx={{ mr: "1em" }}
-              />
               <DeleteIcon color="primary" onClick={() => handleClickOpen(i)} />
               <Dialog
                 open={open[i]}
@@ -149,6 +141,14 @@ export const MyOrder = (props) => {
                   <Button onClick={() => handleDelete(order.id, i)}>Yes</Button>
                 </DialogActions>
               </Dialog>
+              <EditIcon
+                color="primary"
+                onClick={() => handleEdit(order.id)}
+                sx={{ ml: "0.5em" }}
+              />
+              <ListItemText onClick={() => handleEdit(order.id)}>
+                {order.order_ref}
+              </ListItemText>
             </ListItemButton>
           ))}
         </List>

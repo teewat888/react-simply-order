@@ -18,7 +18,7 @@ export const Order = (props) => {
   const userId = useSelector((state) => state.auth.user.id);
   const order = useSelector((state) => state.order.order);
   //const orderId = order.id;
-  const [expanded, setExpanded] = React.useState(false); //accordian state
+  const [expanded, setExpanded] = useState("panel1"); //accordian state
   const [searchTerm, setSearchTerm] = useState("");
   const { order_id } = useParams();
   const orderDetailsOrg = order.order_details;

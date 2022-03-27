@@ -166,16 +166,6 @@ export const OrderTemplate = (props) => {
           </ListItemText>
           {templateList.map((template, i) => (
             <ListItemButton key={template.id}>
-              <ListItemText>{template.name}</ListItemText>
-              {mode === "mytemplates" ? (
-                <EditIcon
-                  color={"primary"}
-                  sx={{ mr: "0.5em" }}
-                  onClick={() => handleEdit(userId, template.id)}
-                />
-              ) : (
-                ""
-              )}
               {mode === "mytemplates" ? (
                 <DeleteIcon
                   color={"primary"}
@@ -212,27 +202,41 @@ export const OrderTemplate = (props) => {
               ) : (
                 ""
               )}
-              {mode === "neworder" ? (
-                <NoteAddIcon
+              {mode === "mytemplates" ? (
+                <EditIcon
                   color={"primary"}
-                  onClick={() => handleClick(template.id, template.vendor_id)}
+                  sx={{ mr: "0.5em" }}
+                  onClick={() => handleEdit(userId, template.id)}
                 />
               ) : (
                 ""
               )}
+              {mode === "neworder" ? (
+                <NoteAddIcon
+                  color={"primary"}
+                  onClick={() => handleClick(template.id, template.vendor_id)}
+                  sx={{ mr: "2em" }}
+                />
+              ) : (
+                ""
+              )}
+              <ListItemText>{template.name}</ListItemText>
             </ListItemButton>
           ))}
         </List>
-
-        <Fab
-          size="medium"
-          color="primary"
-          aria-label="add"
-          style={style}
-          onClick={handleFabClick}
-        >
-          <AddIcon />
-        </Fab>
+        {mode === "mytemplates" ? (
+          <Fab
+            size="medium"
+            color="primary"
+            aria-label="add"
+            style={style}
+            onClick={handleFabClick}
+          >
+            <AddIcon />
+          </Fab>
+        ) : (
+          ""
+        )}
       </Box>
     </>
   );

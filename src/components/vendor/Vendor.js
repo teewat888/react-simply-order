@@ -45,13 +45,14 @@ export const Vendor = ({ vendor }) => {
 
   return (
     <ListItemButton>
-      <ListItemText>{vendor.company_name}</ListItemText>
       <NoteAddIcon
         color={"primary"}
         onClick={() => {
           handleOnClick(vendor.id);
         }}
+        sx={{ mr: "2em" }}
       />
+      <ListItemText>{vendor.company_name}</ListItemText>
     </ListItemButton>
   );
 };

@@ -179,6 +179,7 @@ export const createOrder = (user_id, vendor_id, template_id) => {
     DataService.fetchAddOrder(user_id, vendor_id, template_id)
       .then((data) => {
         if (data.success) {
+          console.log("order data->", data);
           handleDataSuccessMsg(dispatch, data)();
           dispatch(orderActions.setOrder(data));
           dispatch(orderActions.finishFetch());
@@ -197,6 +198,12 @@ export const sendEmail = (orderId) => {
     console.log("orderId=", orderId);
     DataService.fetchSendEmail(orderId)
       .then(() => {
+        dispatch(
+          uiActions.showNotification({
+            text: "Email will be sent shortly, please check your inbox(if delivery is failure, the notice email will be sent to you).",
+            status: "info",
+          })
+        );
         console.log("success send email");
       })
       .catch(errCatch);

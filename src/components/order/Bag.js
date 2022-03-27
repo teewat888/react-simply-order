@@ -20,9 +20,12 @@ export const Bag = ({ toggleDrawer, order }) => {
   };
 
   const handleClickEmail = (e) => {
+    console.log("clik sen email");
+    toggleDrawer(false)();
     dispatch(sendEmail(order.id));
   };
 
+  //update email_to
   useEffect(() => {
     dispatch(editEmailTo(order.id, user.id, emailTo));
   }, [emailTo]);
