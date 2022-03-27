@@ -192,6 +192,16 @@ export const createOrder = (user_id, vendor_id, template_id) => {
       .catch(errCatch);
   };
 };
+export const sendEmail = (orderId) => {
+  return (dispatch) => {
+    console.log("orderId=", orderId);
+    DataService.fetchSendEmail(orderId)
+      .then(() => {
+        console.log("success send email");
+      })
+      .catch(errCatch);
+  };
+};
 
 export const orderActions = orderSlice.actions;
 

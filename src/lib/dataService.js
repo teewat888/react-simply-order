@@ -163,5 +163,12 @@ class DataService {
       confObjAuth("DELETE")
     ).then(respFunc);
   }
+
+  fetchSendEmail(orderId) {
+    return fetch(
+      BASE_URL + `/order/${orderId}/send_mail`,
+      confObjAuth("GET")
+    ).then(respFunc);
+  }
 }
 export default new DataService();

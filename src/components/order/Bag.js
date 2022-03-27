@@ -1,17 +1,27 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
-import List from "@mui/material/List";
-import Container from "@mui/material/Container";
 import { convertToPlainText } from "../../lib/convertText";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { formatDate } from "../../utils/timeFormat";
+import TextField from "@mui/material/TextField";
+import Divider from "@mui/material/Divider";
+import { sendEmail } from "../../store/order-slice";
 
 export const Bag = ({ toggleDrawer, order }) => {
   const [items, setItems] = useState(order.order_details);
   const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+  const [emailTo, setEmailTo] = useState(order.email_to);
   order = { ...order, customer: user.company_name };
+
+  const handleEmailTo = (e) => {
+    setEmailTo(e.target.value);
+  };
+
+  const handleClickEmail = (e) => {
+    dispatch(sendEmail(order.id));
+  };
 
   return (
     <>
@@ -36,10 +46,12 @@ export const Bag = ({ toggleDrawer, order }) => {
           {items.map((item) => {
             if (item.qty !== "0") {
               return (
-                <li key={item.id}>
-                  {item.name}&nbsp;&nbsp;{item.qty}
-                  &nbsp;{item.unit}
-                </li>
+                <>
+                  <li key={item.id}>
+                    {item.name}&nbsp;&nbsp;{item.qty}
+                    &nbsp;{item.unit}
+                  </li>
+                </>
               );
             }
           })}
@@ -49,6 +61,7 @@ export const Bag = ({ toggleDrawer, order }) => {
         <Button
           variant="outlined"
           size="small"
+          sx={{ mt: "-3em" }}
           onClick={() => {
             navigator.clipboard.writeText(convertToPlainText(order));
             console.log("clipbard click", convertToPlainText(order));
@@ -56,9 +69,25 @@ export const Bag = ({ toggleDrawer, order }) => {
         >
           Copy to clipboard
         </Button>
-        <Button variant="outlined" size="small" sx={{ ml: "1em" }}>
+        <br />
+        <Button
+          variant="outlined"
+          size="small"
+          sx={{ mt: "0em" }}
+          onClick={handleClickEmail}
+        >
           Email
         </Button>
+
+        <TextField
+          size="small"
+          id="email_to"
+          label="Recipient's email"
+          sx={{ mt: "0em" }}
+          InputLabelProps={{ shrink: true }}
+          value={emailTo}
+          onChange={handleEmailTo}
+        />
       </Box>
     </>
   );
