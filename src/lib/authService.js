@@ -27,6 +27,16 @@ class AuthService {
     ).then(respFunc);
   }
 
+  fetchUpdateProfile(data, userId) {
+    const body = JSON.stringify({
+      user: data,
+    });
+    return fetch(
+      BASE_URL + `/user/${userId}/update`,
+      confObjAuthwithBody("PATCH", body)
+    ).then(respFunc);
+  }
+
   fetchLogout() {
     return fetch(BASE_URL + "/user/sign_out", confObjAuth("DELETE")).then(
       respFunc

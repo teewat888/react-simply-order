@@ -52,6 +52,18 @@ export const UserForm = ({ title, current_user, mode, handleSubmit }) => {
               onChange={handleOnChange}
             />
           ))}
+          {mode !== "signup" ? (
+            <Button
+              variant="outlined"
+              sx={{ mt: "1em" }}
+              type="submit"
+              onClick={handleSubmit}
+            >
+              Update details
+            </Button>
+          ) : (
+            ""
+          )}
           {mode === "signup" && (
             <>
               <TextField

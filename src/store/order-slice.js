@@ -75,6 +75,7 @@ const orderSlice = createSlice({
         order_details: [],
         success: null,
         id: null,
+        item_ordered: [],
       };
     },
     reset(state) {

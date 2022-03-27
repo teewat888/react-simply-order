@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import AuthService from "../lib/authService";
+import { handleDataErrMsg, handleDataSuccessMsg } from "../lib/handleDataMsg";
 import { errCatch } from "../lib/helper";
 import { productActions } from "./product-slice";
 import { uiActions } from "./ui-slice";
@@ -69,6 +70,9 @@ const authSlice = createSlice({
         },
       };
     },
+    update(state, action) {
+      state.user = { ...state.user, ...action.payload };
+    },
     register(state) {
       state = state;
     },
@@ -126,6 +130,21 @@ export const doSignup = (data) => {
   };
 };
 
+export const updateProfile = (data, userId) => {
+  return (dispatch) => {
+    AuthService.fetchUpdateProfile(data, userId)
+      .then((data) => {
+        if (data.success) {
+          handleDataSuccessMsg(dispatch, data)();
+          dispatch(authActions.update(data.user));
+        } else {
+          handleDataErrMsg(dispatch, data)();
+        }
+      })
+      .catch(errCatch);
+  };
+};
+
 export const doLogout = () => {
   return (dispatch) => {
     AuthService.fetchLogout()
@@ -134,7 +153,7 @@ export const doLogout = () => {
         dispatch(productActions.reset());
       })
       .catch((e) => {
-        dispatch(authActions.logout_success());
+        dispatch(authActions.logout_success()); //no matter we log you out anyway!
       });
   };
 };

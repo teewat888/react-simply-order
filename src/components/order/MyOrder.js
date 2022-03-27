@@ -42,7 +42,7 @@ export const MyOrder = (props) => {
   }
   // state for confirm dialogs
   const [open, setOpen] = useState(arr);
-  console.log("readytoedit->", finishDelete);
+  console.log("open state->", open);
   const style = {
     margin: 0,
     top: "auto",

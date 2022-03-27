@@ -20,7 +20,7 @@ export default function SimpleBottomNavigation() {
   const order = useSelector((state) => state.order.order);
   const [state, setState] = useState(false);
 
-  console.log("item in bag", order.item_ordered);
+  console.log("item in bag", order);
   const toggleDrawer = (open) => (event) => {
     setState(open);
   };
@@ -28,7 +28,7 @@ export default function SimpleBottomNavigation() {
   return (
     <Box sx={{ width: "100%", paddingTop: "60px" }}>
       <BottomNavigation
-        showLabels
+        showlabels
         value={value}
         onChange={(event, newValue) => {
           setValue(newValue);

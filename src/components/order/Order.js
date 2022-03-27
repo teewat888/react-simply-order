@@ -132,7 +132,7 @@ export const Order = (props) => {
             <SearchBox
               handleSearch={handleSearch}
               searchTerm={searchTerm}
-              label="Search order"
+              label="Search item"
             />
           </Box>
 
