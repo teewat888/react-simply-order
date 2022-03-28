@@ -22,29 +22,29 @@ const ResponsiveAppBar = () => {
   let pages = [];
   if (!isLoggedIn) {
     pages = [
-      { name: "Help", link: "/products" },
-      { name: "About", link: "/product/new" },
+      { name: "Vendor portal", link: "/vendor-portal" },
+      { name: "About", link: "/about" },
       { name: "Login", link: "/login" },
     ];
   } else {
     switch (role) {
       case "customer":
         pages = [
-          { name: "Help", link: "/order/new" },
+          { name: "Help", link: "/help" },
           { name: "About", link: "/about" },
         ];
         break;
       case "vendor":
         pages = [
-          { name: "Help", link: "/products" },
-          { name: "About", link: "/product/new" },
+          { name: "Help", link: "/help" },
+          { name: "About", link: "/about" },
         ];
         break;
       case "admin":
         pages = [
           { name: "Product managment", link: "/products" },
           { name: "User managment", link: "/product/new" },
-          { name: "Help", link: "/login" },
+          { name: "Help", link: "/help" },
         ];
         break;
       default:

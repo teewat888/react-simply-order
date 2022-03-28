@@ -1,5 +1,6 @@
 import { Alert } from "@mui/material";
 import React from "react";
+import { renderHTML } from "../../lib/helper";
 
 export default function Notice({ message }) {
   return (
@@ -9,7 +10,7 @@ export default function Notice({ message }) {
       maxwidth="xs"
       sx={{ mt: "1em" }}
     >
-      {message.text}
+      {renderHTML(message.text)}
     </Alert>
   );
 }

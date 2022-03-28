@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { doSignup } from "../../store/auth-slice";
 import { UserForm } from "../form/UserForm";
 
-export const SignUp = () => {
+export const SignUp = ({ role }) => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ export const SignUp = () => {
     contact_number: "",
     company_name: "",
     password: "",
-    role_id: 3,
+    role_id: role,
   };
 
   useEffect(() => {

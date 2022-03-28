@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Layout } from "./components/layout/Layout";
-import { Home } from "./components/layout/Home";
+import { Home } from "./components/page/Home";
 import { NoMatch } from "./components/layout/NoMatch";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { Login } from "./components/auth/Login";
@@ -17,12 +17,14 @@ import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./theme";
 import { uiActions } from "./store/ui-slice";
 import { OrderTemplate } from "./components/order/OrderTemplate";
-import { OrderTemplateForm } from "./components/order/OrderTemplateForm";
+import { OrderTemplateForm } from "./components/order/OrderTemplateNew";
 import { Order } from "./components/order/Order";
 import { SignUp } from "./components/auth/SignUp";
 import { MyOrder } from "./components/order/MyOrder";
-import { OrderTemplateFormEdit } from "./components/order/OrderTemplateFormEdit";
-import { orderActions } from "./store/order-slice";
+import { OrderTemplateFormEdit } from "./components/order/OrderTemplateEdit";
+import { OrderTemplateFormNew } from "./components/order/OrderTemplateNew";
+import { About } from "./components/page/About";
+import { Help } from "./components/page/Help";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -98,7 +100,15 @@ function App() {
       path: "/user/:user_id/vendor/:vendor_id/order_template/new",
       element: (
         <ProtectedRoute isAllow={isLoggedIn}>
-          <OrderTemplateForm />
+          <OrderTemplateFormNew />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/user/:user_id/template/:template_id/edit",
+      element: (
+        <ProtectedRoute isAllow={isLoggedIn}>
+          <OrderTemplateFormEdit />
         </ProtectedRoute>
       ),
     },
@@ -127,14 +137,6 @@ function App() {
         </ProtectedRoute>
       ),
     },
-    {
-      path: "/user/:user_id/template/:template_id/edit",
-      element: (
-        <ProtectedRoute isAllow={isLoggedIn}>
-          <OrderTemplateFormEdit />
-        </ProtectedRoute>
-      ),
-    },
   ];
 
   return (
@@ -143,8 +145,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/help" element={<Help />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signup" element={<SignUp role={3} />} />
+            <Route path="/signupVendor" element={<SignUp role={2} />} />
             <Route path="/vendors" element={<VendorList />} />
 
             {myProtectedRoutes.map((myProtectedRoute, index) => (

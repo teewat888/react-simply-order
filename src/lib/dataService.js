@@ -80,13 +80,6 @@ class DataService {
     ).then(respFunc);
   }
 
-  // fetchAnOrderTemplate(templateId) {
-  //   return fetch(
-  //     BASE_URL + `/user/order_form?template_id=${templateId}`,
-  //     confObjAuth("GET")
-  //   ).then(respFunc);
-  // }
-
   // get a template detail to show in edit form
   fetchTemplate(userId, templateId) {
     return fetch(

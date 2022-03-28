@@ -8,7 +8,6 @@ import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Box from "@mui/material/Box";
-import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
 import {
   deleteTemplate,
@@ -33,13 +32,13 @@ import Button from "@mui/material/Button";
 
 export const OrderTemplate = (props) => {
   const navigate = useNavigate();
-  const { vendor_id, mode } = useParams(); // get mode to distinct own template and company template
+  const { vendor_id, mode } = useParams(); // get mode to distinct own template and vendor list mode
 
   const dispatch = useDispatch();
   //const [templates, setTemplates] = useState([]);
   const templateList = useSelector((state) => state.template.templateList);
-  const isLoading = useSelector((state) => state.order.isLoading);
-  const isLoadingE = useSelector((state) => state.template.isLoading);
+  const isLoading = useSelector((state) => state.order.isLoading); //wait for order load from create from template
+  const isLoadingE = useSelector((state) => state.template.isLoading); // wait for template loading
   const orderCreated = useSelector((state) => state.order.fetchSuccess);
   const orderId = useSelector((state) => state.order.order.id);
   console.log("order create status ", orderCreated);
@@ -55,8 +54,8 @@ export const OrderTemplate = (props) => {
   }; //style for FAB
 
   const listLen = templateList.length;
-  console.log(" listlen and templateList ->", listLen, templateList);
-  console.log(" loading flag ->", isLoading, isLoadingE);
+  // console.log(" listlen and templateList ->", listLen, templateList);
+  // console.log(" loading flag ->", isLoading, isLoadingE);
   const arr = new Array(listLen);
   for (let i = 0; i < listLen; i++) {
     arr[i] = false;
@@ -71,7 +70,7 @@ export const OrderTemplate = (props) => {
 
   useEffect(() => {
     if (orderCreated) {
-      console.log("orderId once order create->", orderId);
+      // console.log("orderId once order create->", orderId);
       if (orderId) {
         navigate(`/user/order/${orderId}`);
         dispatch(orderActions.resetFetchFlag()); // reset flag so can be use for next order
@@ -91,12 +90,12 @@ export const OrderTemplate = (props) => {
 
   //monitor edit mode
   useEffect(() => {
-    console.log("template ready->", templateReady);
+    // console.log("template ready->", templateReady);
     if (templateReady) {
       if (currentTemplateId !== null) {
-        console.log("current templateid ->", currentTemplateId);
-        dispatch(templateActions.resetFetchFlag());
-        dispatch(templateActions.resetEditMode());
+        // console.log("current templateid ->", currentTemplateId);
+        dispatch(templateActions.resetFetchFlag()); //once load finish reset flag for next event
+        dispatch(templateActions.resetEditMode()); //reset to available for for the next edit
         navigate(`/user/${userId}/template/${currentTemplateId}/edit`);
       }
     }
@@ -119,7 +118,7 @@ export const OrderTemplate = (props) => {
   };
 
   const handleFabClick = () => {
-    //navigate(`/user/${userId}/vendor/${vendor_id}/order_template/new`); // to <OrderTemplateForm />
+    //new order template to select from vendor
     navigate("/vendors");
   };
 

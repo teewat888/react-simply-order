@@ -120,7 +120,7 @@ export const doSignup = (data) => {
           dispatch(authActions.login_fail());
           dispatch(
             uiActions.showNotification({
-              text: "There is an error to sign up.",
+              text: data.message,
               status: "error",
             })
           );

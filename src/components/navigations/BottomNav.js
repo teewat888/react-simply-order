@@ -7,11 +7,10 @@ import AutoAwesomeMotionIcon from "@mui/icons-material/AutoAwesomeMotion";
 import HistoryIcon from "@mui/icons-material/History";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Drawer from "@mui/material/Drawer";
 import { Bag } from "../order/Bag";
 import Badge from "@mui/material/Badge";
-import { orderActions } from "../../store/order-slice";
 
 export default function SimpleBottomNavigation() {
   const [value, setValue] = useState(0);
@@ -20,7 +19,7 @@ export default function SimpleBottomNavigation() {
   const order = useSelector((state) => state.order.order);
   const [state, setState] = useState(false);
 
-  console.log("item in bag", order);
+  //console.log("item in bag", order);
   const toggleDrawer = (open) => (event) => {
     setState(open);
   };
@@ -32,6 +31,7 @@ export default function SimpleBottomNavigation() {
         value={value}
         onChange={(event, newValue) => {
           setValue(newValue);
+          console.log("bottom menu", value);
         }}
         sx={{
           width: "100%",

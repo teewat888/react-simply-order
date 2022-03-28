@@ -1,6 +1,4 @@
 import { BASE_URL } from "../config/contants";
-import { useDispatch } from "react-redux";
-import { authActions } from "../store/auth-slice";
 import { confObjAuth, confObjAuthwithBody, respFunc } from "./helper";
 
 class AuthService {

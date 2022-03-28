@@ -1,3 +1,5 @@
+import React from "react";
+
 // to define promise resp function from fetch api
 export const respFunc = (resp) => {
   if (resp.headers.get("jwt") !== null) {
@@ -32,4 +34,10 @@ export const confObjAuthwithBody = (method, body) => {
 export const errCatch = (e) => {
   console.log("error: ", e);
   //localStorage.clear();
+};
+
+export const renderHTML = (escapedHTML) => {
+  return React.createElement("div", {
+    dangerouslySetInnerHTML: { __html: escapedHTML },
+  });
 };

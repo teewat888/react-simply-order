@@ -1,21 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getProducts, productActions } from "../../store/product-slice";
-import Checkbox from "@mui/material/Checkbox";
-import { Button, TextField } from "@mui/material";
-import List from "@mui/material/List";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemButton from "@mui/material/ListItemButton";
-import Box from "@mui/material/Box";
-import {
-  createTemplate,
-  editTemplate,
-  templateActions,
-} from "../../store/template-slice";
+import { OrderTemplateForm } from "./OrderTemplateForm";
+import { editTemplate } from "../../store/template-slice";
 import { SkeletonLoading } from "../layout/SkeletonLoading";
-import { vendorActions } from "../../store/vendor-slice";
-import { numbers } from "../../utils/numbers";
 
 // This component take care of each product to be enable in each template
 
@@ -29,9 +17,6 @@ export const OrderTemplateFormEdit = (props) => {
   // flag to be set once order just create to redirect once finish created template
   const finishEdit = useSelector((state) => state.template.editMode);
   const isLoading = useSelector((state) => state.template.isLoading);
-  //const currentVendor = useSelector((state) => state.vendor.currentVendor);
-  //   const company_name =
-  //     currentVendor.company_name + numbers(1000, 9999).toString(); // gen random nam for template name
 
   const company_name = useSelector(
     (state) => state.template.templateDetails.name
@@ -77,12 +62,6 @@ export const OrderTemplateFormEdit = (props) => {
     dispatch(editTemplate(user_id, template_id, templateName, currentProduct));
   };
 
-  const handleCancelCreate = () => {
-    dispatch(productActions.resetFetchFlag());
-    dispatch(vendorActions.resetCurrentVendor());
-    navigate("/vendors");
-  };
-
   const handleCancelEdit = () => {
     navigate(`/user/${user_id}/order_templates/mytemplates`);
   };
@@ -97,44 +76,15 @@ export const OrderTemplateFormEdit = (props) => {
 
   return (
     <>
-      <Box sx={{ width: "90%", bgcolor: "background.paper" }}>
-        <List>
-          <ListItemButton>
-            <TextField
-              fullWidth
-              label="Template name: "
-              size="small"
-              margin="normal"
-              id="templateName"
-              value={templateName}
-              onChange={handleNameChange}
-            />
-          </ListItemButton>
-          <ListItemButton>
-            <Button onClick={handleEditTemplate} variant="outlined">
-              Edit template
-            </Button>
-            <Button
-              onClick={handleCancelEdit}
-              variant="outlined"
-              sx={{ ml: "1em" }}
-            >
-              Cancel
-            </Button>
-          </ListItemButton>
-          {currentProduct.map((product) => (
-            <ListItemButton key={product.id}>
-              <ListItemText>{product.name}</ListItemText>
-              <Checkbox
-                id={product.id.toString()}
-                checked={product.in_template}
-                onChange={handleOnChange}
-                inputProps={{ "aria-label": "controlled" }}
-              />
-            </ListItemButton>
-          ))}
-        </List>
-      </Box>
+      <OrderTemplateForm
+        currentProduct={currentProduct}
+        handleOk={handleEditTemplate}
+        handleCancel={handleCancelEdit}
+        mode={"edit"}
+        templateName={templateName}
+        handleNameChange={handleNameChange}
+        handleOnChange={handleOnChange}
+      />
     </>
   );
 };
