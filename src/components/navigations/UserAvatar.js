@@ -10,6 +10,7 @@ import { Link, useNavigate, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions, doLogout } from "../../store/auth-slice";
 import { orderActions } from "../../store/order-slice";
+import { vendorActions } from "../../store/vendor-slice";
 
 export const UserAvatar = ({ display }) => {
   const role = useSelector((state) => state.auth.user.role.name);
@@ -46,6 +47,7 @@ export const UserAvatar = ({ display }) => {
   const handleLogout = () => {
     dispatch(doLogout());
     dispatch(orderActions.resetOrder());
+    dispatch(vendorActions.reset());
     navigate("/login");
   };
   if (display) {

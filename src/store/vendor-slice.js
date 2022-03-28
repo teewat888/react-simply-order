@@ -29,7 +29,10 @@ const vendorSlice = createSlice({
       state.currentVendor = {};
     },
     reset(state) {
-      return { ...state.initialState };
+      // return { ...state.initialState };
+      state.vendorList = [];
+      state.isLoading = false;
+      state.currentVendor = {};
     },
   },
 });
@@ -39,7 +42,6 @@ export const getVendors = () => {
     dispatch(vendorActions.loading());
     DataService.fetchVendors()
       .then((data) => {
-        console.log("fet v here");
         dispatch(vendorActions.setVendors(data.vendors));
         dispatch(vendorActions.loading());
         delay(1500).then(() => {

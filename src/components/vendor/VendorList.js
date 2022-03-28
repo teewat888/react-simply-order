@@ -27,17 +27,17 @@ export const VendorList = () => {
     if (searchTerm.length !== 0) {
       setVendorsRes([...res]);
     } else {
+      console.log("got here om search nothing");
+      console.log("vendor ->", vendors);
       setVendorsRes(vendors);
     }
-  }, [searchTerm]);
+  }, [searchTerm, vendors]);
 
   useEffect(() => {
     dispatch(getVendors());
-    setVendorsRes(vendors);
     dispatch(productActions.resetFetchFlag());
-    console.log("vendors", vendorsRes);
-  }, []);
-  console.log("vendor res->", vendors);
+  }, [dispatch]);
+
   if (!vendors) {
     return null;
   }

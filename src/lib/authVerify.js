@@ -10,7 +10,6 @@ export const authVerify = (handleUnAuth) => {
   };
   const decodeJwt = parseJwt(localStorage.getItem("jwt"));
   if (decodeJwt !== null) {
-    console.log("jwt|now", decodeJwt.exp * 1000, Date.now());
     if (decodeJwt.exp * 1000 < Date.now()) {
       handleUnAuth();
     }

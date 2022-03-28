@@ -50,7 +50,7 @@ export const SignUp = ({ role }) => {
   return (
     <>
       <UserForm
-        title="Sign up"
+        title={role === 2 ? "Vendor Sign up" : "Sign up"}
         current_user={current_user}
         mode="signup"
         handleSubmit={handleSubmit}

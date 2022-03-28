@@ -54,8 +54,7 @@ export const OrderTemplate = (props) => {
   }; //style for FAB
 
   const listLen = templateList.length;
-  // console.log(" listlen and templateList ->", listLen, templateList);
-  // console.log(" loading flag ->", isLoading, isLoadingE);
+
   const arr = new Array(listLen);
   for (let i = 0; i < listLen; i++) {
     arr[i] = false;
@@ -78,6 +77,7 @@ export const OrderTemplate = (props) => {
     }
   }, [orderCreated, orderId]);
 
+  //check mode / via mytemplate / or list all
   useEffect(() => {
     if (mode === "mytemplates" || mode === "neworder") {
       dispatch(getTemplates(userId, null));
@@ -85,7 +85,6 @@ export const OrderTemplate = (props) => {
       dispatch(getProducts(vendor_id, "template"));
       dispatch(getTemplates(userId, vendor_id));
     }
-    return () => {};
   }, [mode]);
 
   //monitor edit mode
@@ -129,8 +128,6 @@ export const OrderTemplate = (props) => {
   };
 
   const handleEdit = (uid, tid) => {
-    // navigate(`/user/${uid}/template/${tid}/edit`);
-    console.log("click edit-> ", uid, tid);
     setCurrentTemplateId(tid);
     dispatch(templateActions.setEditMode());
     dispatch(getTemplate(uid, tid));
@@ -146,6 +143,7 @@ export const OrderTemplate = (props) => {
   };
 
   if (isLoading || isLoadingE) {
+    //handle both order and template
     return <SkeletonLoading />;
   }
 
