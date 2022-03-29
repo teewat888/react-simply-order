@@ -11,7 +11,6 @@ import { SkeletonLoading } from "../layout/SkeletonLoading";
 import { getAvendor } from "../../store/vendor-slice";
 
 // to take care new & edit order , received from OrderTemplate & MyOrder
-let firstLoad = true;
 
 export const Order = (props) => {
   const dispatch = useDispatch();
@@ -96,18 +95,23 @@ export const Order = (props) => {
   useEffect(() => {
     setOrderInfo({ ...heading, order_details: orderDetails });
   }, [heading, orderDetails]);
-
+  // get current vendor
+  useEffect(() => {
+    dispatch(getAvendor(order.vendor_id));
+  }, []);
   // update orderInfo state
   useEffect(() => {
-    if (!firstLoad) {
-      //prevent first load execute
-      console.log("not first load");
-      console.log("ordrInfo->", orderInfo);
-      dispatch(getAvendor(order.vendor_id));
-      dispatch(orderActions.setOrder(orderInfo));
+    dispatch(orderActions.setOrder(orderInfo));
+    //wait  3 seconds before update the order to reduce the api call
+    let tid = setTimeout(() => {
       dispatch(updateOrder(order_id, orderInfo, userId, order.vendor_id));
-    }
-    firstLoad = false;
+    }, 3000);
+    //clean up /cancel timer
+    return () => {
+      clearTimeout(tid);
+    };
+    // }
+    // firstLoad = false;
   }, [orderInfo]);
 
   if (isLoading) {
