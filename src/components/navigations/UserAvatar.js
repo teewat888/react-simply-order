@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authActions, doLogout } from "../../store/auth-slice";
 import { orderActions } from "../../store/order-slice";
 import { vendorActions } from "../../store/vendor-slice";
+import { productActions } from "../../store/product-slice";
 
 export const UserAvatar = ({ display }) => {
   const role = useSelector((state) => state.auth.user.role.name);
@@ -33,7 +34,7 @@ export const UserAvatar = ({ display }) => {
         ]
       : [
           { name: "Profile", link: "/profile" },
-          { name: "Account", link: "/" },
+          { name: "Create a product", link: "/vendor/products/new" },
           { name: "My products", link: "/vendor/products" },
           { name: "Logout", link: "/logout" },
         ];
@@ -48,6 +49,7 @@ export const UserAvatar = ({ display }) => {
     dispatch(doLogout());
     dispatch(orderActions.resetOrder());
     dispatch(vendorActions.reset());
+    dispatch(productActions.reset());
     navigate("/login");
   };
   if (display) {

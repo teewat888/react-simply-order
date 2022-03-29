@@ -28,6 +28,7 @@ export const MyOrder = (props) => {
   const dispatch = useDispatch();
   const orderList = useSelector((state) => state.order.orderList);
   const userId = useSelector((state) => state.auth.user.id);
+  const user = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
   const finishDelete = useSelector((state) => state.order.fetchSuccess);
   const [orderId, setOrderId] = useState(null);
@@ -107,6 +108,9 @@ export const MyOrder = (props) => {
 
   if (isLoading) {
     return <SkeletonLoading />;
+  }
+  if (user.role.id === 2) {
+    navigate("/");
   }
 
   return (

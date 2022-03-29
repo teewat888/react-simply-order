@@ -104,6 +104,7 @@ export const createTemplate = (
         if (data.success) {
           handleDataSuccessMsg(dispatch, data)();
           delay(1500).then(() => dispatch(templateActions.setFetchFlag()));
+          dispatch(templateActions.setFetchFlag());
         } else {
           handleDataErrMsg(dispatch, data)();
         }

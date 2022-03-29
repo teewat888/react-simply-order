@@ -27,8 +27,6 @@ export const VendorList = () => {
     if (searchTerm.length !== 0) {
       setVendorsRes([...res]);
     } else {
-      console.log("got here om search nothing");
-      console.log("vendor ->", vendors);
       setVendorsRes(vendors);
     }
   }, [searchTerm, vendors]);

@@ -29,7 +29,9 @@ const productSlice = createSlice({
       state.isLoading = false;
     },
     reset(state) {
-      return { ...state.initialState };
+      state.productList = [];
+      state.isLoading = false;
+      state.fetchSuccess = false;
     },
   },
 });
@@ -42,13 +44,7 @@ export const getProducts = (userId, mode) => {
     DataService.fetchProducts(userId, mode)
       .then((data) => {
         dispatch(productActions.setProducts(data.products));
-        // dispatch(productActions.loading());
-        // delay(1500).then(() => {
-        //   dispatch(productActions.setFetchFlag());
-        //   dispatch(productActions.endLoading());
-        // });
         dispatch(productActions.setFetchFlag());
-        console.log("set flag here");
       })
       .catch(errCatch);
   };

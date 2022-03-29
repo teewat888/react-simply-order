@@ -43,10 +43,10 @@ export const getVendors = () => {
     DataService.fetchVendors()
       .then((data) => {
         dispatch(vendorActions.setVendors(data.vendors));
-        dispatch(vendorActions.loading());
-        delay(1500).then(() => {
-          dispatch(vendorActions.endLoading());
-        });
+        // dispatch(vendorActions.loading());
+        // delay(1500).then(() => {
+        //   dispatch(vendorActions.endLoading());
+        // });
       })
       .catch(errCatch);
   };
