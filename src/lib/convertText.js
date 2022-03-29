@@ -8,7 +8,7 @@ export const convertToHtml = (data) => {
 export const convertToPlainText = (data) => {
   const order_details = data.order_details;
   const details = order_details.map((detail) => {
-    if (detail.qty !== "0") {
+    if (detail.qty !== "0" && detail.qty !== "") {
       if (detail.brand) {
         return `${detail.name}[${detail.brand}]\t${detail.qty} ${detail.unit}\n`;
       } else {

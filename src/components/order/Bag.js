@@ -58,7 +58,7 @@ export const Bag = ({ toggleDrawer, order }) => {
             Comment: {order.comment}
             <ul>
               {items.map((item) => {
-                if (item.qty !== "0") {
+                if (item.qty !== "0" && item.qty !== "") {
                   return (
                     <>
                       <li key={item.id}>

@@ -15,25 +15,33 @@ import { productActions } from "../../store/product-slice";
 
 export const UserAvatar = ({ display }) => {
   const role = useSelector((state) => state.auth.user.role.name);
-  const username = useSelector((state) => state.auth.user.company_name);
-  console.log("username", username);
-  const user_id = useSelector((state) => state.auth.user.id);
-  console.log("user_id", user_id);
+  const user = useSelector((state) => state.auth.user);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const settings =
     role === "customer"
       ? [
           { name: "Profile", link: "/profile" },
+          { name: "Change Password", link: "/change_password" },
+          {
+            name: "Create a template",
+            link: `/vendors`,
+          },
           {
             name: "My order templates",
-            link: `/user/${user_id}/order_templates/mytemplates`,
+            link: `/user/${user.id}/order_templates/mytemplates`,
+          },
+          {
+            name: "Create a order",
+            link: `/user/${user.id}/order_templates/neworder`,
           },
           { name: "My orders", link: "/customer/orders" },
           { name: "Logout", link: "/logout" },
         ]
       : [
           { name: "Profile", link: "/profile" },
+          { name: "Change Password", link: "/change_password" },
           { name: "Create a product", link: "/vendor/products/new" },
           { name: "My products", link: "/vendor/products" },
           { name: "Logout", link: "/logout" },
@@ -58,7 +66,9 @@ export const UserAvatar = ({ display }) => {
         <Box sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt="{username}">{username.slice(0, 1)}</Avatar>
+              <Avatar alt="{user.company_name}">
+                {user.company_name.slice(0, 1)}
+              </Avatar>
             </IconButton>
           </Tooltip>
           <Menu

@@ -9,6 +9,7 @@ import { OrderHead } from "./OrderHead";
 import { useParams } from "react-router-dom";
 import { SkeletonLoading } from "../layout/SkeletonLoading";
 import { getAvendor } from "../../store/vendor-slice";
+import { correctStr, stringHelper } from "../../utils/stringHelper";
 
 // to take care new & edit order , received from OrderTemplate & MyOrder
 
@@ -57,7 +58,7 @@ export const Order = (props) => {
     setOrderDetails(
       orderDetails.map((item) => {
         if (item.id === parseInt(e.target.id)) {
-          return { ...item, qty: e.target.value };
+          return { ...item, qty: stringHelper(e.target.value) };
         } else {
           return item;
         }
@@ -66,7 +67,7 @@ export const Order = (props) => {
     setOrderDetailsRes(
       orderDetailsRes.map((item) => {
         if (item.id === parseInt(e.target.id)) {
-          return { ...item, qty: e.target.value };
+          return { ...item, qty: stringHelper(e.target.value) };
         } else {
           return item;
         }

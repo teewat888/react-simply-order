@@ -35,7 +35,7 @@ const orderSlice = createSlice({
       //console.log("action payload", action.payload);
       state.order = { ...action.payload };
       state.order.item_ordered = state.order.order_details.filter(
-        (detail) => detail.qty !== "0"
+        (detail) => detail.qty !== "0" && detail.qty !== ""
       );
       console.log("current-> order @ set order redux", state.order);
       state.isLoading = false;
