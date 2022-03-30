@@ -25,6 +25,7 @@ import { OrderTemplateFormEdit } from "./components/order/OrderTemplateEdit";
 import { OrderTemplateFormNew } from "./components/order/OrderTemplateNew";
 import { About } from "./components/page/About";
 import { Help } from "./components/page/Help";
+import { ChangePassword } from "./components/auth/ChangePassword";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -134,6 +135,14 @@ function App() {
       element: (
         <ProtectedRoute isAllow={isLoggedIn}>
           <MyOrder />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/change_password",
+      element: (
+        <ProtectedRoute isAllow={isLoggedIn}>
+          <ChangePassword />
         </ProtectedRoute>
       ),
     },

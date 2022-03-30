@@ -53,14 +53,26 @@ export const UserForm = ({ title, current_user, mode, handleSubmit }) => {
             />
           ))}
           {mode !== "signup" ? (
-            <Button
-              variant="outlined"
-              sx={{ mt: "1em" }}
-              type="submit"
-              onClick={handleSubmit}
-            >
-              Update details
-            </Button>
+            <>
+              <Button
+                variant="outlined"
+                sx={{ mt: "1em" }}
+                type="submit"
+                onClick={handleSubmit}
+              >
+                Update details
+              </Button>
+              <Button
+                variant="outlined"
+                sx={{ mt: "1em", ml: "1em" }}
+                type="submit"
+                onClick={() => {
+                  navigate("/");
+                }}
+              >
+                Cancle
+              </Button>
+            </>
           ) : (
             ""
           )}

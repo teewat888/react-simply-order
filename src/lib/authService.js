@@ -40,6 +40,19 @@ class AuthService {
       respFunc
     );
   }
+
+  fetchChangePass(pass, userId) {
+    const body = JSON.stringify({
+      user: {
+        current_password: pass.currentPass,
+        password: pass.newPass,
+      },
+    });
+    return fetch(
+      BASE_URL + `/user/${userId}/change_password`,
+      confObjAuthwithBody("POST", body)
+    ).then(respFunc);
+  }
 }
 
 export default new AuthService();
