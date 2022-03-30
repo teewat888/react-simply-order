@@ -43,7 +43,8 @@ export const Bag = ({ toggleDrawer, order }) => {
           m: "1em",
           p: "0.5em",
           bgcolor: "#d6c9c5",
-          height: "85%",
+          // hack css to flexible height in case of a big list
+          height: "calc(100% + 10000px)",
         }}
         role="presentation"
         onClick={toggleDrawer(false)}
