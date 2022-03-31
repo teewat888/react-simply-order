@@ -9,6 +9,17 @@ export const respFunc = (resp) => {
   return resp.json();
 };
 
+export const confObjwithBody = (method, body) => {
+  return {
+    method: `${method}`,
+    headers: {
+      "content-type": "application/json",
+      accept: "application/json",
+    },
+    body: body,
+  };
+};
+
 export const confObjAuth = (method) => {
   return {
     method: `${method}`,

@@ -21,3 +21,24 @@ export const handleDataSuccessMsg = (dispatch, data) => {
     );
   };
 };
+
+export const showSuccess = (dispatch, data) => {
+  return () => {
+    dispatch(
+      uiActions.showNotification({
+        text: data,
+        status: "success",
+      })
+    );
+  };
+};
+export const showError = (dispatch, data) => {
+  return () => {
+    dispatch(
+      uiActions.showNotification({
+        text: data,
+        status: "error",
+      })
+    );
+  };
+};

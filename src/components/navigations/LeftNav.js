@@ -22,7 +22,7 @@ const ResponsiveAppBar = () => {
   let pages = [];
   if (!isLoggedIn) {
     pages = [
-      { name: "Vendor sign up", link: "/signupvendor" },
+      { name: "Vendor sign up", link: "/signup_vendor" },
       { name: "About", link: "/about" },
       { name: "Login", link: "/login" },
     ];

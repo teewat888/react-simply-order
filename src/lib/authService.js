@@ -1,5 +1,10 @@
 import { BASE_URL } from "../config/contants";
-import { confObjAuth, confObjAuthwithBody, respFunc } from "./helper";
+import {
+  confObjAuth,
+  confObjAuthwithBody,
+  confObjwithBody,
+  respFunc,
+} from "./helper";
 
 class AuthService {
   fetchLogin(email, password) {
@@ -51,6 +56,28 @@ class AuthService {
     return fetch(
       BASE_URL + `/user/${userId}/change_password`,
       confObjAuthwithBody("POST", body)
+    ).then(respFunc);
+  }
+
+  fetchForgotPass(email) {
+    const body = JSON.stringify({
+      email: email,
+    });
+    return fetch(
+      BASE_URL + `/password/forgot`,
+      confObjwithBody("POST", body)
+    ).then(respFunc);
+  }
+
+  fetchResetPassword(pass, token) {
+    const body = JSON.stringify({
+      password: pass,
+      token: token,
+    });
+    console.log("body", body);
+    return fetch(
+      BASE_URL + `/password/reset`,
+      confObjwithBody("POST", body)
     ).then(respFunc);
   }
 }

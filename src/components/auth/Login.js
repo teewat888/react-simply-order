@@ -116,6 +116,10 @@ export const Login = () => {
                   <Link href="/signup" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
+                  <br />
+                  <Link href="/forgot_password" variant="body2">
+                    {"Forgot password? "}
+                  </Link>
                 </Grid>
               </Grid>
             </Box>

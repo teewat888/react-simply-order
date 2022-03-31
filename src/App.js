@@ -26,6 +26,8 @@ import { OrderTemplateFormNew } from "./components/order/OrderTemplateNew";
 import { About } from "./components/page/About";
 import { Help } from "./components/page/Help";
 import { ChangePassword } from "./components/auth/ChangePassword";
+import { ForgotPassword } from "./components/auth/ForgotPassword";
+import { ResetPassword } from "./components/auth/ResetPassword";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -158,8 +160,10 @@ function App() {
             <Route path="/help" element={<Help />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp role={3} />} />
-            <Route path="/signupVendor" element={<SignUp role={2} />} />
+            <Route path="/signup_vendor" element={<SignUp role={2} />} />
             <Route path="/vendors" element={<VendorList />} />
+            <Route path="/forgot_password" element={<ForgotPassword />} />
+            <Route path="/reset_password/:token" element={<ResetPassword />} />
 
             {myProtectedRoutes.map((myProtectedRoute, index) => (
               <Route
