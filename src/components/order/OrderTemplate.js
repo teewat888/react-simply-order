@@ -66,10 +66,9 @@ export const OrderTemplate = (props) => {
   useEffect(() => {
     dispatch(orderActions.resetFetchFlag());
   }, []);
-
+  //monitor new template mode
   useEffect(() => {
     if (orderCreated) {
-      // console.log("orderId once order create->", orderId);
       if (orderId) {
         navigate(`/user/order/${orderId}`);
         dispatch(orderActions.resetFetchFlag()); // reset flag so can be use for next order
@@ -89,7 +88,6 @@ export const OrderTemplate = (props) => {
 
   //monitor edit mode
   useEffect(() => {
-    // console.log("template ready->", templateReady);
     if (templateReady) {
       if (currentTemplateId !== null) {
         // console.log("current templateid ->", currentTemplateId);

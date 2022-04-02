@@ -58,7 +58,6 @@ export const OrderTemplateFormEdit = (props) => {
   };
 
   const handleEditTemplate = (e) => {
-    console.log("edit click", currentProduct);
     dispatch(editTemplate(user_id, template_id, templateName, currentProduct));
   };
 
