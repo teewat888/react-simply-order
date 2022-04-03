@@ -33,6 +33,7 @@ const authSlice = createSlice({
     isLoggedIn: logFlag,
     user: user,
     isLoading: false,
+    errors: {},
   },
   reducers: {
     login_success(state, action) {
@@ -41,6 +42,7 @@ const authSlice = createSlice({
       state.isLoggedIn = true;
       state.user = action.payload.user;
       state.isLoading = false;
+      state.errors = {};
     },
     login_fail(state) {
       state.isLoggedIn = false;
@@ -69,15 +71,38 @@ const authSlice = createSlice({
           name: "",
         },
       };
+      state.errors = {};
+    },
+    setErrors(state, action) {
+      state.errors = { ...action.payload };
+    },
+    clearErrors(state) {
+      state.errors = {};
     },
     update(state, action) {
       state.user = { ...state.user, ...action.payload };
     },
-    register(state) {
-      state = state;
-    },
     reset(state) {
-      return { ...state.initialState };
+      state.isLoggedIn = false;
+      localStorage.clear();
+      state.user = {
+        id: null,
+        first_name: "",
+        last_name: "",
+        email: "",
+        company_name: "",
+        address_number: "",
+        address_street: "",
+        address_suburb: "",
+        address_state: "",
+        contact_number: "",
+        auth_token: "",
+        role: {
+          id: null,
+          name: "",
+        },
+      };
+      state.errors = {};
     },
   },
 });
@@ -116,6 +141,7 @@ export const doSignup = (data) => {
               status: "success",
             })
           );
+          dispatch(authActions.clearErrors());
         } else {
           dispatch(authActions.login_fail());
           dispatch(
@@ -124,6 +150,7 @@ export const doSignup = (data) => {
               status: "error",
             })
           );
+          dispatch(authActions.setErrors(data.errors));
         }
       })
       .catch(errCatch);
