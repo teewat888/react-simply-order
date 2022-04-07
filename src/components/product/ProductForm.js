@@ -60,18 +60,15 @@ export const ProductForm = (props) => {
   ];
   const handleOnChange = (e) => {
     setProduct({ ...product, [e.target.id]: e.target.value });
-    console.log(product);
   };
   const handleCheckbox = (e) => {
     setProduct({ ...product, [e.target.id]: e.target.checked });
-    console.log(product);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     DataService.fetchAddProduct(product)
       .then((data) => {
         if (data.success) {
-          console.log("product added: ", data);
           dispatch(
             uiActions.showNotification({
               text: `${data.product.name} has been added.`,

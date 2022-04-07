@@ -8,6 +8,7 @@ import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { errorInputField, normalInputField } from "../../lib/formHelper";
 
 export const UserForm = ({ title, current_user, mode, handleSubmit }) => {
   const [user, setUser] = useState({
@@ -19,144 +20,94 @@ export const UserForm = ({ title, current_user, mode, handleSubmit }) => {
   const errors = useSelector((state) => state.auth.errors);
   let formItems = [];
   let hasErrors = false;
-
+  //check any error from API
   if (Object.keys(errors).length !== 0) {
     hasErrors = true;
     formItems = [
       "first_name" in errors
-        ? {
-            error: true,
-            label: "First Name",
-            id: "first_name",
-            value: user.first_name,
-            helperText: errors.first_name[0],
-          }
-        : { label: "First Name", id: "first_name", value: user.first_name },
+        ? errorInputField(
+            "First Name",
+            "first_name",
+            user.first_name,
+            errors.first_name[0]
+          )
+        : normalInputField("First Name", "first_name", user.first_name),
       "last_name" in errors
-        ? {
-            error: true,
-            label: "Last Name",
-            id: "last_name",
-            value: user.last_name,
-            helperText: errors.last_name[0],
-          }
-        : { label: "Last Name", id: "last_name", value: user.last_name },
+        ? errorInputField(
+            "Last Name",
+            "last_name",
+            user.last_name,
+            errors.last_name[0]
+          )
+        : normalInputField("Last Name", "last_name", user.last_name),
       "email" in errors
-        ? {
-            error: true,
-            label: "Email",
-            id: "email",
-            value: user.email,
-            helperText: errors.email[0],
-          }
-        : { label: "Email", id: "email", value: user.email },
+        ? errorInputField("Email", "email", user.email, errors.email[0])
+        : normalInputField("Email", "email", user.email),
       "contact_number" in errors
-        ? {
-            error: true,
-            label: "Contact number",
-            id: "contact_number",
-            value: user.contact_number,
-            helperText: errors.contact_number[0],
-          }
-        : {
-            label: "Contact number",
-            id: "contact_number",
-            value: user.contact_number,
-          },
+        ? errorInputField(
+            "Contact number",
+            "contact_number",
+            user.contact_number,
+            errors.contact_number[0]
+          )
+        : normalInputField(
+            "Contact number",
+            "contact_number",
+            user.contact_number
+          ),
       "company_name" in errors
-        ? {
-            error: true,
-            label: "Company",
-            id: "company_name",
-            value: user.company_name,
-            helperText: errors.company_name[0],
-          }
-        : { label: "Company", id: "company_name", value: user.company_name },
+        ? errorInputField(
+            "Company",
+            "company_name",
+            user.company_name,
+            errors.company_name[0]
+          )
+        : normalInputField("Company", "company_name", user.company_name),
       "address_number" in errors
-        ? {
-            error: true,
-            label: "Address #",
-            id: "address_number",
-            value: user.address_number,
-            helperText: errors.address_number[0],
-          }
-        : {
-            label: "Address #",
-            id: "address_number",
-            value: user.address_number,
-          },
+        ? errorInputField(
+            "Address #",
+            "address_number",
+            user.address_number,
+            errors.address_number[0]
+          )
+        : normalInputField("Address #", "address_number", user.address_number),
       "address_street" in errors
-        ? {
-            error: true,
-            label: "Street",
-            id: "address_street",
-            value: user.address_street,
-            helperText: errors.address_street[0],
-          }
-        : { label: "Street", id: "address_street", value: user.address_street },
+        ? errorInputField(
+            "Street",
+            "address_street",
+            user.address_street,
+            errors.address_street[0]
+          )
+        : normalInputField("Street", "address_street", user.address_street),
       "address_suburb" in errors
-        ? {
-            error: true,
-            label: "Suburb",
-            id: "address_suburb",
-            value: user.address_suburb,
-            helperText: errors.address_suburb[0],
-          }
-        : { label: "Suburb", id: "address_suburb", value: user.address_suburb },
+        ? errorInputField(
+            "Suburb",
+            "address_suburb",
+            user.address_suburb,
+            errors.address_suburb[0]
+          )
+        : normalInputField("Suburb", "address_suburb", user.address_suburb),
       "address_state" in errors
-        ? {
-            error: true,
-            label: "State",
-            id: "address_state",
-            value: user.address_state,
-            helperText: errors.address_state[0],
-          }
-        : { label: "State", id: "address_state", value: user.address_state },
+        ? errorInputField(
+            "State",
+            "address_state",
+            user.address_state,
+            errors.address_state[0]
+          )
+        : normalInputField("State", "address_state", user.address_state),
     ];
   } else {
     hasErrors = false;
     formItems = [
-      {
-        label: "First Name",
-        id: "first_name",
-        value: user.first_name,
-      },
-      {
-        label: "Last Name",
-        id: "last_name",
-        value: user.last_name,
-      },
-      { label: "Email", id: "email", value: user.email },
-      {
-        label: "Contact number",
-        id: "contact_number",
-        value: user.contact_number,
-      },
-      {
-        label: "Company",
-        id: "company_name",
-        value: user.company_name,
-      },
-      {
-        label: "Address #",
-        id: "address_number",
-        value: user.address_number,
-      },
-      {
-        label: "Street",
-        id: "address_street",
-        value: user.address_street,
-      },
-      {
-        label: "Suburb",
-        id: "address_suburb",
-        value: user.address_suburb,
-      },
-      {
-        label: "State",
-        id: "address_state",
-        value: user.address_state,
-      },
+      normalInputField("First Name", "first_name", user.first_name),
+      normalInputField("Last Name", "last_name", user.last_name),
+      normalInputField("Email", "email", user.email),
+      normalInputField("Contact number", "contact_number", user.contact_number),
+      normalInputField("Company", "company_name", user.company_name),
+      normalInputField("Address #", "address_number", user.address_number),
+      normalInputField("Street", "address_street", user.address_street),
+      normalInputField("Suburb", "address_suburb", user.address_suburb),
+      normalInputField("State", "address_state", user.address_state),
     ];
   }
 
