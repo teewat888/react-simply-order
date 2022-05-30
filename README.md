@@ -1,4 +1,4 @@
-### Demo at simply-order.netlify.app
+### Demo at    [simply-order.netlify.app](https://simply-order.netlify.app)
 
 # React Simply Order project
 
