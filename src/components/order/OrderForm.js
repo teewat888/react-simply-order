@@ -21,6 +21,7 @@ export const OrderForm = ({ orderDetails, handleQuantity }) => {
               InputLabelProps={{ shrink: true }}
               onChange={handleQuantity}
               value={detail.qty}
+              type="number"
             />
           }
         >

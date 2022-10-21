@@ -121,8 +121,8 @@ export const UserForm = ({ title, current_user, mode, handleSubmit }) => {
         <Typography variant="h6">{title}</Typography>
         <Box component="form">
           {formItems.map((formItem) =>
-            hasErrors ? (
-              formItem.error ? (
+            hasErrors ? ( // any errors
+              formItem.error ? ( //each field has error?
                 <TextField
                   error
                   key={formItem.id}

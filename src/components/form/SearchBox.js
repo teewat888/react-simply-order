@@ -20,6 +20,7 @@ export const SearchBox = ({ handleSearch, searchTerm, label }) => {
         variant="standard"
         value={searchTerm}
         sx={{ mt: "1em" }}
+        type="search"
       />
     </>
   );
