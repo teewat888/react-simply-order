@@ -23,10 +23,10 @@ export const OrderTemplateFormNew = (props) => {
   const company_name =
     currentVendor.company_name + numbers(1000, 9999).toString(); // gen random nam for template name
 
-  console.log("we are at template now-finishcreate => ", finishCreate);
+
   const [currentProduct, setCurrentProduct] = useState(products);
   const [templateName, setTemplateName] = useState(company_name); // set default template name
-  console.log("current products->", currentProduct);
+
 
   useEffect(() => {
     setCurrentProduct([...products]);

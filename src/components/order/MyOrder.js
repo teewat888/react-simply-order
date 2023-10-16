@@ -36,14 +36,14 @@ export const MyOrder = (props) => {
   const readyToEdit = useSelector((state) => state.order.editMode);
   //predefine open flags state
   const listLen = orderList.length;
-  console.log(" listlen and orderList ->", listLen, orderList);
+ 
   const arr = new Array(listLen);
   for (let i = 0; i < listLen; i++) {
     arr[i] = false;
   }
   // state for confirm dialogs
   const [open, setOpen] = useState(arr);
-  console.log("open state->", open);
+
   const style = {
     margin: 0,
     top: "auto",
@@ -84,7 +84,7 @@ export const MyOrder = (props) => {
   // load my orders
   useEffect(() => {
     dispatch(getOrders(userId));
-    console.log("order list", orderList);
+  
   }, []);
 
   const handleEdit = (orderId) => {

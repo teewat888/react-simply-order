@@ -10,7 +10,7 @@ import Notice from "./Notice";
 
 export const Layout = () => {
   const message = useSelector((state) => state.ui.message);
-  console.log("message: ", message);
+
   return (
     <Box
       sx={{

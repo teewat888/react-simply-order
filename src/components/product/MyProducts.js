@@ -30,7 +30,7 @@ export const MyProducts = () => {
   const handleFabClick = () => {
     navigate("/vendor/products/new");
   };
-  console.log("products in <MyProducts/> ", products);
+  
   if (!products) {
     //handling the undefinded
     return null;

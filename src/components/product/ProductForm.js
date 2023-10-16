@@ -40,7 +40,7 @@ export const ProductForm = (props) => {
       if (found) {
         const { name, brand, unit, available } = found;
         const vid = found.vendor.id;
-        console.log(name, brand, unit, available, vid);
+   
         setProduct({
           id: product_id,
           name: name,

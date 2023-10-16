@@ -6,15 +6,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { formatDate } from "../../utils/timeFormat";
 import TextField from "@mui/material/TextField";
 import { editEmailTo, sendEmail } from "../../store/order-slice";
-import { uiActions } from "../../store/ui-slice";
+
 
 export const Bag = ({ toggleDrawer, order }) => {
-  const [items, setItems] = useState(order.order_details);
+  const [items, ] = useState(order.order_details);
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const [emailTo, setEmailTo] = useState(order.email_to);
   order = { ...order, customer: user.company_name };
-  console.log("order in bage", order);
+ 
   const handleEmailTo = (e) => {
     setEmailTo(e.target.value);
   };
@@ -30,7 +30,7 @@ export const Bag = ({ toggleDrawer, order }) => {
   //update email_to
   useEffect(() => {
     if (order.id) {
-      console.log("not here");
+      
       dispatch(editEmailTo(order.id, user.id, emailTo));
     }
   }, [emailTo]);
@@ -84,7 +84,7 @@ export const Bag = ({ toggleDrawer, order }) => {
             sx={{ mt: "-3em" }}
             onClick={() => {
               navigator.clipboard.writeText(convertToPlainText(order));
-              console.log("clipbard click", convertToPlainText(order));
+             
             }}
           >
             Copy to clipboard

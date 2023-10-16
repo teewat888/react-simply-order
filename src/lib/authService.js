@@ -74,7 +74,7 @@ class AuthService {
       password: pass,
       token: token,
     });
-    console.log("body", body);
+
     return fetch(
       BASE_URL + `/password/reset`,
       confObjwithBody("POST", body)

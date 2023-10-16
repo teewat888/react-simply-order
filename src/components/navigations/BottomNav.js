@@ -25,7 +25,7 @@ export default function SimpleBottomNavigation() {
   const dispatch = useDispatch();
   const [productCount, setProductCount] = useState(0);
 
-  //console.log("item in bag", order);
+
   const toggleDrawer = (open) => (event) => {
     setState(open);
   };
@@ -48,7 +48,7 @@ export default function SimpleBottomNavigation() {
           value={value}
           onChange={(event, newValue) => {
             setValue(newValue);
-            console.log("bottom menu", value);
+            
           }}
           sx={{
             width: "100%",
@@ -109,7 +109,7 @@ export default function SimpleBottomNavigation() {
           value={value}
           onChange={(event, newValue) => {
             setValue(newValue);
-            console.log("bottom menu", value);
+          
           }}
           sx={{
             width: "100%",

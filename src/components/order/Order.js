@@ -46,7 +46,7 @@ export const Order = (props) => {
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value.toLowerCase());
-    console.log("search term:", searchTerm);
+
   };
 
   const handleExpand = (panel) => (event, isExpanded) => {
@@ -89,7 +89,7 @@ export const Order = (props) => {
     } else {
       setOrderDetailsRes(orderDetailsOrg);
     }
-    console.log("order details after search", orderDetailsRes);
+ 
   }, [searchTerm]);
 
   // once each input update , update order info

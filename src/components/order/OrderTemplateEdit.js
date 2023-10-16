@@ -22,10 +22,10 @@ export const OrderTemplateFormEdit = (props) => {
     (state) => state.template.templateDetails.name
   );
 
-  console.log("we are at template now-finishcreate => ", finishEdit);
+
   const [currentProduct, setCurrentProduct] = useState(products);
   const [templateName, setTemplateName] = useState(company_name); // set default template name
-  console.log("current products->", currentProduct);
+
   // if template_id pass-> edit mode
   const { user_id, template_id } = useParams();
 

@@ -36,11 +36,10 @@ function App() {
   const user_id = useSelector((state) => state.auth.user.id);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  console.log("logged in status ", isLoggedIn);
 
   const handleUnAuth = () => {
     dispatch(authActions.logout_success()); // as jwt expire reset state at client
-    console.log("jwt expire");
+   
   };
   //dispatch(authActions.logout_success());
   //dispatch(orderActions.resetOrder());

@@ -32,12 +32,12 @@ const orderSlice = createSlice({
       state.isLoading = false;
     },
     setOrder(state, action) {
-      //console.log("action payload", action.payload);
+  
       state.order = { ...action.payload };
       state.order.item_ordered = state.order.order_details.filter(
         (detail) => detail.qty !== "0" && detail.qty !== ""
       );
-      console.log("current-> order @ set order redux", state.order);
+ 
       state.isLoading = false;
     },
     removeOrder(state, action) {
@@ -86,11 +86,11 @@ const orderSlice = createSlice({
 
 export const updateOrder = (orderId, order, userId, vendorId) => {
   return (dispatch) => {
-    console.log("data send to server ->", order);
+  
     DataService.fetchEditOrder(orderId, order, userId, vendorId)
       .then((data) => {
         if (data.success) {
-          console.log("data get back ->", data);
+       
           dispatch(orderActions.setOrder(data.order));
         } else {
           handleDataErrMsg(dispatch, data)();
@@ -155,7 +155,7 @@ export const getOrder = (userId, orderId) => {
     DataService.fetchOrder(userId, orderId)
       .then((data) => {
         if (data.success) {
-          console.log("at get order", data);
+        
           dispatch(orderActions.setOrder(data.order));
           dispatch(orderActions.loading());
           delay(1500).then(() => {
@@ -179,7 +179,7 @@ export const createOrder = (user_id, vendor_id, template_id) => {
     DataService.fetchAddOrder(user_id, vendor_id, template_id)
       .then((data) => {
         if (data.success) {
-          console.log("order data->", data);
+         
           handleDataSuccessMsg(dispatch, data)();
           dispatch(orderActions.setOrder(data));
           dispatch(orderActions.finishFetch());
@@ -195,7 +195,7 @@ export const createOrder = (user_id, vendor_id, template_id) => {
 };
 export const sendEmail = (orderId) => {
   return (dispatch) => {
-    console.log("orderId=", orderId);
+    
     DataService.fetchSendEmail(orderId)
       .then(() => {
         dispatch(
@@ -215,7 +215,7 @@ export const editEmailTo = (orderId, userId, emailTo) => {
     DataService.fetchEditEmailTo(orderId, userId, emailTo)
       .then((data) => {
         if (data.success) {
-          console.log("data get back ->", data);
+        
           dispatch(orderActions.setOrder(data.order));
         } else {
           handleDataErrMsg(dispatch, data)();

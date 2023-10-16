@@ -17,7 +17,7 @@ export const convertToPlainText = (data) => {
     }
   });
   const cleanDetails = details.filter((el) => el !== undefined); // only display the one without zero qty
-  console.log("clean details: ", cleanDetails);
+
   const deliveryDate = formatDate(data.delivery_date);
 
   const res = `FROM:\t${

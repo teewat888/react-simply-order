@@ -15,7 +15,7 @@ export const UserForm = ({ title, current_user, mode, handleSubmit }) => {
     ...current_user,
   });
 
-  console.log("current user=>", user);
+
   const navigate = useNavigate();
   const errors = useSelector((state) => state.auth.errors);
   let formItems = [];
@@ -114,7 +114,7 @@ export const UserForm = ({ title, current_user, mode, handleSubmit }) => {
   const handleOnChange = (e) => {
     setUser({ ...user, [e.target.id]: e.target.value });
   };
-  console.log("form items=> ", formItems);
+
   return (
     <>
       <Container sx={{ maxwidth: "95%", mt: "1em" }}>

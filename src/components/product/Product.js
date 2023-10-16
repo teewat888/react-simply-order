@@ -14,7 +14,7 @@ import { SearchBox } from "../form/SearchBox";
 
 export const Product = ({ products }) => {
   const navigate = useNavigate();
-  console.log("products", products);
+
 
   const [productResult, setProductResult] = useState(products);
   const [checked, setChecked] = useState(true);
@@ -50,7 +50,7 @@ export const Product = ({ products }) => {
     }
   }, [checked, searchTerm]);
 
-  console.log("product_res: outside loop: ", productResult);
+
   return (
     <>
       <SearchBox

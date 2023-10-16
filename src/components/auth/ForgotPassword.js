@@ -34,7 +34,7 @@ export const ForgotPassword = (props) => {
         .fetchForgotPass(email)
         .then((data) => {
           setIsLoading(false);
-          console.log("any thing here", data);
+          
           if (data.success) {
             handleDataSuccessMsg(dispatch, data)();
             delay(1500).then(() => navigate("/"));

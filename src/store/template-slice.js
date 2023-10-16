@@ -22,18 +22,18 @@ const templateSlice = createSlice({
     setTemplate(state, action) {
       state.templateDetails = { ...action.payload };
       state.isLoading = false;
-      console.log("template_details: ", state.templateDetails);
+   
     },
     loading(state) {
       state.isLoading = true;
-      console.log("state loading->", state.isLoading);
+    
     },
     setFetchFlag(state) {
       state.fetchSuccess = true;
     },
     resetFetchFlag(state) {
       state.fetchSuccess = false;
-      console.log("reset flag", state.fetchSuccess);
+     
     },
     removeTemplate(state, action) {
       state.templateList = state.templateList.filter(

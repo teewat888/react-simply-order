@@ -41,7 +41,7 @@ export const OrderTemplate = (props) => {
   const isLoadingE = useSelector((state) => state.template.isLoading); // wait for template loading
   const orderCreated = useSelector((state) => state.order.fetchSuccess);
   const orderId = useSelector((state) => state.order.order.id);
-  console.log("order create status ", orderCreated);
+
   const userId = useSelector((state) => state.auth.user.id);
   const templateReady = useSelector((state) => state.template.fetchSuccess);
   const style = {
@@ -90,7 +90,7 @@ export const OrderTemplate = (props) => {
   useEffect(() => {
     if (templateReady) {
       if (currentTemplateId !== null) {
-        // console.log("current templateid ->", currentTemplateId);
+      
         dispatch(templateActions.resetFetchFlag()); //once load finish reset flag for next event
         dispatch(templateActions.resetEditMode()); //reset to available for for the next edit
         navigate(`/user/${userId}/template/${currentTemplateId}/edit`);

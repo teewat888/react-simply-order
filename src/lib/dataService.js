@@ -96,7 +96,7 @@ class DataService {
         products: templateDetails,
       },
     });
-    console.log("body-> ", body);
+  
     return fetch(
       BASE_URL + `/users/${userId}/order_templates/${templateId}`,
       confObjAuthwithBody("PATCH", body)
@@ -143,7 +143,7 @@ class DataService {
         order_details: order.order_details,
       },
     });
-    console.log("body-> ", body);
+ 
     return fetch(
       BASE_URL + `/users/${userId}/orders/${orderId}`,
       confObjAuthwithBody("PATCH", body)
@@ -156,7 +156,7 @@ class DataService {
         email_to: emailTo,
       },
     });
-    console.log("body-> ", body);
+  
     return fetch(
       BASE_URL + `/users/${userId}/orders/${orderId}`,
       confObjAuthwithBody("PATCH", body)

@@ -7,7 +7,7 @@ import { UserForm } from "../form/UserForm";
 export function Profile() {
   const current_user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
-  console.log("current_usr-profile->", current_user);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = {

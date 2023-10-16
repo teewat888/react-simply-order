@@ -23,7 +23,7 @@ const productSlice = createSlice({
     },
     resetFetchFlag(state) {
       state.fetchSuccess = false;
-      console.log("reset flag", state.fetchSuccess);
+   
     },
     endLoading(state) {
       state.isLoading = false;
@@ -40,7 +40,7 @@ export const getProducts = (userId, mode) => {
   return (dispatch) => {
     dispatch(productActions.loading());
     dispatch(productActions.resetFetchFlag());
-    console.log("doing getProducts");
+  
     DataService.fetchProducts(userId, mode)
       .then((data) => {
         dispatch(productActions.setProducts(data.products));
